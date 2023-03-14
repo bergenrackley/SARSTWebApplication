@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SARSTWebApplication", "SARSTWebApplication\SARSTWebApplication.csproj", "{46375374-D480-459C-853C-38B8F9230B05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46375374-D480-459C-853C-38B8F9230B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46375374-D480-459C-853C-38B8F9230B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46375374-D480-459C-853C-38B8F9230B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46375374-D480-459C-853C-38B8F9230B05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91D129F6-938C-4CF9-A028-BCE58D4901BA}
+	EndGlobalSection
+EndGlobal
