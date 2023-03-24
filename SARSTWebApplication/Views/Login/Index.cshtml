@@ -1,7 +1,19 @@
 ﻿@model SARSTWebApplication.Models.LoginViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Login";
 }
 
 <h1>Index</h1>
 <p>There are @Model.Users.Count users.</p>
+
+<table>
+    <tr>
+        <th>Item</th>
+    </tr>
+    @foreach (var item in Model.Users)
+    {
+            <tr>
+                <td>@item.userName</td>
+            </tr>
+    }
+</table>
