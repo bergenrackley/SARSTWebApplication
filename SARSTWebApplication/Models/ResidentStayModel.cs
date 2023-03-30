@@ -6,7 +6,7 @@ namespace SARSTWebApplication.Models
     {
 
         [Key]
-        public int visitId { get; set; }
+        public int stayId { get; set; }
         public ResidentProfile forResident { get; set; }
         [DataType(DataType.Date)]
         public DateTime checkinDateTime { get; set; }
@@ -16,7 +16,7 @@ namespace SARSTWebApplication.Models
 
         public ResidentStayModel() 
         {
-            visitId = new int();
+            stayId = new int();
             forResident = new ResidentProfile(); // Resident 
             checkinDateTime = new DateTime();
             checkoutDateTime = new DateTime();
