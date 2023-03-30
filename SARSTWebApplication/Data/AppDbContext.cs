@@ -14,7 +14,7 @@ namespace SARSTWebApplication.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SarstUser>().ToTable("SarstUsers");
-            modelBuilder.Entity<SarstUser>().ToTable("RegistrationRequests");
+            modelBuilder.Entity<RegistrationRequest>().ToTable("RegistrationRequests");
         }
     }
     public class MyContextFactory : IDbContextFactory<AppDbContext>

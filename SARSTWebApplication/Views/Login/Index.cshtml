@@ -4,13 +4,13 @@
 }
 
 <h1>Index</h1>
-<p>There are @Model.Users.Count users.</p>
+<p>There are @Model.SarstUsers.Count users.</p>
 
 <table>
     <tr>
         <th>Item</th>
     </tr>
-    @foreach (var item in Model.Users)
+    @foreach (var item in Model.SarstUsers)
     {
             <tr>
                 <td>@item.userName</td>
