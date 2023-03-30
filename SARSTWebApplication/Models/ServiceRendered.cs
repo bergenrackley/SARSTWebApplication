@@ -8,15 +8,15 @@ namespace SARSTWebApplication.Models
         public int serviceID { get; set; }
         [DataType(DataType.Date)]
         public DateTime dateTime { get; set; }
-        public UserProfile serviceProvider { get; set; }
-        public ResidentStayModel duringVisit { get; set; }
+        public string providerUserName { get; set; }
+        public int stayId { get; set; }
 
         public ServiceModel()
         {
             serviceID = new int(); // FIXME
             dateTime = new DateTime();
-            serviceProvider = new UserProfile();
-            duringVisit = new ResidentStayModel();
+            providerUserName = String.Empty;
+            stayId = new int();
         }
     }
 

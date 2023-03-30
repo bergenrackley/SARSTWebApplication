@@ -8,11 +8,11 @@ namespace SARSTWebApplication.Data
     {
         public AppDbContext(string connectionString): base(connectionString) { }
 
-        public IDbSet<UserProfile> Users { get; set; }
+        public IDbSet<SarstUser> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserProfile>().ToTable("Users");
+            modelBuilder.Entity<SarstUser>().ToTable("Users");
         }
     }
     public class MyContextFactory : IDbContextFactory<AppDbContext>
