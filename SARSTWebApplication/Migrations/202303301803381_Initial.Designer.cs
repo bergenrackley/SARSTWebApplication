@@ -7,13 +7,13 @@ namespace SARSTWebApplication.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class RegistrationTables : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RegistrationTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202303301755563_RegistrationTables"; }
+            get { return "202303301803381_Initial"; }
         }
         
         string IMigrationMetadata.Source
