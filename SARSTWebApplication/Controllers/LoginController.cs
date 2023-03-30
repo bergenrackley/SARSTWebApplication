@@ -30,29 +30,37 @@ namespace SARSTWebApplication.Controllers
             return View("Register");
         }
         
+        
+        // -------------- Methods --------------------
+
         // SubmitRegistrationRequest        
         [HttpPost]
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
-            // Check for duplicate
+            // Check for duplicate in database
             SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
+            RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
             if (existingUser != null) { return "user already exists"; }
+            else if(existingRequest != null) { return "your previous request is still pending"; }
             else return "call AddUser method to add the request to the queue"; 
-
-            // If no duplicate, add user request information to registration request queue
+               
         }
 
         //TODO1: Add registration request queue model and update the DB to create table
         //TODO2: Update this method to store all values from the request form in the request queue
       
-        public string AddUser(string uName, string pword)
+        public string AddUser(string uName, string fName, string lName, string email, string pword, string uRole)
         {
-            var newRow = new SarstUser
+            var newRow = new RegistrationRequest
             {
                 userName = uName,
-                password = pword
+                firstName = fName,
+                lastName = lName,
+                email = email,
+                password = pword,
+                userRole = uRole
             };
-            _dbContext.SarstUsers.Add(newRow);
+            _dbContext.RegistrationRequests.Add(newRow);
             _dbContext.SaveChanges();
             return HtmlEncoder.Default.Encode($"Added user {uName} with password {pword}");
         }
