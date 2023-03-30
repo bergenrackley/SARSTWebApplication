@@ -6,14 +6,20 @@ namespace SARSTWebApplication.Models
     {
 
         [Key]
+        public int visitId { get; set; }
         public ResidentProfile forResident { get; set; }
-        public int checkoutDateTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime checkinDateTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime checkoutDateTime { get; set; }
         public UserProfile provider { get; set; }
 
         public ResidentStayModel() 
         {
+            visitId = new int();
             forResident = new ResidentProfile(); // Resident 
-            checkoutDateTime = 0;
+            checkinDateTime = new DateTime();
+            checkoutDateTime = new DateTime();
             provider = new UserProfile(); // who checks them out
         }
     }

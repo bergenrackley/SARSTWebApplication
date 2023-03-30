@@ -6,14 +6,15 @@ namespace SARSTWebApplication.Models
     {
         [Key]
         public int serviceID { get; set; }
-        public int dateTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime dateTime { get; set; }
         public UserProfile serviceProvider { get; set; }
         public ResidentStayModel duringVisit { get; set; }
 
         public ServiceModel()
         {
-            serviceID = 0; // FIXME
-            dateTime = 0;
+            serviceID = new int(); // FIXME
+            dateTime = new DateTime();
             serviceProvider = new UserProfile();
             duringVisit = new ResidentStayModel();
         }
