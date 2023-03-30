@@ -9,7 +9,7 @@ namespace SARSTWebApplication.Data
         public AppDbContext(string connectionString): base(connectionString) { }
 
         public IDbSet<SarstUser> SarstUsers { get; set; }
-        public IDbSet<SarstUser> RegistrationRequests { get; set; }
+        public IDbSet<RegistrationRequest> RegistrationRequests { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
