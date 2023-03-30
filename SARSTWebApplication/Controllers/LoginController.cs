@@ -27,14 +27,14 @@ namespace SARSTWebApplication.Controllers
         [HttpPost]
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
-            UserProfile existingUser = _dbContext.Users.Find(userName);
+            SarstUser existingUser = _dbContext.Users.Find(userName);
             if (existingUser != null) { return "user already exists"; }
             else return "new user";
         }
 
         public string AddUser(string uName, string pword)
         {
-            var newRow = new UserProfile
+            var newRow = new SarstUser
             {
                 userName = uName,
                 password = pword

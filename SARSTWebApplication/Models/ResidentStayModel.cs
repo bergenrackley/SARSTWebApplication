@@ -12,7 +12,7 @@ namespace SARSTWebApplication.Models
         public DateTime checkinDateTime { get; set; }
         [DataType(DataType.Date)]
         public DateTime checkoutDateTime { get; set; }
-        public UserProfile provider { get; set; }
+        public SarstUser provider { get; set; }
 
         public ResidentStayModel() 
         {
@@ -20,7 +20,7 @@ namespace SARSTWebApplication.Models
             forResident = new ResidentProfile(); // Resident 
             checkinDateTime = new DateTime();
             checkoutDateTime = new DateTime();
-            provider = new UserProfile(); // who checks them out
+            provider = new SarstUser(); // who checks them out
         }
     }
 }
