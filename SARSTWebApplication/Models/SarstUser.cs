@@ -5,7 +5,7 @@ namespace SARSTWebApplication.Models
     public class SarstUser
     {
         [Key]
-        public string userName { get; set; } //Casey
+        public string userName { get; set; } //Casey's 2nd
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string email { get; set; }
