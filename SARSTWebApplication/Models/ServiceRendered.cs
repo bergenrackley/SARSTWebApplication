@@ -2,7 +2,7 @@
 
 namespace SARSTWebApplication.Models
 {
-    public class ServiceModel
+    public class ServiceRendered
     {
         [Key]
         public int serviceID { get; set; }
@@ -11,7 +11,7 @@ namespace SARSTWebApplication.Models
         public string providerUserName { get; set; }
         public int stayId { get; set; }
 
-        public ServiceModel()
+        public ServiceRendered()
         {
             serviceID = new int(); // FIXME
             dateTime = new DateTime();

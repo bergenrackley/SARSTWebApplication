@@ -2,7 +2,7 @@
 
 namespace SARSTWebApplication.Models
 {
-    public class ResidentStayModel
+    public class ResidentStay
     {
 
         [Key]
@@ -14,7 +14,7 @@ namespace SARSTWebApplication.Models
         public DateTime checkoutDateTime { get; set; }
         public string providerUserName { get; set; }
 
-        public ResidentStayModel() 
+        public ResidentStay() 
         {
             stayId = new int();
             residentId = string.Empty; // Resident

@@ -2,7 +2,7 @@
 
 namespace SARSTWebApplication.Models
 {
-    public class UserProfile
+    public class SarstUser
     {
         [Key]
         public string userName { get; set; }
@@ -12,7 +12,7 @@ namespace SARSTWebApplication.Models
         public string password { get; set; }
         public string userRole { get; set; }
 
-        public UserProfile()
+        public SarstUser()
         {
             userName = string.Empty;
             firstName = string.Empty;
