@@ -21,5 +21,15 @@ namespace SARSTWebApplication.Models
             password = string.Empty;
             userRole = string.Empty;
         }
+
+        public RegistrationRequest(string uName, string fName, string lName, string emailAddress, string pword, string uRole)
+        {
+            userName =  uName;
+            firstName = fName;
+            lastName = lName;
+            email = emailAddress;
+            password = pword;
+            userRole = uRole;
+        }
     }
 }

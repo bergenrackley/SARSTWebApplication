@@ -33,36 +33,31 @@ namespace SARSTWebApplication.Controllers
         
         // -------------- Methods --------------------
 
-        // SubmitRegistrationRequest        
+        // SubmitRegistrationRequest
+        // TODO:
+        // The duplicate checking should be moved to a separate method that this method calls.
+        // This return type of this method should be changed to an IActionResult that directs the user
+        // to different views depending on the the outcome of the method.
+
         [HttpPost]
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
+            RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
             // Check for duplicate in database
             SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
             RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
             if (existingUser != null) { return "user already exists"; }
             else if(existingRequest != null) { return "your previous request is still pending"; }
-            else return "call AddUser method to add the request to the queue"; 
+            else return AddUser(newRequest); 
                
-        }
-
-        //TODO1: Add registration request queue model and update the DB to create table
-        //TODO2: Update this method to store all values from the request form in the request queue
+        }    
       
-        public string AddUser(string uName, string fName, string lName, string email, string pword, string uRole)
+        public string AddUser(RegistrationRequest newRequest)
         {
-            var newRow = new RegistrationRequest
-            {
-                userName = uName,
-                firstName = fName,
-                lastName = lName,
-                email = email,
-                password = pword,
-                userRole = uRole
-            };
+            RegistrationRequest newRow = newRequest;
             _dbContext.RegistrationRequests.Add(newRow);
             _dbContext.SaveChanges();
-            return HtmlEncoder.Default.Encode($"Added user {uName} with password {pword}");
+            return HtmlEncoder.Default.Encode($"Added user {newRow.userName} with password {newRow.password}");
         }
 
     }
