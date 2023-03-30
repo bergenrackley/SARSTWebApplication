@@ -19,7 +19,7 @@ namespace SARSTWebApplication.Controllers
         public IActionResult Index()
         {
             var viewModel = new LoginViewModel();
-            viewModel.Users = _dbContext.Users.ToList();
+            viewModel.SarstUsers = _dbContext.SarstUsers.ToList();
             return View(viewModel);
         }
 
@@ -35,7 +35,7 @@ namespace SARSTWebApplication.Controllers
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
             // Check for duplicate
-            SarstUser existingUser = _dbContext.Users.Find(userName);
+            SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
             if (existingUser != null) { return "user already exists"; }
             else return "call AddUser method to add the request to the queue"; 
 
@@ -52,7 +52,7 @@ namespace SARSTWebApplication.Controllers
                 userName = uName,
                 password = pword
             };
-            _dbContext.Users.Add(newRow);
+            _dbContext.SarstUsers.Add(newRow);
             _dbContext.SaveChanges();
             return HtmlEncoder.Default.Encode($"Added user {uName} with password {pword}");
         }

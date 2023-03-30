@@ -4,9 +4,9 @@
     {
         public LoginViewModel()
         {
-            Users = new List<SarstUser>();
+            SarstUsers = new List<SarstUser>();
         }
 
-        public List<SarstUser> Users { get; set; }
+        public List<SarstUser> SarstUsers { get; set; }
     }
 }
