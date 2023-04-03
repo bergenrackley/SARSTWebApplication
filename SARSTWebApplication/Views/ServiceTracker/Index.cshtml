@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Record Services Rendered";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <form action="submitServiceForm" method="post">
+        <fieldset>
+            <legend>Service Tracking Form</legend>
+            <div>
+                <label for="serviceName">Name of Service Rendered:</label>
+                <input type="text" name="serviceName" value="" />
+            </div>
+            <div>
+                <label for="dateProvided">Date Provided:</label>
+                <input type="date" name="dateProvided" value="" />
+            </div>
+            <div>
+                <label for="description">Description (optional):</label>
+                <input type="text" name="description" value="" />
+            </div>
+            <div>
+                <label for="resident">Resident:</label>
+                <input type="text" name="resident" value="" />
+            </div>
+            <div>
+                <label for="sarstUser">Service Provided By:</label>
+                <input type="text" name="sarstUser" value="" />
+            </div>
+            <div>
+                <label>&nbsp;</label>
+                <input type="submit" value="Submit" class="submit" />
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>

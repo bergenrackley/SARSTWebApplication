@@ -6,6 +6,7 @@ namespace SARSTWebApplication.Models
     public class ServiceEvent
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int serviceEventId { get; set; }
         [ForeignKey("Service")]
         public string serviceName { get; set; }
