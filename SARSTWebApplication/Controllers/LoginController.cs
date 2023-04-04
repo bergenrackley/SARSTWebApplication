@@ -35,7 +35,7 @@ namespace SARSTWebApplication.Controllers
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
-        // Receives data from Register form, checks for duplicates in db, calls AddUser
+        // Receives data from Register form, checks for duplicates in db, calls AddRequest
         [HttpPost]
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
@@ -52,13 +52,13 @@ namespace SARSTWebApplication.Controllers
                 return "Your previous request is still pending."; 
             }
             // If no duplicate, add to RegistrationRequests table
-            else return AddUser(newRequest);                
+            else return AddRequest(newRequest);                
         }    
       
         
         // AddUser
         // Writes the RegistrationRequest to the database table
-        public string AddUser(RegistrationRequest newRequest)
+        public string AddRequest(RegistrationRequest newRequest)
         {
             RegistrationRequest newRow = newRequest;
             _dbContext.RegistrationRequests.Add(newRow);
