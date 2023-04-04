@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
+using System.Data.Entity.Infrastructure;
 using System.Text.Encodings.Web;
 
 namespace SARSTWebApplication.Controllers
@@ -34,24 +35,29 @@ namespace SARSTWebApplication.Controllers
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
-        // TODO:
-        // The duplicate checking should be moved to a separate method that this method calls.
-        // This return type of this method should be changed to an IActionResult that directs the user
-        // to different views depending on the the outcome of the method.
-
+        // Receives data from Register form, checks for duplicates in db, calls AddUser
         [HttpPost]
         public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
+            // Create new instance of a RegistrationRequest with data from form
             RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
-            // Check for duplicate in database
+            
+            // Check for duplicate in database tables          
             SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
             RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
-            if (existingUser != null) { return "user already exists"; }
-            else if(existingRequest != null) { return "your previous request is still pending"; }
-            else return AddUser(newRequest); 
-               
+            if (existingUser != null) { 
+                return "User already exists."; 
+            }
+            else if(existingRequest != null) { 
+                return "Your previous request is still pending."; 
+            }
+            // If no duplicate, add to RegistrationRequests table
+            else return AddUser(newRequest);                
         }    
       
+        
+        // AddUser
+        // Writes the RegistrationRequest to the database table
         public string AddUser(RegistrationRequest newRequest)
         {
             RegistrationRequest newRow = newRequest;
