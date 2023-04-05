@@ -12,8 +12,8 @@ namespace SARSTWebApplication.Models
         public Service()
         {
             serviceName = string.Empty;
-            startDate = new DateTime();
-            endDate = new DateTime();
+            startDate = null;
+            endDate = null;
         }
     }
 }
