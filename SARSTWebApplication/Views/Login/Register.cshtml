@@ -5,6 +5,19 @@
 <!DOCTYPE html>
 <html>
 <body>
+
+    
+    @if (TempData["Message"] != null)
+    {
+        
+        <script>
+            window.onload = function(){
+                alert('@TempData["Message"]');
+            };   
+        </script>
+    }
+
+
     <form action="submitRegistration" method="post">
         <fieldset>
             <legend>Register a SARST Account</legend>
@@ -38,5 +51,8 @@
             </div>
         </fieldset>
     </form>
+
+    
+
 </body>
 </html>

@@ -30,40 +30,51 @@ namespace SARSTWebApplication.Controllers
         {
             return View("Register");
         }
-        
+
+        // GET: /Login/Success
+        // Registration request submitted confirmation page
+        // This is added just for quick access to the view during development
+        public IActionResult Success() 
+        {
+            return View("Success");
+        }        
         
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
         // Receives data from Register form, checks for duplicates in db, calls AddRequest
         [HttpPost]
-        public string submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
+        public IActionResult submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
         {
             // Create new instance of a RegistrationRequest with data from form
             RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
             
-            // Check for duplicate in database tables          
+            // Check for duplicate in database tables
             SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
             RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
-            if (existingUser != null) { 
-                return "User already exists."; 
+            
+            if (existingUser != null) {
+                TempData["Message"] = "Sorry, that username is taken.";
+                return Register();
             }
-            else if(existingRequest != null) { 
-                return "Your previous request is still pending."; 
+            else if(existingRequest != null) {
+                TempData["Message"] = "Be patient. We are still reviewing your previous request.";
+                return Register();
             }
             // If no duplicate, add to RegistrationRequests table
-            else return AddRequest(newRequest);                
+            else return AddRequest(newRequest);            
         }    
       
         
         // AddUser
-        // Writes the RegistrationRequest to the database table
-        public string AddRequest(RegistrationRequest newRequest)
+        // Writes the RegistrationRequest to the database table and loads the Success view
+        public IActionResult AddRequest(RegistrationRequest newRequest)
         {
             RegistrationRequest newRow = newRequest;
             _dbContext.RegistrationRequests.Add(newRow);
             _dbContext.SaveChanges();
-            return HtmlEncoder.Default.Encode($"Added user {newRow.userName} with password {newRow.password}");
+            return Success();
+            /*HtmlEncoder.Default.Encode($"Added user {newRow.userName} with password {newRow.password}");*/
         }
 
     }
