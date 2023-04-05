@@ -9,9 +9,9 @@ namespace SARSTWebApplication.Controllers
     public class LoginController : Controller
     {
         private AppDbContext _dbContext;
-        public LoginController()
+        public LoginController(IConfiguration configuration)
         {
-            _dbContext = new AppDbContext("Server=tcp:sarst.database.windows.net,1433;Initial Catalog=sarst;Persist Security Info=False;User ID=sarstadmin;Password=S4rstP4ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
         
         // GET: /Login

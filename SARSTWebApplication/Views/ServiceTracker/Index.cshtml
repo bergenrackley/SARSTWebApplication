@@ -1,38 +1,61 @@
-﻿@{
+﻿@model SARSTWebApplication.Models.ServiceEvent
+
+@{
     ViewData["Title"] = "Record Services Rendered";
 }
 
-<!DOCTYPE html>
-<html>
-<body>
-    <form action="submitServiceForm" method="post">
-        <fieldset>
-            <legend>Service Tracking Form</legend>
-            <div>
-                <label for="serviceName">Name of Service Rendered:</label>
-                <input type="text" name="serviceName" value="" />
+<h1>View</h1>
+
+<h4>ServiceEvent</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="serviceEventId" class="control-label"></label>
+                <input asp-for="serviceEventId" class="form-control" />
+                <span asp-validation-for="serviceEventId" class="text-danger"></span>
             </div>
-            <div>
-                <label for="dateProvided">Date Provided:</label>
-                <input type="date" name="dateProvided" value="" />
+            <div class="form-group">
+                <label asp-for="serviceName" class="control-label"></label>
+                @*ViewBag.CityList is holding all the cities values*@
+                @Html.DropDownListFor(model => model.serviceName,ViewBag.ServiceList as SelectList,  new { @class = "form-control"} )
+                @Html.ValidationMessageFor(model => model.serviceName, "", new { @class = "text-danger" })
             </div>
-            <div>
-                <label for="description">Description (optional):</label>
-                <input type="text" name="description" value="" />
+            <div class="form-group">
+                <label asp-for="dateProvided" class="control-label"></label>
+                <input asp-for="dateProvided" class="form-control" />
+                <span asp-validation-for="dateProvided" class="text-danger"></span>
             </div>
-            <div>
-                <label for="resident">Resident:</label>
-                <input type="text" name="resident" value="" />
+            <div class="form-group">
+                <label asp-for="description" class="control-label"></label>
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger"></span>
             </div>
-            <div>
-                <label for="sarstUser">Service Provided By:</label>
-                <input type="text" name="sarstUser" value="" />
+            <div class="form-group">
+                <label asp-for="residentId" class="control-label"></label>
+                <input asp-for="residentId" class="form-control" />
+                <span asp-validation-for="residentId" class="text-danger"></span>
             </div>
-            <div>
-                <label>&nbsp;</label>
-                <input type="submit" value="Submit" class="submit" />
+            <div class="form-group">
+                <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control" />
+                <span asp-validation-for="userName" class="text-danger"></span>
             </div>
-        </fieldset>
-    </form>
-</body>
-</html>
+            <div class="form-group">
+                <label asp-for="stayId" class="control-label"></label>
+                <input asp-for="stayId" class="form-control" />
+                <span asp-validation-for="stayId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -6,10 +6,8 @@ namespace SARSTWebApplication.Models
     {
         [Key]
         public string serviceName { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime startDate { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime endDate { get; set; }
+        public Nullable<DateTime> startDate { get; set; }
+        public Nullable<DateTime> endDate { get; set; }
 
         public Service()
         {
