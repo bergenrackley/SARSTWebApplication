@@ -6,39 +6,46 @@ using System.Text.Encodings.Web;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         private AppDbContext _dbContext;
-        public LoginController(IConfiguration configuration)
+        public AccountController(IConfiguration configuration)
         {
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
-        
-        // GET: /Login
+
+        // GET: /Account
         // Landing Page 
-        // Right now it is displaying a list of users from the database
         public IActionResult Index()
+        {
+            return Login();
+        }
+
+        // GET: /Account/Login
+        // Login Page 
+        public IActionResult Login()
         {
             var viewModel = new LoginViewModel();
             viewModel.SarstUsers = _dbContext.SarstUsers.ToList();
             return View(viewModel);
         }
 
-        // GET: /Login/Register
+
+        // GET: /Account/Register
         // Submit Registration Request
         public IActionResult Register()
         {
             return View("Register");
         }
 
-        // GET: /Login/Success
+        // GET: /Account/Success
         // Registration request submitted confirmation page
         // This is added just for quick access to the view during development
-        public IActionResult Success() 
+        public IActionResult Success()
         {
             return View("Success");
-        }        
-        
+        }
+
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
@@ -48,24 +55,26 @@ namespace SARSTWebApplication.Controllers
         {
             // Create new instance of a RegistrationRequest with data from form
             RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
-            
+
             // Check for duplicate in database tables
             SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
             RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
-            
-            if (existingUser != null) {
+
+            if (existingUser != null)
+            {
                 TempData["Message"] = "Sorry, that username is taken.";
                 return Register();
             }
-            else if(existingRequest != null) {
+            else if (existingRequest != null)
+            {
                 TempData["Message"] = "Be patient. We are still reviewing your previous request.";
                 return Register();
             }
             // If no duplicate, add to RegistrationRequests table
-            else return AddRequest(newRequest);            
-        }    
-      
-        
+            else return AddRequest(newRequest);
+        }
+
+
         // AddUser
         // Writes the RegistrationRequest to the database table and loads the Success view
         public IActionResult AddRequest(RegistrationRequest newRequest)

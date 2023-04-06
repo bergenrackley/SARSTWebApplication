@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Register New User";
+}
+
+
+
+<style>
+    .ctn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        width: 50vw;
+        min-width: 300px;
+        background-color: var(--secondary-color);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background-color: var(--primary-color);
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+        .btn-primary:hover {
+            background-color: #444;
+            border-color: #444;
+        }
+
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction:row;
+        align-items: flex-end;
+        padding: 0 1rem;
+    }
+
+     form fieldset {
+        width: 40vw;
+        margin: auto;
+    }
+
+    form legend {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    form div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+    }
+
+    form label {
+        font-weight: bold;
+        min-width: 120px;
+    }
+
+    form input[type="text"],
+    form input[type="password"] {
+        flex: 1;
+        padding: 0.5rem;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form input[type="submit"] {
+        background-color: var(--primary-color);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    form input[type="submit"]:hover {
+        background-color: #444;
+        cursor: pointer;
+    }
+</style>
+
+
+
+<body>
+
+    
+    @if (TempData["Message"] != null)
+    {
+        
+        <script>
+            window.onload = function(){
+                alert('@TempData["Message"]');
+            };   
+        </script>
+    }
+
+
+   
+
+</body>
+
+<div class="ctn">
+
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h4 class="mb-0">Register</h4>
+        </div>
+        <div class="card-body">
+             <form action="submitRegistration" method="post">
+            <fieldset>
+                <legend>Register a SARST Account</legend>
+                <div class="form-group">
+                    <label for="userName">User Name:</label>
+                    <input type="text" name="userName" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" name="firstName" value="" />
+                </div>
+               <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" name="lastName" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="text" name="password" value="" />
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Role Request:</label>
+                    <input type="text" name="userRole" value="" />
+                </div>
+               <div class="form-group">
+                    <label>&nbsp;</label>
+                    <input type="submit" value="Submit" class="submit" />
+                </div>
+            </fieldset>
+        </form>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>Already have an account?</span>
+                <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="">Login</a>
+            </div>
+        </div>
+    </div>
+</div>

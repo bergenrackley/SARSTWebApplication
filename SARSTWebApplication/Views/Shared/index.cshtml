@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Not Found</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* We need to use ctn because the webapp comes with a .container */
+        .ctn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            width: 50vw;
+            min-width: 300px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+            padding: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            margin: 10px;
+            padding: 10px 20px;
+        }
+
+            .btn-primary:hover {
+                background-color: #444;
+                border-color: #444;
+            }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            margin: 10px;
+            padding: 10px 20px;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: var(--primary-color);
+                border-color: var(--primary-color);
+                color: #fff;
+            }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="ctn">
+        <div class="card">
+            <div class="card-header">
+                <h2>Sorry, Page Not Found</h2>
+            </div>
+            <div class="card-body">
+                <p>The page you requested could not be found. Please check the URL and try again.</p>
+                <button class="btn btn-primary" onclick="window.history.back()">Back</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

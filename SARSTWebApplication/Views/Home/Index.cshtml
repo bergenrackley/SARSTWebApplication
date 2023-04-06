@@ -2,7 +2,66 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    .ctn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 80vw;
+        height: 80vh;
+        padding: 2rem;
+        font-size: 2rem;
+        background-color: var(--background-color);
+    }
+
+    .card {
+        width: 100%;
+        max-width: 800px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        margin: 1rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+    }
+
+        .btn-primary:hover {
+            background-color: #444;
+        }
+
+    .btn-secondary {
+        background-color: var(--secondary-color);
+    }
+
+        .btn-secondary:hover {
+            background-color: #777;
+        }
+</style>
+
+
+<div class="ctn">
+    <div class="card shadow-lg">
+        <h1>Salvation Army Resident Services Tracker</h1>
+        <p>Hi.</p>
+        <div class="btn-group mt-4">
+            <a href="@Url.Action("Register", "Account")" class="btn btn-primary mr-4">Register</a>
+            <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Login</a>
+        </div>
+    </div>
 </div>
