@@ -1,4 +1,4 @@
-﻿namespace SARSTWebApplication.Models
+﻿namespace SARSTWebApplication.Enums
 {
     public enum UserTypes
     {

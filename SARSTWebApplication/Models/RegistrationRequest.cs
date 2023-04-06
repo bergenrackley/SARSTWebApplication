@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using SARSTWebApplication.Enums;
 
 namespace SARSTWebApplication.Models
 {

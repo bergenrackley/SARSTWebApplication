@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
+using SARSTWebApplication.Enums;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Infrastructure;
 using System.Text.Encodings.Web;
+using System;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -32,6 +34,7 @@ namespace SARSTWebApplication.Controllers
         
         public IActionResult Register()
         {
+            ViewBag.userTypes = getUserTypes();
             return View("Register");
         }
 
@@ -114,5 +117,15 @@ namespace SARSTWebApplication.Controllers
             }
             return RedirectToAction(actionName: "RegistrationRequests");
         }
+
+        public List<SelectListItem> getUserTypes()
+        {
+            return Enum.GetValues(typeof(UserTypes)).Cast<UserTypes>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿@model SARSTWebApplication.Models.RegistrationRequest
+﻿@using SARSTWebApplication.Enums
+@model SARSTWebApplication.Models.RegistrationRequest
 
 @{
     ViewData["Title"] = "Register";
@@ -50,8 +51,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="userRole" class="control-label"></label>
-                <input asp-for="userRole" class="form-control" />
-                <span asp-validation-for="userRole" class="text-danger"></span>
+                @Html.DropDownListFor(m => m.userRole, (IEnumerable<SelectListItem>)ViewBag.UserTypes,  new { @class = "form-control"})
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
