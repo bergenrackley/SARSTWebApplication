@@ -77,5 +77,11 @@ namespace SARSTWebApplication.Controllers
             /*HtmlEncoder.Default.Encode($"Added user {newRow.userName} with password {newRow.password}");*/
         }
 
+        public IActionResult registrationRequests()
+        {
+            ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
+            return View(new RegistrationRequest());
+        }
+
     }
 }
