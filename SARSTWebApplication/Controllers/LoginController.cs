@@ -44,14 +44,14 @@ namespace SARSTWebApplication.Controllers
         // SubmitRegistrationRequest
         // Receives data from Register form, checks for duplicates in db, calls AddRequest
         [HttpPost]
-        public IActionResult submitRegistration(string userName, string firstName, string lastName, string email, string password, string userRole)
+        public IActionResult Register(RegistrationRequest model) //When Ajax calls are figured out, will need to change to RedirectToActionResult return instead of IActionResult
         {
             // Create new instance of a RegistrationRequest with data from form
-            RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
+            //RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
             
             // Check for duplicate in database tables
-            SarstUser existingUser = _dbContext.SarstUsers.Find(userName);
-            RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(userName);
+            SarstUser existingUser = _dbContext.SarstUsers.Find(model.userName);
+            RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(model.userName);
             
             if (existingUser != null) {
                 TempData["Message"] = "Sorry, that username is taken.";
@@ -62,7 +62,7 @@ namespace SARSTWebApplication.Controllers
                 return Register();
             }
             // If no duplicate, add to RegistrationRequests table
-            else return AddRequest(newRequest);            
+            else return AddRequest(model);            
         }    
       
         
@@ -79,7 +79,6 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult registrationRequests()
         {
-            //ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
             return View(_dbContext.RegistrationRequests.ToList());
         }
 
@@ -90,8 +89,6 @@ namespace SARSTWebApplication.Controllers
 
         [HttpPost]
         public RedirectToActionResult editRequest(RegistrationRequest model, string submit) {
-
-            //return model.userName + submit;
             RegistrationRequest request = _dbContext.RegistrationRequests.Find(model.userName);
             if (submit == "Approve")
             {
@@ -113,6 +110,5 @@ namespace SARSTWebApplication.Controllers
             }
             return RedirectToAction(actionName: "RegistrationRequests");
         }
-
     }
 }

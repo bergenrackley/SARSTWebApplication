@@ -1,58 +1,62 @@
-﻿@{
+﻿@model SARSTWebApplication.Models.RegistrationRequest
+
+@{
     ViewData["Title"] = "Register New User";
 }
 
-<!DOCTYPE html>
-<html>
-<body>
+<h1>Register</h1>
 
-    
-    @if (TempData["Message"] != null)
-    {
-        
-        <script>
-            window.onload = function(){
-                alert('@TempData["Message"]');
-            };   
-        </script>
-    }
+<h4>RegistrationRequest</h4>
+<hr />
 
+@if (TempData["Message"] != null)
+{
 
-    <form action="submitRegistration" method="post">
-        <fieldset>
-            <legend>Register a SARST Account</legend>
-            <div>
-                <label for="userName">User Name:</label>
-                <input type="text" name="userName" value="" />
-            </div>
-            <div>
-                <label for="firstName">First Name:</label>
-                <input type="text" name="firstName" value="" />
-            </div>
-            <div>
-                <label for="lastName">Last Name:</label>
-                <input type="text" name="lastName" value="" />
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="text" name="email" value="" />
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="text" name="password" value="" />
-            </div>
-            <div>
-                <label for="userRole">Role Request:</label>
-                <input type="text" name="userRole" value="" />
-            </div>
-            <div>
-                <label>&nbsp;</label>
-                <input type="submit" value="Submit" class="submit" />
-            </div>
-        </fieldset>
-    </form>
+            <script>
+                window.onload = function(){
+                    alert('@TempData["Message"]');
+                };   
+            </script>
+}
 
-    
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control" />
+                <span asp-validation-for="userName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="firstName" class="control-label"></label>
+                <input asp-for="firstName" class="form-control" />
+                <span asp-validation-for="firstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastName" class="control-label"></label>
+                <input asp-for="lastName" class="form-control" />
+                <span asp-validation-for="lastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" />
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label"></label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRole" class="control-label"></label>
+                <input asp-for="userRole" class="form-control" />
+                <span asp-validation-for="userRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
 
-</body>
-</html>
