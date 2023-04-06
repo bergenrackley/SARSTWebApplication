@@ -37,9 +37,17 @@ namespace SARSTWebApplication.Controllers
         public IActionResult Success() 
         {
             return View("Success");
-        }        
-        
-        // -------------- Methods --------------------
+        }
+
+        // GET: /Login/RegistrationRequests
+        // This view displays the list of registration requests
+        public IActionResult registrationRequests()
+        {
+            ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
+            return View(new RegistrationRequest());
+        }
+
+        // -------------- Methods -----------------------------------------------------------------------------
 
         // SubmitRegistrationRequest
         // Receives data from Register form, checks for duplicates in db, calls AddRequest
@@ -77,11 +85,7 @@ namespace SARSTWebApplication.Controllers
             /*HtmlEncoder.Default.Encode($"Added user {newRow.userName} with password {newRow.password}");*/
         }
 
-        public IActionResult registrationRequests()
-        {
-            ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
-            return View(new RegistrationRequest());
-        }
+        
 
     }
 }
