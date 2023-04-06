@@ -79,8 +79,39 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult registrationRequests()
         {
-            ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
-            return View(new RegistrationRequest());
+            //ViewBag.registrationRequests = _dbContext.RegistrationRequests.ToList();
+            return View(_dbContext.RegistrationRequests.ToList());
+        }
+
+        public IActionResult editRequest(string id)
+        {
+            return View(_dbContext.RegistrationRequests.Find(id));
+        }
+
+        [HttpPost]
+        public RedirectToActionResult editRequest(RegistrationRequest model, string submit) {
+
+            //return model.userName + submit;
+            RegistrationRequest request = _dbContext.RegistrationRequests.Find(model.userName);
+            if (submit == "Approve")
+            {
+                _dbContext.SarstUsers.Add(new SarstUser()
+                {
+                    userName = model.userName,
+                    firstName = model.firstName,
+                    lastName = model.lastName,
+                    password= model.password,
+                    userRole= model.userRole,
+                    email= model.email
+                });
+                _dbContext.RegistrationRequests.Remove(request);
+                _dbContext.SaveChanges();
+            } else if (submit == "Deny")
+            {
+                _dbContext.RegistrationRequests.Remove(request);
+                _dbContext.SaveChanges();
+            }
+            return RedirectToAction(actionName: "RegistrationRequests");
         }
 
     }

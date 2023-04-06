@@ -1,4 +1,4 @@
-﻿@model SARSTWebApplication.Models.RegistrationRequest
+﻿@model IEnumerable<SARSTWebApplication.Models.RegistrationRequest>
 
 @{
     ViewData["Title"] = "RegistrationRequests";
@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-@foreach (RegistrationRequest item in ViewBag.registrationRequests) {
+@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.userName)
@@ -55,7 +55,7 @@
                 @Html.DisplayFor(modelItem => item.userRole)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Edit", "EditRequest", new {id=item.userName}) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
