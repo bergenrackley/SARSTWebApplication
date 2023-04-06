@@ -1,7 +1,7 @@
 ﻿@model SARSTWebApplication.Models.RegistrationRequest
 
 @{
-    ViewData["Title"] = "Register New User";
+    ViewData["Title"] = "Register";
 }
 
 <h1>Register</h1>
@@ -12,11 +12,11 @@
 @if (TempData["Message"] != null)
 {
 
-            <script>
-                window.onload = function(){
-                    alert('@TempData["Message"]');
-                };   
-            </script>
+                <script>
+                    window.onload = function(){
+                        alert('@TempData["Message"]');
+                    };   
+                </script>
 }
 
 <div class="row">
@@ -54,9 +54,13 @@
                 <span asp-validation-for="userRole" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 

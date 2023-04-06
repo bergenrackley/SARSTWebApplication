@@ -10,7 +10,7 @@ namespace SARSTWebApplication.Models
         public string lastName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public string userRole { get; set; }
+        public UserTypes? userRole { get; set; }
 
         public SarstUser()
         {
@@ -19,7 +19,7 @@ namespace SARSTWebApplication.Models
             lastName = string.Empty;
             email = string.Empty;
             password = string.Empty;
-            userRole = string.Empty;
+            userRole = null;
         }
     }
 }

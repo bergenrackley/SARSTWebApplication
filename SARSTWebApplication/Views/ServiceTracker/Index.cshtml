@@ -19,7 +19,6 @@
             </div>
             <div class="form-group">
                 <label asp-for="serviceName" class="control-label"></label>
-                @*ViewBag.CityList is holding all the cities values*@
                 @Html.DropDownListFor(model => model.serviceName,ViewBag.ServiceList as SelectList,  new { @class = "form-control"} )
                 @Html.ValidationMessageFor(model => model.serviceName, "", new { @class = "text-danger" })
             </div>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Infrastructure;
 using System.Text.Encodings.Web;
 
@@ -26,6 +28,8 @@ namespace SARSTWebApplication.Controllers
 
         // GET: /Login/Register
         // Submit Registration Request
+
+        
         public IActionResult Register()
         {
             return View("Register");
