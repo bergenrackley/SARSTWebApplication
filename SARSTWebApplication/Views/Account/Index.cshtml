@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+   
+    /* We need to use ctn because the webapp comes with a .container */
+    .ctn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+     
+    }
+    .card {
+        width: 50vw;
+        min-width: 300px;
+        background-color: var(--secondary-color);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    .card-header {
+        background-color: var(--primary-color);
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .btn-primary:hover {
+        background-color: #444;
+        border-color: #444;
+    }
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .btn-outline-primary:hover {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+    }
+</style>
+
+<div class="ctn">
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h4 class="mb-0">Login</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Sign In</button>
+            </form>
+            <div class="mt-3">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-center">
+                <span>Don't have an account?</span>
+                <a href="#" class="btn btn-outline-primary">Register</a>
+            </div>
+        </div>
+    </div>
+
+
+<br/>
+<br/>
+<h3>Index</h3>
+    <p>There are @ViewBag.SarstUsers.Count users.</p>
+    <table>
+        <tr>
+            <th>Item</th>
+        </tr>
+        @foreach (SarstUser item in ViewBag.SarstUsers)
+        {
+            <tr>
+                <td>@item.userName</td>
+            </tr>
+        }
+    </table>
+</div>

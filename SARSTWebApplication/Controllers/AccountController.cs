@@ -10,10 +10,10 @@ using System;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         private AppDbContext _dbContext;
-        public LoginController(IConfiguration configuration)
+        public AccountController(IConfiguration configuration)
         {
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
@@ -23,9 +23,8 @@ namespace SARSTWebApplication.Controllers
         // Right now it is displaying a list of users from the database
         public IActionResult Index()
         {
-            var viewModel = new LoginViewModel();
-            viewModel.SarstUsers = _dbContext.SarstUsers.ToList();
-            return View(viewModel);
+            ViewBag.SarstUsers = _dbContext.SarstUsers.ToList();
+            return View();
         }
 
         // GET: /Login/Register
