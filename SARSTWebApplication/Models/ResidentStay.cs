@@ -10,10 +10,8 @@ namespace SARSTWebApplication.Models
         public int stayId { get; set; }
         [ForeignKey("ResidentProfile")]
         public string residentId { get; set; }
-        [DataType(DataType.Date)]
         public DateTime checkinDateTime { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime checkoutDateTime { get; set; }
+        public DateTime? checkoutDateTime { get; set; }
         [ForeignKey("SarstUser")]
         public string userName { get; set; }
 

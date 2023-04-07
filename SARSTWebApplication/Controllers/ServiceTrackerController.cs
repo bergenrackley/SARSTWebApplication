@@ -15,10 +15,6 @@ namespace SARSTWebApplication.Controllers
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
 
-        // GET: /Login
-        // Landing Page 
-        // Right now it is displaying a list of users from the database
-
         public IActionResult Index()
         {
             ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList());
