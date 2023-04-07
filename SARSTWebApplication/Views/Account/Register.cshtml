@@ -63,7 +63,7 @@
     }
 
         form fieldset {
-            width: 40vw;
+            width: 90vw;
             margin: auto;
         }
 
@@ -75,10 +75,17 @@
 
         form div {
             display: flex;
-            align-items: center;
-            justify-content: flex-end;
+            flex-direction: column; /* Add this line to make the error messages appear below the text fields */
             margin-bottom: 1rem;
         }
+
+    .form-group {
+        width: 40vw;
+        display: flex;
+        margin: auto;
+        flex-direction: column; /* Add this line to make the error messages appear below the text fields */
+        padding: 8px;
+    }
 
         .control-label {
             font-weight: bold;

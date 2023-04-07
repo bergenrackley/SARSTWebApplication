@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
-using SARSTWebApplication.Models;
 using SARSTWebApplication.Enums;
+using SARSTWebApplication.Models;
+using System;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Infrastructure;
 using System.Text.Encodings.Web;
-using System;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -17,7 +17,7 @@ namespace SARSTWebApplication.Controllers
         {
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
-        
+
         // GET: /Login
         // Landing Page 
         // Right now it is displaying a list of users from the database
@@ -30,7 +30,7 @@ namespace SARSTWebApplication.Controllers
         // GET: /Login/Register
         // Submit Registration Request
 
-        
+
         public IActionResult Register()
         {
             ViewBag.userTypes = getUserTypes();
@@ -40,11 +40,11 @@ namespace SARSTWebApplication.Controllers
         // GET: /Login/Success
         // Registration request submitted confirmation page
         // This is added just for quick access to the view during development
-        public IActionResult Success() 
+        public IActionResult Success()
         {
             return View("Success");
-        }        
-        
+        }
+
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
@@ -54,24 +54,35 @@ namespace SARSTWebApplication.Controllers
         {
             // Create new instance of a RegistrationRequest with data from form
             //RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
-            
+
             // Check for duplicate in database tables
             SarstUser existingUser = _dbContext.SarstUsers.Find(model.userName);
             RegistrationRequest existingRequest = _dbContext.RegistrationRequests.Find(model.userName);
-            
-            if (existingUser != null) {
+
+
+            // Check if the model is valid (like empty fields)
+            if (!ModelState.IsValid)
+            {
+                // Return the registration page with validation errors
+                return Register();
+            }
+
+            if (existingUser != null)
+            {
                 TempData["Message"] = "Sorry, that username is taken.";
                 return Register();
             }
-            else if(existingRequest != null) {
+
+            if (existingRequest != null)
+            {
                 TempData["Message"] = "Be patient. We are still reviewing your previous request.";
                 return Register();
             }
             // If no duplicate, add to RegistrationRequests table
-            else return AddRequest(model);            
-        }    
-      
-        
+            return AddRequest(model);
+        }
+
+
         // AddUser
         // Writes the RegistrationRequest to the database table and loads the Success view
         public IActionResult AddRequest(RegistrationRequest newRequest)
@@ -94,7 +105,8 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public RedirectToActionResult editRequest(RegistrationRequest model, string submit) {
+        public RedirectToActionResult editRequest(RegistrationRequest model, string submit)
+        {
             RegistrationRequest request = _dbContext.RegistrationRequests.Find(model.userName);
             if (submit == "Approve")
             {
@@ -103,13 +115,14 @@ namespace SARSTWebApplication.Controllers
                     userName = model.userName,
                     firstName = model.firstName,
                     lastName = model.lastName,
-                    password= model.password,
-                    userRole= model.userRole,
-                    email= model.email
+                    password = model.password,
+                    userRole = model.userRole,
+                    email = model.email
                 });
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
-            } else if (submit == "Deny")
+            }
+            else if (submit == "Deny")
             {
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
