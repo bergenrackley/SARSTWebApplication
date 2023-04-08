@@ -11,14 +11,14 @@ namespace SARSTWebApplication.Data
         public IDbSet<SarstUser> SarstUsers { get; set; }
         public IDbSet<RegistrationRequest> RegistrationRequests { get; set; }
         public IDbSet<Service> ServicesOffered { get; set; }
-        public IDbSet<ResidentProfile> Residents { get; set; }
+        public IDbSet<Resident> Residents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SarstUser>().ToTable("SarstUsers");
             modelBuilder.Entity<RegistrationRequest>().ToTable("RegistrationRequests");
             modelBuilder.Entity<Service>().ToTable("ServicesOffered");
-            modelBuilder.Entity<ResidentProfile>().ToTable("Residents");
+            modelBuilder.Entity<Resident>().ToTable("Residents");
         }
     }
     public class MyContextFactory : IDbContextFactory<AppDbContext>

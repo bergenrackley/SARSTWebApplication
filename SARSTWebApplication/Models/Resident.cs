@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace SARSTWebApplication.Models
 {
-    public class ResidentProfile
+    public class Resident
     {
         [Key]
         public string residentId { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
-        [DataType(DataType.Date)]
         public DateTime dateOfBirth { get; set; }
         public string sex { get; set; }
         public string gender { get; set; }
@@ -16,16 +16,16 @@ namespace SARSTWebApplication.Models
         public string distinguishingFeatures { get; set; }
         public string status { get; set; }
 
-        public ResidentProfile()
+        public Resident()
         {
             residentId = string.Empty;
             firstName = string.Empty;
             lastName = string.Empty;
-            dateOfBirth= new DateTime();
+            dateOfBirth = DateTime.Now;
             sex = string.Empty;
             gender = string.Empty;
             pronouns = string.Empty;
-            distinguishingFeatures= string.Empty;
+            distinguishingFeatures = string.Empty;
             status = string.Empty;
         }
     }

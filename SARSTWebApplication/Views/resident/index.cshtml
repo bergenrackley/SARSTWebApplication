@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SARSTWebApplication.Migrations.Residents>
+
+<p>
+    <a asp-action="Register">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var resident in ViewBag.Residents)
+        {
+            <tr>
+                <td>
+                   ID: @resident.residentId
+                   <br>
+                   Name: @resident.firstName
+                   , @resident.lastName
+                   <br>
+                   Features: @resident.distinguishingFeatures
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
