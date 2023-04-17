@@ -21,6 +21,17 @@ namespace SARSTWebApplication.Controllers
             return View();
         }
 
+        public IActionResult SelectResident() {
+            return View(_dbContext.Residents.ToList());
+        }
+
+        public IActionResult SubmitForm(string id)
+        {
+            ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList());
+            ViewBag.residentId = id;
+            return View();
+        }
+
         [NonAction]
         public SelectList ServicesToList(List<Service> table)
         {
