@@ -25,10 +25,11 @@ namespace SARSTWebApplication.Controllers
             return View(_dbContext.Residents.ToList());
         }
 
-        public IActionResult SubmitForm(string id)
+        public IActionResult Form(string id)
         {
             ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList());
             ViewBag.residentId = id;
+            ViewBag.currentUserName = HttpContext.Session.GetString("userName");
             return View();
         }
 

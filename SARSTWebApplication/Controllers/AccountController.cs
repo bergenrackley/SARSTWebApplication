@@ -24,6 +24,7 @@ namespace SARSTWebApplication.Controllers
         public IActionResult Index()
         {
             ViewBag.SarstUsers = _dbContext.SarstUsers.ToList();
+            ViewBag.currentUserName = HttpContext.Session.GetString("userName");
             return View();
         }
 
@@ -128,6 +129,24 @@ namespace SARSTWebApplication.Controllers
                 _dbContext.SaveChanges();
             }
             return RedirectToAction(actionName: "RegistrationRequests");
+        }
+
+        public IActionResult Login ()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult LoginAttempt(SarstUser sarstUser) {
+            SarstUser validUser = _dbContext.SarstUsers.Find(sarstUser.userName);
+            if (validUser != null) {
+                if (validUser.password == sarstUser.password)
+                {
+                    HttpContext.Session.SetString("userName", validUser.userName);
+                    return RedirectToAction(actionName: "Index");
+                }
+            }
+            return RedirectToAction(actionName: "Login");
         }
 
         public List<SelectListItem> getUserTypes()
