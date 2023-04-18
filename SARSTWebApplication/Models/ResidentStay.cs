@@ -7,12 +7,11 @@ namespace SARSTWebApplication.Models
     {
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int stayId { get; set; }
-        [ForeignKey("ResidentProfile")]
         public string residentId { get; set; }
         public DateTime checkinDateTime { get; set; }
         public DateTime? checkoutDateTime { get; set; }
-        [ForeignKey("SarstUser")]
         public string userName { get; set; }
 
         public ResidentStay() 

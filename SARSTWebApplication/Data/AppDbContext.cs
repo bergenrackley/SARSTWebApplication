@@ -12,6 +12,7 @@ namespace SARSTWebApplication.Data
         public IDbSet<RegistrationRequest> RegistrationRequests { get; set; }
         public IDbSet<Service> ServicesOffered { get; set; }
         public IDbSet<Resident> Residents { get; set; }
+        public IDbSet<ResidentStay> ResidentStays { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -19,6 +20,7 @@ namespace SARSTWebApplication.Data
             modelBuilder.Entity<RegistrationRequest>().ToTable("RegistrationRequests");
             modelBuilder.Entity<Service>().ToTable("ServicesOffered");
             modelBuilder.Entity<Resident>().ToTable("Residents");
+            modelBuilder.Entity<ResidentStay>().ToTable("ResidentStays");
         }
     }
     public class MyContextFactory : IDbContextFactory<AppDbContext>

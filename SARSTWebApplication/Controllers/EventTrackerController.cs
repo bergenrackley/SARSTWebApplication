@@ -7,10 +7,10 @@ using System.Data;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class ServiceTrackerController : Controller
+    public class EventTrackerController : Controller
     {
         private AppDbContext _dbContext;
-        public ServiceTrackerController(IConfiguration configuration)
+        public EventTrackerController(IConfiguration configuration)
         {
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
         }
@@ -25,7 +25,7 @@ namespace SARSTWebApplication.Controllers
             return View(_dbContext.Residents.ToList());
         }
 
-        public IActionResult Form(string id)
+        public IActionResult ServiceForm(string id)
         {
             ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList());
             ViewBag.residentId = id;
