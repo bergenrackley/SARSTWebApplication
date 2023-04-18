@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Infrastructure;
 
 namespace SARSTWebApplication.Controllers
@@ -19,7 +17,7 @@ namespace SARSTWebApplication.Controllers
 
         //-------Pages--------// Get Pages
 
-        // GET: /Residen
+        // GET: /Resident
         public ActionResult Index()
         {
 
@@ -34,6 +32,13 @@ namespace SARSTWebApplication.Controllers
         {
             var model = new Resident();
             return View("Register", model);
+        }
+
+        // [Route("resident/Details/{id}")]
+        public IActionResult Details(int id)
+        {
+            Resident res = _dbContext.Residents.Find(id.ToString());
+            return View(res);
         }
 
         public ActionResult Success()

@@ -1,0 +1,108 @@
+﻿@model SARSTWebApplication.Models.Resident
+
+<style>
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .row dt {
+            flex-basis: 30%;
+            margin-right: 1rem;
+            font-weight: bold;
+        }
+
+        .row dd {
+            flex-basis: 60%;
+            margin: auto;
+        }
+
+    h4 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    hr {
+        margin: 1rem 0;
+        border: none;
+        border-top: 2px solid var(--primary-color);
+    }
+
+    a {
+        color: var(--primary-color);
+    }
+
+        a:hover {
+            color: #444;
+        }
+</style>
+
+<div class="ctn">
+    <div class="card">
+        <div class="card-header">
+            <h4>Resident</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt>
+                    @Html.DisplayNameFor(model => model.residentId)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.residentId)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.firstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.firstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.lastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.lastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.dateOfBirth)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.dateOfBirth)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.sex)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.sex)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.gender)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.gender)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.pronouns)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.pronouns)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.status)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.status)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.distinguishingFeatures)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.distinguishingFeatures)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer footer">
+            @*TODO: Add Edit Page: @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }, new { @class = "btn btn-primary" })*@
+            <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+        </div>
+    </div>
+</div>
