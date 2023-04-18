@@ -1,0 +1,88 @@
+﻿@model SARSTWebApplication.Models.ResidentStay
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Details</title>
+    <style>
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+            .row dt {
+                flex-basis: 30%;
+                margin-right: 1rem;
+                font-weight: bold;
+            }
+
+            .row dd {
+                flex-basis: 60%;
+                margin: auto;
+            }
+
+        h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            border-top: 2px solid var(--primary-color);
+        }
+
+        a {
+            color: var(--primary-color);
+        }
+
+            a:hover {
+                color: #444;
+            }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h4>ResidentStay</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.stayId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.stayId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.residentId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.residentId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.checkinDateTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.checkinDateTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.checkoutDateTime)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.checkoutDateTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.userName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.userName)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.stayId" class="btn btn-outline-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>
+</body>
+</html>

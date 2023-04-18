@@ -9,12 +9,12 @@ namespace SARSTWebApplication.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int stayId { get; set; }
-        public string residentId { get; set; }
+        public string residentId { get; set; } // key of resident
         public DateTime checkinDateTime { get; set; }
         public DateTime? checkoutDateTime { get; set; }
-        public string userName { get; set; }
+        public string userName { get; set; } // Key of sarst User
 
-        public ResidentStay() 
+        public ResidentStay()
         {
             stayId = new int();
             residentId = string.Empty; // Resident

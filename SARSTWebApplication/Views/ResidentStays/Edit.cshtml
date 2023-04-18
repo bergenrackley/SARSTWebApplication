@@ -1,0 +1,110 @@
+﻿@model SARSTWebApplication.Models.ResidentStay
+
+@{
+    Layout = null;
+}
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Stay</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        .ctn {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h4 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        hr {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 0;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f7f7f7;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+        }
+
+        .card-header h4 {
+            margin-bottom: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            font-weight: 600;
+        }
+
+        .btn{
+            margin-top: 1rem
+        }
+
+    
+    </style>
+</head>
+<body>
+    <div class="ctn">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h4>Edit</h4>
+                <hr />
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="stayId" />
+                    <div class="form-group">
+                        <label asp-for="residentId" class="control-label"></label>
+                        <input asp-for="residentId" class="form-control" />
+                        <span asp-validation-for="residentId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="checkinDateTime" class="control-label"></label>
+                        <input asp-for="checkinDateTime" class="form-control" />
+                        <span asp-validation-for="checkinDateTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="checkoutDateTime" class="control-label"></label>
+                        <input asp-for="checkoutDateTime" class="form-control" />
+                        <span asp-validation-for="checkoutDateTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="userName" class="control-label"></label>
+                        <input asp-for="userName" class="form-control" />
+                        <span asp-validation-for="userName" class="text-danger"></span>
+                    </div>
+                    
+                    <input type="submit" value="Save" class="btn btn-primary"/>
+                    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+ </body>
+</html>
+

@@ -25,4 +25,28 @@ body {
 :root {
     --primary-color: #616161;
     --secondary-color: #f5f5f5;
+    --btn-main-color: #007bff;
+    --btn-inverted-color: #fff;
 }
+
+
+/* Button Design*/
+.btn-primary {
+    background-color: var(--btn-main-color);
+    border-color: var(--btn-inverted-color);
+}
+
+    .btn-primary:hover {
+        background-color: #444;
+        border-color: #444;
+    }
+
+.btn-outline-primary {
+    color: var(--btn-main-color);
+    border-color: var(--btn-inverted-color);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--btn-inverted-color);
+        color: var(--btn-main-color);
+    }
