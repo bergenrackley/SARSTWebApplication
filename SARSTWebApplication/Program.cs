@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SARSTWebApplication.Data;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<SARSTWebApplicationContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SARSTWebApplicationContext") ?? throw new InvalidOperationException("Connection string 'SARSTWebApplicationContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -1,21 +1,25 @@
-﻿@model SARSTWebApplication.Models.ServiceEvent
+﻿@model SARSTWebApplication.Models.DisciplinaryEvent
 
-@{
-    ViewData["Title"] = "Record Services Rendered";
-}
-
-<h1>View</h1>
-
-<h4>ServiceEvent</h4>
+<h4>DisciplinaryEvent</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SubmitServiceForm">
+        <form asp-action="SubmitDisciplinaryForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="serviceName" class="control-label"></label>
-                @Html.DropDownListFor(model => model.serviceName,ViewBag.ServiceList as SelectList,  new { @class = "form-control"} )
-                @Html.ValidationMessageFor(model => model.serviceName, "", new { @class = "text-danger" })
+                <label asp-for="disciplinaryEventId" class="control-label"></label>
+                <input asp-for="disciplinaryEventId" class="form-control" />
+                <span asp-validation-for="disciplinaryEventId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="disciplinaryType" class="control-label"></label>
+                <select asp-for="disciplinaryType" class="form-control" id="role-dropdown">
+                    @foreach (var disciplinaryType in ViewBag.DisciplinaryTypes)
+                    {
+                        <option value="@disciplinaryType.Value">@disciplinaryType.Text</option>
+                    }
+                    </select>
+                <span asp-validation-for="disciplinaryType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="dateProvided" class="control-label"></label>
@@ -29,12 +33,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="residentId" class="control-label"></label>
-                <input asp-for="residentId" class="form-control" value="@ViewBag.residentId" />
+                <input asp-for="residentId" class="form-control" />
                 <span asp-validation-for="residentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="userName" class="control-label"></label>
-                <input asp-for="userName" value="@ViewBag.currentUserName" class="form-control" />
+                <input asp-for="userName" class="form-control" />
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -48,3 +52,11 @@
         </form>
     </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

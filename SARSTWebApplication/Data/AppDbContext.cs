@@ -13,6 +13,8 @@ namespace SARSTWebApplication.Data
         public IDbSet<Service> ServicesOffered { get; set; }
         public IDbSet<Resident> Residents { get; set; }
         public IDbSet<ResidentStay> ResidentStays { get; set; }
+        public IDbSet<ServiceEvent> ServiceTracker { get; set; }
+        public IDbSet<DisciplinaryEvent> DisciplinaryTracker { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -21,6 +23,8 @@ namespace SARSTWebApplication.Data
             modelBuilder.Entity<Service>().ToTable("ServicesOffered");
             modelBuilder.Entity<Resident>().ToTable("Residents");
             modelBuilder.Entity<ResidentStay>().ToTable("ResidentStays");
+            modelBuilder.Entity<ServiceEvent>().ToTable("ServiceTracker");
+            modelBuilder.Entity<DisciplinaryEvent>().ToTable("DisciplinaryTracker");
         }
     }
     public class MyContextFactory : IDbContextFactory<AppDbContext>
