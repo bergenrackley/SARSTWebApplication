@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Disciplinary Events</h2>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -66,6 +70,7 @@
             <td>
                 @Html.ActionLink("Select", new string(ViewBag.eventType) , new { id=item.residentId })
             </td>
+             
         </tr>
 }
     </tbody>

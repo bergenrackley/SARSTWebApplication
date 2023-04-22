@@ -101,8 +101,13 @@
             </dl>
         </div>
         <div class="card-footer footer">
-            @*TODO: Add Edit Page: @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }, new { @class = "btn btn-primary" })*@
+            
             <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+            <a asp-controller="Resident" asp-action="Edit" asp-route-id="@Model.residentId">Edit</a> |
+            <a asp-controller="Resident" asp-action="Delete" asp-route-id="@Model.residentId">Delete</a> |
+            <a asp-controller="EventTracker" asp-action="DisciplinaryForm" asp-route-id="@Model.residentId">Add Disciplinary Event</a>
+            
+
         </div>
     </div>
 </div>
