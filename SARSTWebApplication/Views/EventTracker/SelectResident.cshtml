@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Disciplinary Events</h2>
+    <h2>@(ViewBag.eventType)</h2>
 </div>
 
 <table class="table">
@@ -38,40 +38,37 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.residentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.firstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.lastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sex)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.pronouns)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.distinguishingFeatures)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.ActionLink("Select", new string(ViewBag.eventType) , new { id=item.residentId })
-            </td>
-             
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr onclick="location.href='@Url.Action(new string(ViewBag.eventType), "EventTracker", new { id=item.residentId })'">
+                <td>
+                    @Html.DisplayFor(modelItem => item.residentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.sex)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pronouns)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.distinguishingFeatures)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
