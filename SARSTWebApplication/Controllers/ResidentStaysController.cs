@@ -88,7 +88,16 @@ namespace SARSTWebApplication.Controllers
             {
                 try
                 {
-                    _dbContext.ResidentStays.Add(residentStay);
+                    // Find the existing entity by its primary key
+                    var existingResidentStay = _dbContext.ResidentStays.Find(id);
+
+                    // Assign the new values to its properties
+                    existingResidentStay.residentId = residentStay.residentId;
+                    existingResidentStay.checkinDateTime = residentStay.checkinDateTime;
+                    existingResidentStay.checkoutDateTime = residentStay.checkoutDateTime;
+                    existingResidentStay.userName = residentStay.userName;
+
+                    // Save the changes
                     await _dbContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
