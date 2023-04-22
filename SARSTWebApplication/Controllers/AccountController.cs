@@ -50,6 +50,16 @@ namespace SARSTWebApplication.Controllers
             return View("Success");
         }
 
+        // GET: /Account/SARST
+        // Landing Page After Successfully Logging In
+        public IActionResult SARST()
+        {
+            //These add the session values to the view
+            ViewBag.currentUserRole = HttpContext.Session.GetInt32("userRole");
+            ViewBag.currentUserName = HttpContext.Session.GetString("userName");
+            return View("SARST");
+        }
+
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
@@ -149,7 +159,7 @@ namespace SARSTWebApplication.Controllers
                     HttpContext.Session.SetString("userName", validUser.userName);
                     
                     HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
-                    return RedirectToAction(actionName: "Index");
+                    return RedirectToAction(actionName: "SARST");
                 }
             }
             return RedirectToAction(actionName: "Login");

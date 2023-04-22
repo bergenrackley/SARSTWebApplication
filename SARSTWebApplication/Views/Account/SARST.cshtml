@@ -1,0 +1,27 @@
+﻿@{
+	ViewData["Title"] = "SARST";
+}
+
+<h2>Welcome, @ViewBag.currentUserName!</h2>
+<p>The functionality for this userRole is displayed:</p>
+
+@if (ViewBag.currentUserRole == 0) // root user
+{
+    <button>Reporting</button>
+    <button>Analysis</button>
+    <button>Service Data Entry</button>
+    <button>Admin Set Up</button>
+    <button>Review Registration Requests</button>
+}
+else if (ViewBag.currentUserRole == 1) // admin
+{
+    <button>Reporting</button>
+    <button>Analysis</button>
+    <button>Service Data Entry</button>
+    <button>Admin Set Up</button>
+}
+else // service provider
+{
+    <button>Reporting</button>
+    <button>Service Data Entry</button>
+}
