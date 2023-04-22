@@ -25,6 +25,10 @@ namespace SARSTWebApplication.Controllers
         {
             ViewBag.SarstUsers = _dbContext.SarstUsers.ToList();
             ViewBag.currentUserName = HttpContext.Session.GetString("userName");
+            // Adding userRole session value for managing access to funtionality -CJ
+            // userRole is an int. Levels: 0=Root, 1=Admin, 2=Assistant
+            ViewBag.currentUserRole = HttpContext.Session.GetInt32("userRole");
+
             return View();
         }
 
@@ -143,6 +147,8 @@ namespace SARSTWebApplication.Controllers
                 if (validUser.password == sarstUser.password)
                 {
                     HttpContext.Session.SetString("userName", validUser.userName);
+                    
+                    HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
                     return RedirectToAction(actionName: "Index");
                 }
             }

@@ -15,7 +15,7 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Account/Index");
         }
 
         public IActionResult Privacy()
