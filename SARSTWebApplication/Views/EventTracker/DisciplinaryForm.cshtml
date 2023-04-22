@@ -33,17 +33,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="residentId" class="control-label"></label>
-                <input asp-for="residentId" class="form-control" />
+                <input asp-for="residentId" class="form-control" value="@ViewBag.residentId" />
                 <span asp-validation-for="residentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="userName" class="control-label"></label>
-                <input asp-for="userName" class="form-control" />
+                <input asp-for="userName" class="form-control" value="@ViewBag.currentUserName" />
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="stayId" class="control-label"></label>
-                <input asp-for="stayId" class="form-control" />
+                <input asp-for="stayId" class="form-control" value="@ViewBag.stayId" />
                 <span asp-validation-for="stayId" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -11,6 +11,7 @@ namespace SARSTWebApplication.Models
         public string serviceName { get; set; }
 
         [DataType(DataType.Date)]
+        [Required]
         public DateTime dateProvided { get; set; }
         public string description { get; set; }
         public string residentId { get; set; }
