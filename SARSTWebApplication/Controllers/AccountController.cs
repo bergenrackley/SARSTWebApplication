@@ -57,7 +57,16 @@ namespace SARSTWebApplication.Controllers
             //These add the session values to the view
             ViewBag.currentUserRole = HttpContext.Session.GetInt32("userRole");
             ViewBag.currentUserName = HttpContext.Session.GetString("userName");
-            return View("SARST");
+            // Is a user logged in?
+            // currentUserRole will be 0,1, or 2 if a user is logged in
+            if (ViewBag.currentUserRole > -1)
+            {
+                return View("SARST");
+            } else
+            {
+                return View("Index");
+            }
+            
         }
 
         // -------------- Methods --------------------
