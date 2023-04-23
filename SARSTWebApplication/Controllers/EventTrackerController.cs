@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -6,13 +7,15 @@ using NuGet.Protocol;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
+using System;
 using System.Data;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class EventTrackerController : Controller
+    public class EventTrackerController : BaseController
     {
         private AppDbContext _dbContext;
         public EventTrackerController(IConfiguration configuration)

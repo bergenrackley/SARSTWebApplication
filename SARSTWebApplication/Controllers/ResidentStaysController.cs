@@ -5,7 +5,7 @@ using SARSTWebApplication.Models;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class ResidentStaysController : Controller
+    public class ResidentStaysController : BaseController
     {
         private AppDbContext _dbContext;
 

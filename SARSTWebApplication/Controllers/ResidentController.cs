@@ -6,7 +6,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace SARSTWebApplication.Controllers
 {
-    public class ResidentController : Controller
+    public class ResidentController : BaseController
     {
 
         private AppDbContext _dbContext;
