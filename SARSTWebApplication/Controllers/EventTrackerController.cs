@@ -17,61 +17,61 @@ namespace SARSTWebApplication.Controllers
         private AppDbContext _dbContext;
         public EventTrackerController(IConfiguration configuration)
         {
-            _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
+            _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection")); //creates sql db connection
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(); //page with buttons for prompting user to select Service or Disciplinary. Both buttons navigate to SelectResident, with a url parameter "type" telling the SelectResident page where to go next
         }
 
         public IActionResult SelectResident(string type) {
-            ViewBag.eventType = type;
-            var command = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL)").ToList();
+            ViewBag.eventType = type; //used for making the page redirect work
+            var command = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL)").ToList(); //get all residents who currently have a residentStay with no checkout time (meaning still checked in)
             return View(command);
         }
 
-        public IActionResult ServiceForm(string id)
+        public IActionResult ServiceForm(string id) //id is the resident id
         {
-            ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList());
-            ViewBag.residentId = id;
-            ViewBag.currentUserName = HttpContext.Session.GetString("userName");
-            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId;
+            ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList()); //get all services offered from ServicesOffered table, formats serialied list into dropdown id/value pairs
+            ViewBag.residentId = id; //set residentId
+            ViewBag.currentUserName = HttpContext.Session.GetString("userName"); //get username from session data
+            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId; //get current stay for resident
             return View();
         }
 
         [HttpPost]
-        public string CheckServiceEvent(ServiceEvent serviceEvent) {
-            if (ModelState.IsValid) return "Valid";
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
+        public string CheckServiceEvent(ServiceEvent serviceEvent) { //when the user clicks create, calls this with ajax. 
+            if (ModelState.IsValid) return "Valid"; //checks validity of model data (required fields, etc) if valid, return true
+            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson(); //if invalid, get the parts of the model that are malformed and return them as json
         }
 
         [HttpPost]
-        public IActionResult SubmitServiceForm(ServiceEvent serviceEvent)
+        public IActionResult SubmitServiceForm(ServiceEvent serviceEvent) //called by page itself
         {
-            _dbContext.ServiceTracker.Add(serviceEvent);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            _dbContext.ServiceTracker.Add(serviceEvent); //add model
+            _dbContext.SaveChanges(); //save changes
+            return RedirectToAction("Index"); //redirect to Event index
         }
 
-        public IActionResult DisciplinaryForm(string id)
+        public IActionResult DisciplinaryForm(string id) //id is resident id
         {
-            ViewBag.DisciplinaryTypes = getDisciplinaryTypes();
+            ViewBag.DisciplinaryTypes = getDisciplinaryTypes(); //gets and formats DisciplinaryTypes enum as dropdown id/value pair
             ViewBag.residentId = id;
             ViewBag.currentUserName = HttpContext.Session.GetString("userName");
-            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId;
+            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId; //second verse, same as the first
             return View();
         }
 
         [HttpPost]
-        public string CheckDisciplinaryEvent(DisciplinaryEvent disciplinaryEvent)
+        public string CheckDisciplinaryEvent(DisciplinaryEvent disciplinaryEvent)  //when the user clicks create, calls this with ajax. 
         {
-            if (ModelState.IsValid) return "Valid";
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
+            if (ModelState.IsValid) return "Valid"; //valid
+            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson(); //malformed as json
         }
 
         [HttpPost]
-        public RedirectToActionResult SubmitDisciplinaryForm(DisciplinaryEvent disciplinaryEvent)
+        public RedirectToActionResult SubmitDisciplinaryForm(DisciplinaryEvent disciplinaryEvent) //called by page when valid
         {
             _dbContext.DisciplinaryTracker.Add(disciplinaryEvent);
             _dbContext.SaveChanges();
@@ -79,7 +79,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         [NonAction]
-        public SelectList ServicesToList(List<Service> table)
+        public SelectList ServicesToList(List<Service> table) //formats Services table as valid dropdown enumerable
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
@@ -95,7 +95,8 @@ namespace SARSTWebApplication.Controllers
             return new SelectList(list, "Value", "Text");
         }
 
-        public List<SelectListItem> getDisciplinaryTypes()
+        [NonAction]
+        public List<SelectListItem> getDisciplinaryTypes() //formats DisciplinaryTypes Enum as valid dropdown enumerable
         {
             return Enum.GetValues(typeof(DisciplinaryTypes)).Cast<DisciplinaryTypes>().Select(v => new SelectListItem
             {

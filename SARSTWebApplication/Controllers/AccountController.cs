@@ -186,6 +186,7 @@ namespace SARSTWebApplication.Controllers
             return View("Index");
         }
 
+        [NonAction]
         public List<SelectListItem> getUserTypes()
         {
             return Enum.GetValues(typeof(UserTypes)).Cast<UserTypes>().Select(v => new SelectListItem
