@@ -69,6 +69,13 @@ namespace SARSTWebApplication.Controllers
             
         }
 
+        // GET: /Account/Login
+        // Login page
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         // -------------- Methods --------------------
 
         // SubmitRegistrationRequest
@@ -154,10 +161,7 @@ namespace SARSTWebApplication.Controllers
             return RedirectToAction(actionName: "RegistrationRequests");
         }
 
-        public IActionResult Login ()
-        {
-            return View();
-        }
+        
 
         [HttpPost]
         public RedirectToActionResult LoginAttempt(SarstUser sarstUser) {
@@ -172,6 +176,14 @@ namespace SARSTWebApplication.Controllers
                 }
             }
             return RedirectToAction(actionName: "Login");
+        }
+
+        // User Log Out
+        // Clears session variables and returns to Account/Index
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return View("Index");
         }
 
         public List<SelectListItem> getUserTypes()
