@@ -4,13 +4,8 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SubmitDisciplinaryForm">
+        <form asp-action="SubmitDisciplinaryForm" id="disciplinaryForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="disciplinaryEventId" class="control-label"></label>
-                <input asp-for="disciplinaryEventId" class="form-control" />
-                <span asp-validation-for="disciplinaryEventId" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="disciplinaryType" class="control-label"></label>
                 <select asp-for="disciplinaryType" class="form-control" id="role-dropdown">
@@ -47,16 +42,36 @@
                 <span asp-validation-for="stayId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="button" value="Create" id="submit" class="btn btn-primary" />
+                <input style="display: none" type="submit" value="Create" id="hiddenSubmit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                //evt.preventDefault();
+                var formdata = $('#disciplinaryForm').serialize();
+                console.error(formdata);
+                $.ajax({
+                    url: "/EventTracker/CheckDisciplinaryEvent",
+                    type: 'Post',
+                    data: formdata,
+                    success: function (data) {
+                        if (data == "Valid") {
+                            $('#hiddenSubmit').click();
+                        }
+                        else alert(data);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+            });
+        });
+    </script>
 }

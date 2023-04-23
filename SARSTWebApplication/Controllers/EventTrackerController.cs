@@ -49,19 +49,9 @@ namespace SARSTWebApplication.Controllers
         [HttpPost]
         public IActionResult SubmitServiceForm(ServiceEvent serviceEvent)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("ServiceForm", serviceEvent);
-            } else
-            {
-                _dbContext.ServiceTracker.Add(serviceEvent);
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            //_dbContext.ServiceTracker.Add(serviceEvent);
-            //_dbContext.SaveChanges();
-            //return RedirectToAction("Index");
-            //return serviceEvent;
+            _dbContext.ServiceTracker.Add(serviceEvent);
+            _dbContext.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult DisciplinaryForm(string id)
@@ -71,6 +61,13 @@ namespace SARSTWebApplication.Controllers
             ViewBag.currentUserName = HttpContext.Session.GetString("userName");
             ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId;
             return View();
+        }
+
+        [HttpPost]
+        public string CheckDisciplinaryEvent(DisciplinaryEvent disciplinaryEvent)
+        {
+            if (ModelState.IsValid) return "Valid";
+            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
         }
 
         [HttpPost]
