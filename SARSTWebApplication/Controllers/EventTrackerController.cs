@@ -35,7 +35,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult SearchResidents(string query) {
+        public PartialViewResult SearchResidents(string query) { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
             List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" +  query + "%")).ToList();
             return PartialView("_GridView", result);
         }
