@@ -4,92 +4,33 @@
     <h2>@(ViewBag.eventType)</h2>
 </div>
 
-<input type="text" id="searchFilter" />
+<input style="width: 350px" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+<div id="gridResidents"></div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.residentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.firstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sex)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.pronouns)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.distinguishingFeatures)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Resident item in ViewBag.residentsList)
-        {
-            <tr onclick="location.href='@Url.Action(new string(ViewBag.eventType), "EventTracker", new { id=item.residentId })'">
-                <td>
-                    @Html.DisplayFor(modelItem => item.residentId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.dateOfBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.sex)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pronouns)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.distinguishingFeatures)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.status)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
-            $('#searchFilter').keyup(function() {
+
+        $(() => {
+            searchResidents();
+
+            $('#searchFilter').on('keyup', () => {
+                searchResidents();
+            })
+        });
+
+        function searchResidents() {
                 $.ajax({
                     url: "/EventTracker/SearchResidents?query=" + $('#searchFilter').val(),
-                    type: 'Get',
-                    success: function (data) {
-                        
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
+                type: 'Get',
+                success: function (data) {
+                    $('#gridResidents').html('').html(data);
+                },
+                error: function () {
+                    alert('Error');
+                }
                 })
-            });
-        });
+        }
+
     </script>
 }

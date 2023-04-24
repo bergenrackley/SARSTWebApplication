@@ -30,16 +30,14 @@ namespace SARSTWebApplication.Controllers
         }
 
         public IActionResult SelectResident(string type) {
-            ViewBag.eventType = type; //used for making the page redirect work
-            var command = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL)").ToList(); //get all residents who currently have a residentStay with no checkout time (meaning still checked in)
-            ViewBag.residentsList = command;
+            TempData["eventType"] = type; //used for making the page redirect work
             return View();
         }
 
         [HttpGet]
-        public string SearchResidents(string query) {
-            ViewBag.residentsList = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName like @query or lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" +  query + "%")).ToJson();
-            return "done";
+        public PartialViewResult SearchResidents(string query) {
+            List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" +  query + "%")).ToList();
+            return PartialView("_GridView", result);
         }
 
         public IActionResult ServiceForm(string id) //id is the resident id
