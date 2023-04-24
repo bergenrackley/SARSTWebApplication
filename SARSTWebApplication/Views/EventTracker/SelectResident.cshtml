@@ -4,6 +4,8 @@
     <h2>@(ViewBag.eventType)</h2>
 </div>
 
+<input type="text" id="searchFilter" />
+
 <table class="table">
     <thead>
         <tr>
@@ -38,7 +40,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (Resident item in ViewBag.residentsList)
         {
             <tr onclick="location.href='@Url.Action(new string(ViewBag.eventType), "EventTracker", new { id=item.residentId })'">
                 <td>
@@ -72,3 +74,22 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#searchFilter').keyup(function() {
+                $.ajax({
+                    url: "/EventTracker/SearchResidents?query=" + $('#searchFilter').val(),
+                    type: 'Get',
+                    success: function (data) {
+                        
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+            });
+        });
+    </script>
+}

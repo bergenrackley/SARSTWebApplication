@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using NuGet.Protocol;
 using SARSTWebApplication.Data;
@@ -31,7 +32,14 @@ namespace SARSTWebApplication.Controllers
         public IActionResult SelectResident(string type) {
             ViewBag.eventType = type; //used for making the page redirect work
             var command = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL)").ToList(); //get all residents who currently have a residentStay with no checkout time (meaning still checked in)
-            return View(command);
+            ViewBag.residentsList = command;
+            return View();
+        }
+
+        [HttpGet]
+        public string SearchResidents(string query) {
+            ViewBag.residentsList = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName like @query or lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" +  query + "%")).ToJson();
+            return "done";
         }
 
         public IActionResult ServiceForm(string id) //id is the resident id
