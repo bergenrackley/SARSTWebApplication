@@ -7,27 +7,32 @@
 
 @if (ViewBag.currentUserRole == 0) // root user
 {
-    <button>Reporting</button>
-    <button>Analysis</button>
-    <button>Service Data Entry</button>
-    <button>Admin Set Up</button>
-    <button>Review Registration Requests</button>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
+    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Admin Set Up</a>
+    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Review Registration Requests</a>
+
 }
 else if (ViewBag.currentUserRole == 1) // admin
 {
-    <button>Reporting</button>
-    <button>Analysis</button>
-    <button>Service Data Entry</button>
-    <button>Admin Set Up</button>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
+    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Admin Set Up</a>
+  
 }
 else // service provider
 {
-    <button>Reporting</button>
-    <button>Service Data Entry</button>
+    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
+    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>    
+    
 }
 <p></p>
 <p>"SARSTWebApplication" in the toolbar will take the user to this view if logged in.
     If not logged in, they will be redirected to the Account/Index view.
 </p>
+<p></p>
+<p>We need to decide on the appropriate landing page for each of these links. Review Registration Requests is working properly.</p>
 
 <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="LogOut">Log Out</a>
