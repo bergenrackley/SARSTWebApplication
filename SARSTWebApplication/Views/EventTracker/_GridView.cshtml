@@ -36,7 +36,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr onclick="location.href='@Url.Action(TempData["eventType"] as string, "EventTracker", new { id=item.residentId })'">
+            <tr onclick="location.href='@Url.Action(TempData.Peek("eventType") as string, "EventTracker", new { id=item.residentId })'">
                 <td>
                     @Html.DisplayFor(modelItem => item.residentId)
                 </td>

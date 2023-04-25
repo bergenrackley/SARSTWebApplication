@@ -31,6 +31,7 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult SelectResident(string type) {
             TempData["eventType"] = type; //used for making the page redirect work
+            TempData.Keep("eventType");
             return View();
         }
 
