@@ -1,0 +1,32 @@
+﻿@model IEnumerable<SARSTWebApplication.Models.ResidentStay>
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Resident ID</th>
+            <th>Stay ID</th>
+            <th>Checked In</th>
+            <th>Checked Out</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stay in Model)
+        {
+            <tr>
+                <td>@stay.residentId</td>
+                <td>@stay.stayId</td>
+                <td>@stay.checkinDateTime</td>
+                <td>@stay.checkoutDateTime</td>
+                <td>
+                    <a asp-controller="ResidentStays" asp-action="Details" asp-route-id="@stay.stayId">Details</a> |
+                    <a asp-controller="ResidentStays" asp-action="Edit" asp-route-id="@stay.stayId">Edit</a> |
+                    <a asp-controller="ResidentStays" asp-action="Delete" asp-route-id="@stay.stayId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

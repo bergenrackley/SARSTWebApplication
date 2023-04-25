@@ -10,8 +10,10 @@ namespace SARSTWebApplication.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int stayId { get; set; }
         public string residentId { get; set; } // key of resident
+        [DataType(DataType.Date)]
         public DateTime checkinDateTime { get; set; }
-        public DateTime? checkoutDateTime { get; set; }
+        [DataType(DataType.Date)]
+        public Nullable<DateTime> checkoutDateTime { get; set; }
         public string userName { get; set; } // Key of sarst User
 
         public ResidentStay()
@@ -19,7 +21,7 @@ namespace SARSTWebApplication.Models
             stayId = new int();
             residentId = string.Empty; // Resident
             checkinDateTime = new DateTime();
-            checkoutDateTime = new DateTime();
+            checkoutDateTime = null;
             userName = String.Empty; // who checks them out
         }
     }

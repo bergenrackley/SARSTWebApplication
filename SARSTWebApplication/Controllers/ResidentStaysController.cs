@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SARSTWebApplication.Data;
+using SARSTWebApplication.Migrations;
 using SARSTWebApplication.Models;
+using System.Data.SqlClient;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -17,9 +19,28 @@ namespace SARSTWebApplication.Controllers
         // GET: ResidentStays
         public async Task<IActionResult> Index()
         {
-            var residentStays = _dbContext.ResidentStays.ToList();
+            var residentStays = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL order by stayId").ToList();
             ViewBag.ResidentStays = residentStays;
             return View();
+        }
+
+        [HttpGet]
+        public PartialViewResult SearchResidentStays(string query)
+        { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
+            List<ResidentStay> result = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId in (Select residentId from dbo.residents where firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" + query + "%")).ToList();
+            return PartialView("_GridViewStays", result);
+        }
+
+        public IActionResult SelectResident()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public PartialViewResult SearchResidents(string query)
+        { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
+            List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId not in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" + query + "%")).ToList();
+            return PartialView("_GridViewResidents", result);
         }
 
         // GET: ResidentStays/Details/5
@@ -37,8 +58,10 @@ namespace SARSTWebApplication.Controllers
         }
 
         // GET: ResidentStays/Register
-        public IActionResult Register()
+        public IActionResult Create(string id)
         {
+            ViewBag.residentId = id;
+            ViewBag.userName = HttpContext.Session.GetString("userName");
             return View();
         }
 
@@ -47,12 +70,12 @@ namespace SARSTWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("stayId,residentId,checkinDateTime,checkoutDateTime,userName")] ResidentStay residentStay)
+        public IActionResult Create(ResidentStay residentStay)
         {
             if (ModelState.IsValid)
             {
                 _dbContext.ResidentStays.Add(residentStay);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(residentStay);
