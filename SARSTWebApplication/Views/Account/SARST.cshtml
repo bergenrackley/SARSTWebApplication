@@ -3,10 +3,11 @@
 }
 
 <h2>Welcome, @ViewBag.currentUserName!</h2>
-<p>The functionality for this userRole is displayed:</p>
 
 @if (ViewBag.currentUserRole == 0) // root user
 {
+    <p>The functionality for a Root User is displayed:</p>
+
     <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
     <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
     <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
@@ -16,6 +17,8 @@
 }
 else if (ViewBag.currentUserRole == 1) // admin
 {
+    <p>The functionality for an Admin is displayed:</p>
+
     <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
     <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
     <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
@@ -24,6 +27,8 @@ else if (ViewBag.currentUserRole == 1) // admin
 }
 else // service provider
 {
+    <p>The functionality for a Service Provider is displayed:</p>
+
     <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
     <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>    
     
