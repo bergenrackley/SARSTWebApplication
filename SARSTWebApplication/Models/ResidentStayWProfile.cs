@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SARSTWebApplication.Models
 {
-    public class ResidentStayWProfile
+    public class ResidentStayWProfile //this doesnt inherit from stay or resident because that messes with the dbcontext for some reason. I dont like it either.
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
