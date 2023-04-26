@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using SARSTWebApplication.Data;
+﻿using Rotativa.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDistributedMemoryCache();
+
+
 
 builder.Services.AddSession(options =>
 {
@@ -36,5 +36,10 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}/{id?}");
+
+var env = builder.Environment;
+// Configure Rotativa
+RotativaConfiguration.Setup((Microsoft.AspNetCore.Hosting.IHostingEnvironment)env);
+
 
 app.Run();

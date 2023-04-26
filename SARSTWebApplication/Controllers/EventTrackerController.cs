@@ -1,18 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using NuGet.Protocol;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
-using System;
 using System.Data;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
+using System.Data.SqlClient;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -29,15 +22,17 @@ namespace SARSTWebApplication.Controllers
             return View(); //page with buttons for prompting user to select Service or Disciplinary. Both buttons navigate to SelectResident, with a url parameter "type" telling the SelectResident page where to go next
         }
 
-        public IActionResult SelectResident(string type) {
+        public IActionResult SelectResident(string type)
+        {
             TempData["eventType"] = type; //used for making the page redirect work
             TempData.Keep("eventType");
             return View();
         }
 
         [HttpGet]
-        public PartialViewResult SearchResidents(string query) { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
-            List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" +  query + "%")).ToList();
+        public PartialViewResult SearchResidents(string query)
+        { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
+            List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where residentId in (Select residentId from dbo.residentStays where CheckOutDateTime is NULL) and (firstName + ' ' + lastName like @query or distinguishingFeatures like @query)", new SqlParameter("@query", "%" + query + "%")).ToList();
             return PartialView("_GridView", result);
         }
 
@@ -51,9 +46,11 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public string CheckServiceEvent(ServiceEvent serviceEvent) { //when the user clicks create, calls this with ajax. 
+        public string CheckServiceEvent(ServiceEvent serviceEvent)
+        { //when the user clicks create, calls this with ajax. 
             if (ModelState.IsValid) return "Valid"; //checks validity of model data (required fields, etc) if valid, return true
             else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson(); //if invalid, get the parts of the model that are malformed and return them as json
+
         }
 
         [HttpPost]

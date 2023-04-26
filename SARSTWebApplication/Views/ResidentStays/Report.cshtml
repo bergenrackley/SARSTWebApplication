@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ResidentStay>
+
+<h1>Report</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Stay ID</th>
+            <th>Resident ID</th>
+            <th>Check-in Date and Time</th>
+            <th>Check-out Date and Time</th>
+            <th>User Name</th>
+            <th>Duration (hours)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var duration = (item.checkoutDateTime - item.checkinDateTime);
+            <tr>
+                <td>@item.stayId</td>
+                <td>@item.residentId</td>
+                <td>@item.checkinDateTime</td>
+                <td>@item.checkoutDateTime</td>
+                <td>@item.userName</td>
+                <td>@duration</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="chart-container" style="width: 800px; height: 400px;"></div>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    // Load the Google Charts library
+    google.charts.load('current', { 'packages': ['bar'] });
+
+    // Draw the chart when the library is loaded
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Define the chart data and options
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Stay ID');
+        data.addColumn('number', 'Duration (hours)');
+        data.addRows([
+    @foreach (var item in Model)
+    {
+        var duration = (item.checkoutDateTime - item.checkinDateTime);
+        @:["@item.stayId", @duration],
+    }
+            ]);
+
+        var options = {
+            title: 'Duration of each stay',
+            legend: { position: 'none' },
+            bars: 'horizontal'
+        };
+
+        // Create and draw the chart
+        var chart = new google.charts.Bar(document.getElementById('chart-container'));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+</script>

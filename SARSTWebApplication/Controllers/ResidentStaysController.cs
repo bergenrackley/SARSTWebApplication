@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 using SARSTWebApplication.Data;
-using SARSTWebApplication.Migrations;
 using SARSTWebApplication.Models;
 using System.Data.SqlClient;
 
@@ -174,5 +174,22 @@ namespace SARSTWebApplication.Controllers
         }
 
 
+
+        public async Task<IActionResult> Report(string? id)
+        {
+            var data = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where residentId='" + id + "'").ToList();
+            var report = new ViewAsPdf("Report")
+            {
+                Model = data,
+
+
+
+            };
+            return report;
+        }
+
     }
+
+
 }
+

@@ -105,7 +105,9 @@
             <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
             <a asp-controller="Resident" asp-action="Edit" asp-route-id="@Model.residentId">Edit</a> |
             <a asp-controller="Resident" asp-action="Delete" asp-route-id="@Model.residentId">Delete</a> |
-            <a asp-controller="EventTracker" asp-action="DisciplinaryForm" asp-route-id="@Model.residentId">Add Disciplinary Event</a>
+            <a asp-controller="ResidentStays" asp-action="Report" asp-route-id="@Model.residentId">Report</a>|
+            <a asp-controller="EventTracker" asp-action="DisciplinaryForm" asp-route-id="@Model.residentId">Add Disciplinary Event</a> |
+             
             
 
         </div>
