@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Views\NewFolder\**" />
-    <Content Remove="Views\NewFolder\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
-    <None Remove="Views\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="itext7" Version="7.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
