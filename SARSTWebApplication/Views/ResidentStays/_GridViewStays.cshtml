@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SARSTWebApplication.Models.ResidentStay>
+﻿@model IEnumerable<SARSTWebApplication.Models.ResidentStayWProfile>
 
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +7,8 @@
     <thead>
         <tr>
             <th>Resident ID</th>
+            <th>Resident Name</th>
+            <th>Distinguishing Features</th>
             <th>Stay ID</th>
             <th>Checked In</th>
             <th>Checked Out</th>
@@ -18,6 +20,8 @@
         {
             <tr>
                 <td>@stay.residentId</td>
+                <td>@stay.firstName @stay.lastName</td>
+                <td>@stay.distinguishingFeatures</td>
                 <td>@stay.stayId</td>
                 <td>@stay.checkinDateTime</td>
                 <td>@stay.checkoutDateTime</td>
