@@ -61,6 +61,7 @@ namespace SARSTWebApplication.Controllers
             // currentUserRole will be 0,1, or 2 if a user is logged in
             if (ViewBag.currentUserRole > -1)
             {
+                ViewBag.currentUserRoleName = (UserTypes)HttpContext.Session.GetInt32("userRole");
                 return View("SARST");
             } else
             {

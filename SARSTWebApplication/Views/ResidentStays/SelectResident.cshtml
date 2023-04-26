@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>@(ViewBag.eventType)</h2>
+    <h2>Select a Resident</h2>
+    <a class="btn btn-primary" asp-action="Register" asp-controller="Resident">Add New Resident</a>
 </div>
 
 <input style="width: 350px" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />

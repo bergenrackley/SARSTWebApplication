@@ -3,36 +3,22 @@
 }
 
 <h2>Welcome, @ViewBag.currentUserName!</h2>
+<p>The functionality for a @ViewBag.CurrentUserRoleName is displayed:</p>
 
+@if (ViewBag.currentUserRole <= 1) // admin
+{
+    <a class="btn btn-primary" role="button" asp-controller="Resident" asp-action="Index">Manage Residents</a>
+    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Manage Resident Stays</a>
+}
+@if (ViewBag.currentUserRole <= 3) // service provider
+{
+    <a class="btn btn-primary" role="button" asp-controller="Report" asp-action="Index">Generate Reports</a>
+}
 @if (ViewBag.currentUserRole == 0) // root user
 {
-    <p>The functionality for a Root User is displayed:</p>
-
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
-    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Admin Set Up</a>
-    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Review Registration Requests</a>
-
+    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Registration Requests</a>
 }
-else if (ViewBag.currentUserRole == 1) // admin
-{
-    <p>The functionality for an Admin is displayed:</p>
 
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Analysis</a>
-    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Admin Set Up</a>
-  
-}
-else // service provider
-{
-    <p>The functionality for a Service Provider is displayed:</p>
-
-    <a class="btn btn-primary" role="button" asp-controller="" asp-action="">Reporting</a>
-    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Service Data Entry</a>    
-    
-}
 <p></p>
 <p>"SARSTWebApplication" in the toolbar will take the user to this view if logged in.
     If not logged in, they will be redirected to the Account/Index view.
