@@ -28,7 +28,7 @@
 <div class="ctn">
     <div class="card shadow-lg">
         <div class="card-header">
-            <h4>Login</h4>
+            <h4>Login to your Account</h4>
             <hr />
         </div>
         <div class="card-body">
@@ -48,6 +48,10 @@
                     <input type="submit" value="Login" class="btn btn-primary" />
                 </div>
             </form>
+            <div>
+               @* <a asp-action="">Forgot Password?</a> *@
+                <a class="btn btn-primary" role="button" asp-action="Register">Register</a>
+            </div>
         </div>
     </div>
     <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
