@@ -118,6 +118,7 @@ namespace SARSTWebApplication.Controllers
                     existingResidentStay.residentId = residentStay.residentId;
                     existingResidentStay.checkinDateTime = residentStay.checkinDateTime;
                     existingResidentStay.checkoutDateTime = residentStay.checkoutDateTime;
+                    existingResidentStay.NoteworthyEvents = residentStay.NoteworthyEvents;
                     existingResidentStay.userName = residentStay.userName;
 
                     // Save the changes

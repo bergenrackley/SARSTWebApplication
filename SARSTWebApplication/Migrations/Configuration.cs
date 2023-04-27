@@ -17,7 +17,7 @@
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
             context.SarstUsers.AddOrUpdate(x => x.userName,
-                new SarstUser() { userName = "Root_User", password = "password" });
+                new SarstUser() { userName = "Root_User", password = "password", changePassword = 1 });
 
             context.ServicesOffered.AddOrUpdate(x => x.serviceName,
                 new Service() { serviceName = "Laundry" },

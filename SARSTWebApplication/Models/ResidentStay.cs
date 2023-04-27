@@ -14,6 +14,7 @@ namespace SARSTWebApplication.Models
         public DateTime checkinDateTime { get; set; }
         [DataType(DataType.Date)]
         public Nullable<DateTime> checkoutDateTime { get; set; }
+        public string? NoteworthyEvents { get; set; }
         public string userName { get; set; } // Key of sarst User
 
         public ResidentStay()
@@ -22,6 +23,7 @@ namespace SARSTWebApplication.Models
             residentId = string.Empty; // Resident
             checkinDateTime = new DateTime();
             checkoutDateTime = null;
+            NoteworthyEvents = null;
             userName = String.Empty; // who checks them out
         }
     }

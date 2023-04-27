@@ -1,4 +1,5 @@
 ﻿using SARSTWebApplication.Enums;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SARSTWebApplication.Models
@@ -12,6 +13,8 @@ namespace SARSTWebApplication.Models
         public string email { get; set; }
         public string password { get; set; }
         public UserTypes? userRole { get; set; }
+        [DefaultValue(0)]
+        public int changePassword { get; set; }
 
         public SarstUser()
         {
@@ -21,6 +24,7 @@ namespace SARSTWebApplication.Models
             email = string.Empty;
             password = string.Empty;
             userRole = null;
+            changePassword = 0;
         }
     }
 }
