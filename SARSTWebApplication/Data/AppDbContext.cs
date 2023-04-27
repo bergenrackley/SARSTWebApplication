@@ -4,9 +4,9 @@ using System.Data.Entity.Infrastructure;
 
 namespace SARSTWebApplication.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(string connectionString): base(connectionString) { }
+        public AppDbContext(string connectionString) : base(connectionString) { }
 
         public IDbSet<SarstUser> SarstUsers { get; set; }
         public IDbSet<RegistrationRequest> RegistrationRequests { get; set; }

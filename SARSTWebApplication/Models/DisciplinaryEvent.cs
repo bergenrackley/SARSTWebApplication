@@ -18,7 +18,8 @@ namespace SARSTWebApplication.Models
         public string userName { get; set; }
         public int stayId { get; set; }
 
-        public DisciplinaryEvent() {
+        public DisciplinaryEvent()
+        {
             disciplinaryEventId = new int();
             disciplinaryType = null;
             dateProvided = new DateTime();

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace SARSTWebApplication.Models
+﻿namespace SARSTWebApplication.Models
 {
     public class ResidentStayWProfile //this doesnt inherit from stay or resident because that messes with the dbcontext for some reason. I dont like it either.
     {
@@ -16,9 +13,9 @@ namespace SARSTWebApplication.Models
 
         public ResidentStayWProfile()
         {
-            firstName= string.Empty;
-            lastName= string.Empty;
-            distinguishingFeatures= string.Empty;
+            firstName = string.Empty;
+            lastName = string.Empty;
+            distinguishingFeatures = string.Empty;
             stayId = new int();
             residentId = string.Empty; // Resident
             checkinDateTime = new DateTime();

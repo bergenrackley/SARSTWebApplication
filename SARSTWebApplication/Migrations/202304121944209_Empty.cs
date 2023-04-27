@@ -1,8 +1,7 @@
 ﻿namespace SARSTWebApplication.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Empty : DbMigration
     {
         public override void Up()
@@ -12,7 +11,7 @@
             AlterColumn("dbo.Residents", "dateOfBirth", c => c.DateTime());
             AddPrimaryKey("dbo.Residents", "residentId");
         }
-        
+
         public override void Down()
         {
             DropPrimaryKey("dbo.Residents");

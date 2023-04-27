@@ -3,10 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
-using System;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
-using System.Data.Entity.Infrastructure;
-using System.Text.Encodings.Web;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -63,11 +60,12 @@ namespace SARSTWebApplication.Controllers
             {
                 ViewBag.currentUserRoleName = (UserTypes)HttpContext.Session.GetInt32("userRole");
                 return View("SARST");
-            } else
+            }
+            else
             {
                 return View("Index");
             }
-            
+
         }
 
         // GET: /Account/Login
@@ -162,16 +160,18 @@ namespace SARSTWebApplication.Controllers
             return RedirectToAction(actionName: "RegistrationRequests");
         }
 
-        
+
 
         [HttpPost]
-        public RedirectToActionResult LoginAttempt(SarstUser sarstUser) {
+        public RedirectToActionResult LoginAttempt(SarstUser sarstUser)
+        {
             SarstUser validUser = _dbContext.SarstUsers.Find(sarstUser.userName);
-            if (validUser != null) {
+            if (validUser != null)
+            {
                 if (validUser.password == sarstUser.password)
                 {
                     HttpContext.Session.SetString("userName", validUser.userName);
-                    
+
                     HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
                     return RedirectToAction(actionName: "SARST");
                 }

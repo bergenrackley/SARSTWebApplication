@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SARSTWebApplication.Enums;
+﻿using SARSTWebApplication.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SARSTWebApplication.Models
 {

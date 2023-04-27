@@ -18,7 +18,8 @@ namespace SARSTWebApplication.Models
         public string userName { get; set; }
         public int stayId { get; set; }
 
-        public ServiceEvent() {
+        public ServiceEvent()
+        {
             serviceEventId = new int();
             serviceName = string.Empty;
             dateProvided = new DateTime();

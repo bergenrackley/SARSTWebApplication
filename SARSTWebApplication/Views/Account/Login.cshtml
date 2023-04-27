@@ -20,16 +20,84 @@
         width: 100%;
     }
 
+    .ctn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        width: 50vw;
+        min-width: 300px;
+        background-color: var(--secondary-color);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background-color: var(--primary-color);
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 0 1rem;
+    }
+
+        form fieldset {
+            width: 90vw;
+            margin: auto;
+        }
+
+        form legend {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        form div {
+            display: flex;
+            flex-direction: column; /* Add this line to make the error messages appear below the text fields */
+            margin-bottom: 1rem;
+        }
+
+    .form-group {
+        width: 40vw;
+        display: flex;
+        margin: auto;
+        flex-direction: column; /* Add this line to make the error messages appear below the text fields */
+        padding: 8px;
+    }
+
+    .control-label {
+        font-weight: bold;
+        min-width: 120px;
+    }
+
+    form input[type="submit"]:hover {
+        background-color: #444;
+        cursor: pointer;
+    }
 
 </style>
 
-<h4>SarstUser</h4>
-<hr />
 <div class="ctn">
     <div class="card shadow-lg">
         <div class="card-header">
-            <h4>Login to your Account</h4>
-            <hr />
+            <h4 class="mb-0">Login to your Account</h4>
         </div>
         <div class="card-body">
             <form asp-action="LoginAttempt">
@@ -48,9 +116,14 @@
                     <input type="submit" value="Login" class="btn btn-primary" />
                 </div>
             </form>
-            <div>
+            <div class="align-items-center">
                @* <a asp-action="">Forgot Password?</a> *@
-                <a class="btn btn-primary" role="button" asp-action="Register">Register</a>
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                    <span>Don't have an account?</span>
+                    <a class="btn btn-outline-primary" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                </div>
             </div>
         </div>
     </div>
