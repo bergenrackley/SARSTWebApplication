@@ -171,12 +171,32 @@ namespace SARSTWebApplication.Controllers
                 if (validUser.password == sarstUser.password)
                 {
                     HttpContext.Session.SetString("userName", validUser.userName);
-
                     HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
-                    return RedirectToAction(actionName: "SARST");
+
+                    if (validUser.changePassword == 1) return RedirectToAction(actionName: "ChangePassword");
+                    else return RedirectToAction(actionName: "SARST");
                 }
             }
             return RedirectToAction(actionName: "Login");
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View(_dbContext.SarstUsers.Find(HttpContext.Session.GetString("userName")));
+        }
+
+        [HttpPost]
+        public string ChangePassword(string newPassword, string confirmPassword)
+        {
+            if (newPassword == confirmPassword && HttpContext.Session.GetString("userName") != null)
+            {
+                SarstUser currentUser = _dbContext.SarstUsers.Find(HttpContext.Session.GetString("userName"));
+                currentUser.password = newPassword;
+                currentUser.changePassword = 0;
+                _dbContext.SaveChanges();
+                return "Success";
+            }
+            else return "Error";
         }
 
         // User Log Out
