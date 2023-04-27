@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using Rotativa.AspNetCore;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
@@ -82,7 +83,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         // GET: ResidentStays/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (!id.HasValue)
                 return NotFound();
@@ -100,41 +101,23 @@ namespace SARSTWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("stayId,residentId,checkinDateTime,checkoutDateTime,userName")] ResidentStay residentStay)
+        public IActionResult Edit(ResidentStay residentStay)
         {
-            if (id != residentStay.stayId)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Find the existing entity by its primary key
-                    var existingResidentStay = _dbContext.ResidentStays.Find(id);
+                // Find the existing entity by its primary key
+                var existingResidentStay = _dbContext.ResidentStays.Find(residentStay.stayId);
 
-                    // Assign the new values to its properties
-                    existingResidentStay.residentId = residentStay.residentId;
-                    existingResidentStay.checkinDateTime = residentStay.checkinDateTime;
-                    existingResidentStay.checkoutDateTime = residentStay.checkoutDateTime;
-                    existingResidentStay.NoteworthyEvents = residentStay.NoteworthyEvents;
-                    existingResidentStay.userName = residentStay.userName;
+                // Assign the new values to its properties
+                existingResidentStay.residentId = residentStay.residentId;
+                existingResidentStay.checkinDateTime = residentStay.checkinDateTime;
+                existingResidentStay.checkoutDateTime = residentStay.checkoutDateTime;
+                existingResidentStay.NoteworthyEvents = residentStay.NoteworthyEvents;
+                existingResidentStay.userName = residentStay.userName;
 
-                    // Save the changes
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (_dbContext.ResidentStays.Find(residentStay.stayId) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                // Save the changes
+                 _dbContext.SaveChanges();
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(residentStay);

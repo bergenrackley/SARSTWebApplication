@@ -1,14 +1,5 @@
 ﻿@model SARSTWebApplication.Models.ResidentStay
 
-@{
-    Layout = null;
-}
-
-
-
-
-<!DOCTYPE html>
-<html>
 <head>
     <title>Edit Stay</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -47,9 +38,9 @@
             padding: 10px 20px;
         }
 
-        .card-header h4 {
-            margin-bottom: 0;
-        }
+            .card-header h4 {
+                margin-bottom: 0;
+            }
 
         .form-group {
             margin-bottom: 1rem;
@@ -59,59 +50,56 @@
             font-weight: 600;
         }
 
-        .btn{
+        .btn {
             margin-top: 1rem
         }
 
-    
     </style>
 </head>
-<body>
-    <div class="ctn">
-        <div class="card shadow-lg">
-            <div class="card-header">
-                <h4>Edit</h4>
-                <hr />
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display: none">
+                <label asp-for="stayId" class="control-label"></label>
+                <input asp-for="stayId" class="form-control" />
+                <span asp-validation-for="stayId" class="text-danger"></span>
             </div>
-            <div class="card-body">
-                <form asp-action="Edit">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="stayId" />
-                    <div class="form-group">
-                        <label asp-for="residentId" class="control-label"></label>
-                        <input asp-for="residentId" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="residentId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="checkinDateTime" class="control-label"></label>
-                        <input asp-for="checkinDateTime" class="form-control" />
-                        <span asp-validation-for="checkinDateTime" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="checkoutDateTime" class="control-label"></label>
-                        <input asp-for="checkoutDateTime" class="form-control" />
-                        <span asp-validation-for="checkoutDateTime" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="NoteworthyEvents" class="control-label"></label>
-                        <input asp-for="NoteworthyEvents" class="form-control" />
-                        <span asp-validation-for="NoteworthyEvents" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="userName" class="control-label"></label>
-                        <input asp-for="userName" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="userName" class="text-danger"></span>
-                    </div>
-                    
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
-                    <a asp-action="ServiceForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Add Service Event</a>
-                    <a asp-action="DisciplinaryForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Add Disciplinary Event</a>
-                </form>
-                
+            <div class="form-group">
+                <label asp-for="residentId" class="control-label"></label>
+                <input asp-for="residentId" class="form-control" readonly="readonly" />
+                <span asp-validation-for="residentId" class="text-danger"></span>
             </div>
-        </div>
+            <div class="form-group">
+                <label asp-for="checkinDateTime" class="control-label"></label>
+                <input asp-for="checkinDateTime" class="form-control" />
+                <span asp-validation-for="checkinDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="checkoutDateTime" class="control-label"></label>
+                <input asp-for="checkoutDateTime" class="form-control" />
+                <span asp-validation-for="checkoutDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoteworthyEvents" class="control-label"></label>
+                <input asp-for="NoteworthyEvents" class="form-control" />
+                <span asp-validation-for="NoteworthyEvents" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control" readonly="readonly"/>
+                <span asp-validation-for="userName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
- </body>
-</html>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
