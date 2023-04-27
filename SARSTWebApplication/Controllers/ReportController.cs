@@ -24,7 +24,7 @@ namespace SARSTWebApplication.Controllers
         public string GenerateReport(ReportModel reportModel)
         {
             
-            List<ResidentStay> result = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckInDateTime > @start", new SqlParameter("@start", reportModel.startDate ?? DateTime.MinValue)).ToList();
+            List<ResidentStay> result = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckInDateTime > @start and CheckOutDateTime < @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate ?? DateTime.Parse("12/31/9990"))).ToList();
             return result.ToJson();
         }
     }
