@@ -34,8 +34,8 @@ namespace SARSTWebApplication.Controllers
             else
             {
                 stays = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckInDateTime > @start and CheckOutDateTime < @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate)).ToList();
-                serviceEvents = _dbContext.Database.SqlQuery<ServiceEvent>("Select * from dbo.serviceTracker as t inner join dbo.residentStays as s on t.stayId = s.stayId where s.CheckInDateTime >= @start and s.CheckOutDateTime <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate ?? DateTime.Parse("12/31/9990"))).ToList();
-                disciplinaryEvents = _dbContext.Database.SqlQuery<DisciplinaryEvent>("Select * from dbo.disciplinaryTracker as t inner join dbo.residentStays as s on t.stayId = s.stayId where s.CheckInDateTime >= @start and s.CheckOutDateTime <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate ?? DateTime.Parse("12/31/9990"))).ToList();
+                serviceEvents = _dbContext.Database.SqlQuery<ServiceEvent>("Select * from dbo.serviceTracker as t inner join dbo.residentStays as s on t.stayId = s.stayId where s.CheckInDateTime >= @start and s.CheckOutDateTime <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate)).ToList();
+                disciplinaryEvents = _dbContext.Database.SqlQuery<DisciplinaryEvent>("Select * from dbo.disciplinaryTracker as t inner join dbo.residentStays as s on t.stayId = s.stayId where s.CheckInDateTime >= @start and s.CheckOutDateTime <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate)).ToList();
             }
             return disciplinaryEvents.ToJson();
         }
