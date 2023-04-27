@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SARSTWebApplication.Models.Service>
+
+<p>
+    <a asp-action="CreateService">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.serviceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.startDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.endDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.serviceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.startDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.endDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditService", new { serviceName=item.serviceName })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

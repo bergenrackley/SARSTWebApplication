@@ -38,7 +38,7 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult ServiceForm(string id) //id is the resident id
         {
-            ViewBag.ServiceList = ServicesToList(_dbContext.ServicesOffered.ToList()); //get all services offered from ServicesOffered table, formats serialied list into dropdown id/value pairs
+            ViewBag.ServiceList = ServicesToList(_dbContext.Database.SqlQuery<Service>("Select * from dbo.servicesOffered where (endDate >= GETDATE() or endDate is NULL) and (startDate <= GETDATE() or startDate is NULL)").ToList()); //get all services offered from ServicesOffered table, formats serialied list into dropdown id/value pairs
             ViewBag.residentId = id; //set residentId
             ViewBag.currentUserName = HttpContext.Session.GetString("userName"); //get username from session data
             ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId; //get current stay for resident
@@ -110,6 +110,60 @@ namespace SARSTWebApplication.Controllers
                 Text = v.ToString(),
                 Value = ((int)v).ToString()
             }).ToList();
+        }
+
+        public IActionResult ViewServices()
+        {
+            return View(_dbContext.ServicesOffered.ToList());
+        }
+
+        public IActionResult CreateService()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public string CreateService(Service newService)
+        {
+            if (ModelState.IsValid && _dbContext.ServicesOffered.Find(newService.serviceName) == null)
+            {
+                _dbContext.ServicesOffered.Add(newService);
+                _dbContext.SaveChanges();
+                return "Success";
+            }
+            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
+        }
+
+        public IActionResult EditService(string serviceName)
+        {
+            return View(_dbContext.ServicesOffered.Find(serviceName));
+        }
+
+        [HttpPost]
+        public string EditService(Service changedService)
+        {
+            if (ModelState.IsValid)
+            {
+                Service ogService = _dbContext.ServicesOffered.Find(changedService.serviceName);
+                ogService.startDate = changedService.startDate;
+                ogService.endDate = changedService.endDate;
+                _dbContext.SaveChanges();
+                return "Success";
+            }
+            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
+        }
+
+        [HttpDelete]
+        public string DeleteService (Service deletedService)
+        {
+            if (_dbContext.ServicesOffered.Find(deletedService.serviceName) != null)
+            {
+                _dbContext.ServicesOffered.Remove(_dbContext.ServicesOffered.Find(deletedService.serviceName));
+                _dbContext.SaveChanges();
+                return "Success";
+            }
+            else return "Service does not exist";
+
         }
     }
 }

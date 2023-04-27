@@ -28,17 +28,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="residentId" class="control-label"></label>
-                <input asp-for="residentId" class="form-control" value="@ViewBag.residentId" />
+                <input asp-for="residentId" class="form-control" value="@ViewBag.residentId" readonly="readonly" />
                 <span asp-validation-for="residentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="userName" class="control-label"></label>
-                <input asp-for="userName" class="form-control" value="@ViewBag.currentUserName" />
+                <input asp-for="userName" class="form-control" value="@ViewBag.currentUserName" readonly="readonly" />
                 <span asp-validation-for="userName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="stayId" class="control-label"></label>
-                <input asp-for="stayId" class="form-control" value="@ViewBag.stayId" />
+                <input asp-for="stayId" class="form-control" value="@ViewBag.stayId" readonly="readonly" />
                 <span asp-validation-for="stayId" class="text-danger"></span>
             </div>
             <div class="form-group">

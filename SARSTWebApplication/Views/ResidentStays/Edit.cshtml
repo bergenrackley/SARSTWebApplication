@@ -79,7 +79,7 @@
                     <input type="hidden" asp-for="stayId" />
                     <div class="form-group">
                         <label asp-for="residentId" class="control-label"></label>
-                        <input asp-for="residentId" class="form-control" />
+                        <input asp-for="residentId" class="form-control" readonly="readonly" />
                         <span asp-validation-for="residentId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -94,12 +94,14 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="userName" class="control-label"></label>
-                        <input asp-for="userName" class="form-control" />
+                        <input asp-for="userName" class="form-control" readonly="readonly" />
                         <span asp-validation-for="userName" class="text-danger"></span>
                     </div>
                     
                     <input type="submit" value="Save" class="btn btn-primary"/>
                     <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+                    <a asp-action="ServiceForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Add Service Event</a>
+                    <a asp-action="DisciplinaryForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Add Disciplinary Event</a>
                 </form>
                 
             </div>
