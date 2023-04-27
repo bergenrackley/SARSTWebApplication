@@ -4,6 +4,6 @@
     {
         RootUser,
         Admin,
-        Supervisor
+        ServiceProvider
     }
 }
