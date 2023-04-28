@@ -16,7 +16,8 @@
 }
 @if (ViewBag.currentUserRole == 0) // root user
 {
-    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Registration Requests</a>
+    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Manage Registration Requests</a>
+    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="SarstUsers">Manage SARST Users</a>
     <a class="btn btn-primary" role="button" asp-controller="EventTracker" asp-action="ViewServices">Manage Services Offered</a>
 }
 

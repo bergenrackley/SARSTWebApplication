@@ -199,6 +199,34 @@ namespace SARSTWebApplication.Controllers
             else return "Error";
         }
 
+        public IActionResult SarstUsers()
+        {
+            return View(_dbContext.SarstUsers.ToList());
+        }
+
+        public IActionResult EditSarstUser(string userName) {
+            return View(_dbContext.SarstUsers.Find(userName));
+        }
+
+        [HttpPost]
+        public string ResetUserPassword(string userName)
+        {
+            string newPassword = Guid.NewGuid().ToString().Replace("-", "");
+            SarstUser user = _dbContext.SarstUsers.Find(userName);
+            user.password = newPassword;
+            user.changePassword = 1;
+            _dbContext.SaveChanges();
+            return newPassword;
+        }
+
+        [HttpDelete]
+        public string DeleteUser(string userName)
+        {
+            _dbContext.SarstUsers.Remove(_dbContext.SarstUsers.Find(userName));
+            _dbContext.SaveChanges();
+            return "Success";
+        }
+
         // User Log Out
         // Clears session variables and returns to Account/Index
         public IActionResult LogOut()

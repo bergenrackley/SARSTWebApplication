@@ -1,0 +1,87 @@
+﻿@model SARSTWebApplication.Models.SarstUser
+
+<h4>SarstUser</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditSarstUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="userName" class="control-label"></label>
+                <input asp-for="userName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="userName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="firstName" class="control-label"></label>
+                <input asp-for="firstName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="firstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastName" class="control-label"></label>
+                <input asp-for="lastName" class="form-control" readonly="readonly" />
+                <span asp-validation-for="lastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control"  readonly="readonly"/>
+                <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="userRole" class="control-label"></label>
+                <input asp-for="userRole" class="form-control" readonly="readonly" />
+                <span asp-validation-for="userRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" id="reset" value="Reset Password" class="btn btn-primary" />
+                <input type="button" id="delete" value="Delete Account" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="SarstUsers">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#reset').on('click', function (evt) {
+                //evt.preventDefault();
+                var formdata = { userName: "@Model.userName" };
+                $.ajax({
+                    url: "/Account/ResetUserPassword",
+                    type: 'Post',
+                    data: formdata,
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+            });
+
+            $('#delete').on('click', function (evt) {
+                //evt.preventDefault();
+                var formdata = { userName: "@Model.userName" };
+                let text;
+                if (confirm("Are you sure you want to delete user @Model.userName?") == true)
+                {
+                    $.ajax({
+                        url: "/Account/DeleteUser",
+                        type: 'Delete',
+                        data: formdata,
+                        success: function (data) {
+                            if (data == "Success") window.location.replace("/Account/SarstUsers");
+                            else alert(data);
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+}
