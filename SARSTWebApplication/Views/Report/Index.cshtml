@@ -30,17 +30,25 @@
                 evt.preventDefault();
                 var formdata = $('#reportForm').serialize();
                 console.error(formdata);
-                $.ajax({
-                    url: "/Report/GenerateReport",
-                    type: 'Get',
-                    data: formdata,
-                    success: function (data) {
-                        alert(data);
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
+
+                fetch("/Report/GenerateReport", {
+                    method: "POST",
+                    body: formdata
                 })
+                    .then(resp => resp.blob())
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.style.display = "none";
+                        a.href = url;
+                        // the filename you want
+                        a.download = "residents.csv";
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch(() => alert("oh no!"));
+
             });
         });
     </script>

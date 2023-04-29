@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace SARSTWebApplication.Controllers
@@ -19,9 +19,11 @@ namespace SARSTWebApplication.Controllers
             return View();
         }
 
-        [HttpGet]
-        public string GenerateReport(ReportModel reportModel)
+
+
+        DataTable GenerateReportData(ReportModel reportModel)
         {
+
             List<ResidentStay> stays = new List<ResidentStay>();
             List<Resident> residents = new List<Resident>();
             List<ServiceEvent> serviceEvents = new List<ServiceEvent>();
@@ -38,7 +40,34 @@ namespace SARSTWebApplication.Controllers
                 serviceEvents = _dbContext.Database.SqlQuery<ServiceEvent>("Select * from dbo.serviceTracker where dateProvided >= @start and dateProvided <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate)).ToList(); //All services provided between dates
                 disciplinaryEvents = _dbContext.Database.SqlQuery<DisciplinaryEvent>("Select * from dbo.disciplinaryTracker where dateProvided >= @start and dateProvided <= @end", new SqlParameter("@start", reportModel.startDate ?? DateTime.Parse("1/1/1980")), new SqlParameter("@end", reportModel.endDate)).ToList(); //All disciplinary events between dates
             }
-            return residents.ToJson();
+
+            DataTable residentsTable = new DataTable();
+            residentsTable.Columns.Add("ResidentId", typeof(int));
+            residentsTable.Columns.Add("FirstName", typeof(string));
+            residentsTable.Columns.Add("LastName", typeof(string));
+            residentsTable.Columns.Add("BirthDate", typeof(DateTime));
+
+            // Loop through the list of residents and add a new row for each resident
+            foreach (var resident in residents)
+            {
+                DataRow row = residentsTable.NewRow();
+                row["ResidentId"] = resident.residentId;
+                row["FirstName"] = resident.firstName;
+                row["LastName"] = resident.lastName;
+                row["BirthDate"] = resident.dateOfBirth;
+                residentsTable.Rows.Add(row);
+            }
+
+            return residentsTable;
+        }
+
+        [HttpPost]
+        public FileResult GenerateReport(ReportModel reportModel)
+        {
+            DataTable residentsTable = GenerateReportData(reportModel);
+
+            byte[] csvData = residentsTable.ToCSV();
+            return File(csvData, "text/csv", "residents.csv");
         }
     }
 }

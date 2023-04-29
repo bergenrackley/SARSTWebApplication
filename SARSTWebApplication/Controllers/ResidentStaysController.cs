@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol;
-using Rotativa.AspNetCore;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
 using System.Data.SqlClient;
@@ -116,8 +114,8 @@ namespace SARSTWebApplication.Controllers
                 existingResidentStay.userName = residentStay.userName;
 
                 // Save the changes
-                 _dbContext.SaveChanges();
-                
+                _dbContext.SaveChanges();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(residentStay);
@@ -156,22 +154,6 @@ namespace SARSTWebApplication.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
-
-        public async Task<IActionResult> Report(string? id)
-        {
-            var data = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where residentId='" + id + "'").ToList();
-            var report = new ViewAsPdf("Report")
-            {
-                Model = data,
-
-
-
-            };
-            return report;
-        }
-
     }
 
 
