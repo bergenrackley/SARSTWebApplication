@@ -9,8 +9,8 @@ namespace SARSTWebApplication.Controllers
         {
             if (HttpContext.Session.GetString("userName") == null)
             {
-                RedirectToAction("Index", "Account");
-                filterContext.Result = RedirectToAction("Index", "Account");
+                RedirectToAction("Index", "Public");
+                filterContext.Result = RedirectToAction("Index", "Public");
                 return;
             }
         }
