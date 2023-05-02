@@ -1,0 +1,106 @@
+﻿@model SARSTWebApplication.Models.ReportModel
+@using Newtonsoft.Json
+@using System.Web.Helpers
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+</head>
+
+<h4>@Model.title</h4>
+
+<div id="chart_div">
+    <a class="btn_primary" asp-controller="Report" asp-action="Download"> Download </a>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    @{
+        // Read the CSV data from the session variable
+        byte[] csvData = ViewBag.csvData;
+
+        // Convert the CSV data to a string
+        string csvString = System.Text.Encoding.UTF8.GetString(csvData);
+
+        // Split the CSV string by new line characters
+        string[] csvLines = csvString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+        // Create two arrays for x and y values of the chart
+        string[] xValues = new string[csvLines.Length - 1];
+        double[] yValues = new double[csvLines.Length - 1];
+        string[] tooltipValues = new string[csvLines.Length - 1];
+        string[] xTooltip = new string[csvLines.Length - 1];
+        long[] xValuesUnix = new long[csvLines.Length - 1];
+
+
+        DateTime? startDate = Model.startDate;
+        DateTime? endDate = Model.endDate;
+
+        for (int i = 1; i < csvLines.Length; i++)
+        {
+            // Split each line by comma characters
+            string[] csvValues = csvLines[i].Split(',');
+
+            if (csvValues.Length < 3)
+            {
+                continue; // skip this row if it doesn't have enough values
+            }
+
+            // Parse the date value from the CSV and check if it falls within the date range
+            DateTime dateProvided;
+            if (!DateTime.TryParse(csvValues[2], out dateProvided))
+            {
+                continue; // skip this row if the date value is not in a valid format
+            }
+            if (dateProvided < startDate || dateProvided > endDate)
+            {
+                continue; // skip this row if the date falls outside the specified range
+            }
+
+            // Assign the ResidentId to the xValues array
+            xValues[i - 1] = csvValues[0];
+
+            // Assign the Description to the tooltip array
+            tooltipValues[i - 1] = csvValues[1];
+
+            // Parse the date value and convert it to a string formatted for the chart tooltip
+            string dateTooltip = dateProvided.ToString("MMM d, yyyy h:mm tt");
+
+            // Assign the formatted date string to the xTooltip array
+            xTooltip[i - 1] = dateTooltip;
+
+            // Parse the date value as a Unix timestamp and assign it to the xValuesUnix array
+            long unixTimestamp = ((DateTimeOffset)dateProvided).ToUnixTimeMilliseconds();
+            xValuesUnix[i - 1] = unixTimestamp;
+
+            // Assign the value 1 to the yValues array to indicate a disciplinary action occurred
+            yValues[i - 1] = 1;
+        }
+    }
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(xValues)),
+                datasets: [{
+                    label: 'Disciplinary Actions',
+                    data: @Html.Raw(Json.Serialize(yValues)),
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                    }
+                }
+            }
+        });
+    </script>
+
+</div>
