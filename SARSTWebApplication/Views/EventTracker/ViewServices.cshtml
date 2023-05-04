@@ -10,6 +10,9 @@
                 @Html.DisplayNameFor(model => model.serviceName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.startDate)
             </th>
             <th>
@@ -25,14 +28,32 @@
                 @Html.DisplayFor(modelItem => item.serviceName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+        
+            <td>
                 @Html.DisplayFor(modelItem => item.startDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.endDate)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "EditService", new { serviceName=item.serviceName })
-            </td>
+                @if(
+                    item.serviceName != "Snacks" &&
+                    item.serviceName != "Dinners" &&
+                    item.serviceName != "LaundryServices" &&
+                    item.serviceName != "HygieneProducts" &&
+                    item.serviceName != "MentalHealthServices"
+                )
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "EditService", new { serviceName=item.serviceName })
+                    </td>
+                }
+                else
+                {
+                   <td></td> @*Needed to maintain the horizontal rule/underline length*@
+                }
+                
         </tr>
 }
     </tbody>
