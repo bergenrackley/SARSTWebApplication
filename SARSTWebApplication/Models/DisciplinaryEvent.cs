@@ -8,14 +8,21 @@ namespace SARSTWebApplication.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = "Disciplinary Event Id")]
         public int disciplinaryEventId { get; set; }
+        [Display(Name = "Disciplinary Event Type")]
         public DisciplinaryTypes? disciplinaryType { get; set; }
 
         [DataType(DataType.Date)]
+        [Display(Name = "Date of Occurance")]
         public DateTime dateProvided { get; set; }
+        [Display(Name = "Description")]
         public string description { get; set; }
+        [Display(Name = "Resident Id")]
         public string residentId { get; set; }
+        [Display(Name = "Sarst User Name")]
         public string userName { get; set; }
+        [Display(Name = "Stay Id")]
         public int stayId { get; set; }
 
         public DisciplinaryEvent()
