@@ -147,6 +147,7 @@ namespace SARSTWebApplication.Controllers
                 Service ogService = _dbContext.ServicesOffered.Find(changedService.serviceName);
                 ogService.startDate = changedService.startDate;
                 ogService.endDate = changedService.endDate;
+                ogService.description = changedService.description;
                 _dbContext.SaveChanges();
                 return "Success";
             }
