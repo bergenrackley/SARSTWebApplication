@@ -22,7 +22,7 @@
 
         function searchResidents() {
                 $.ajax({
-                    url: "/ResidentStays/SearchResidents?query=" + $('#searchFilter').val(),
+                url: "/ResidentStays/SearchResidents?query=" + $('#searchFilter').val(),
                 type: 'Get',
                 success: function (data) {
                     $('#gridResidents').html('').html(data);

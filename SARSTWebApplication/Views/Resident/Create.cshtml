@@ -83,11 +83,14 @@
                     type: 'Post',
                     data: formdata,
                     success: function (data) {
-                        //window.location.replace("/EventTracker/ViewServices");
-                        alert(data);
+                        if (data == "Success") {
+                            window.location.replace("/Resident/Index");
+                        } else {
+                            alert(data);
+                        }
                     },
                     error: function () {
-                        alert('Error');
+                        alert('Failed');
                     }
                 })
             });

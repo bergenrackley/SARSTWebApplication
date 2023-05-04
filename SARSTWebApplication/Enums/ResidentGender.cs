@@ -4,6 +4,7 @@ namespace SARSTWebApplication.Enums
 {
     public enum ResidentGender
     {
+        NA,
         M,
         F,
         Transgender,

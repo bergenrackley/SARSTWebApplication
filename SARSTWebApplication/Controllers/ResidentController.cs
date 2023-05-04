@@ -1,12 +1,14 @@
 ﻿using Azure;
 using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Abstractions;
 using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Net;
 using System.Web.WebPages.Html;
 
@@ -63,7 +65,14 @@ namespace SARSTWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public string CreateResident(Resident model)
         {
-            int numRes = _dbContext.Database.SqlQuery<Resident>("Select * from [dbo].[Residents] order by residentId desc").ToList().Count() + 1;
+            int numRes;
+            if (_dbContext.Residents.ToList().Count() == 0)
+            {
+                numRes = 1;
+            } else
+            {
+                numRes = Int32.Parse(_dbContext.Database.SqlQuery<Resident>("Select * from [dbo].[Residents] order by residentId desc").ToList().First().residentId.Split("0").Last()) + 1;
+            }
             model.residentId = "SAResidentID" + String.Format("{0:000000000}", numRes);
             _dbContext.Residents.Add(model);
             _dbContext.SaveChanges();
@@ -85,48 +94,24 @@ namespace SARSTWebApplication.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("residentId,firstName,lastName,dateOfBirth,sex, gender, pronouns, distinguishingFeatures, status")] Resident resident)
+        public string EditResident(Resident resident)
         {
-            if (id != resident.residentId)
-            {
-                return NotFound();
-            }
+            // Find the existing entity by its primary key
+            var existingResident = _dbContext.Residents.Find(resident.residentId);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // Find the existing entity by its primary key
-                    var existingResident = _dbContext.Residents.Find(id);
+            // Assign the new values to its properties
+            existingResident.firstName = resident.firstName;
+            existingResident.lastName = resident.lastName;
+            existingResident.dateOfBirth = resident.dateOfBirth;
+            existingResident.sex = resident.sex;
+            existingResident.gender = resident.gender;
+            existingResident.pronouns = resident.pronouns;
+            existingResident.distinguishingFeatures = resident.distinguishingFeatures;
+            existingResident.status = resident.status;
 
-                    // Assign the new values to its properties
-                    existingResident.residentId = resident.residentId;
-                    existingResident.firstName = resident.firstName;
-                    existingResident.lastName = resident.lastName;
-                    existingResident.sex = resident.sex;
-                    existingResident.gender = resident.gender;
-                    existingResident.pronouns = resident.pronouns;
-                    existingResident.distinguishingFeatures = resident.distinguishingFeatures;
-                    existingResident.status = resident.status;
-
-                    // Save the changes
-                    await _dbContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (_dbContext.ResidentStays.Find(resident.residentId) == null)
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(resident);
+            // Save the changes
+            _dbContext.SaveChanges();
+            return "Success";
         }
 
         // GET: ResidentStays/Delete/5
@@ -161,6 +146,13 @@ namespace SARSTWebApplication.Controllers
 
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public PartialViewResult SearchResidents(string query)
+        { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
+            List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where firstName + ' ' + lastName like @query or distinguishingFeatures like @query", new SqlParameter("@query", "%" + query + "%")).ToList();
+            return PartialView("_GridResidents", result);
         }
 
         [NonAction]

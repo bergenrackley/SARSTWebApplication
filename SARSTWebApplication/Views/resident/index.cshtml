@@ -1,31 +1,37 @@
-﻿@model IEnumerable<SARSTWebApplication.Migrations.Residents>
+﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Residents</h2>
-    <a class="btn btn-primary" asp-action="Create">Add New</a>
+    <h2>Select a Resident</h2>
+    <a class="btn btn-primary" asp-action="Create" asp-controller="Resident">Add New Resident</a>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Features</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var resident in ViewBag.Residents)
-        {
-            <tr>
-                <td>@resident.residentId</td>
-                <td>@resident.firstName, @resident.lastName</td>
-                <td>@resident.distinguishingFeatures</td>
-                <td>
-                    <a asp-controller="Resident" asp-action="Edit" asp-route-id="@resident.residentId">Edit</a> |
-                    <a asp-controller="Resident" asp-action="Delete" asp-route-id="@resident.residentId">Delete</a>
-                </td>
-            </tr>
+<input style="width: 350px" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+<div id="gridResidents"></div>
+
+
+@section Scripts {
+    <script>
+
+        $(() => {
+            searchResidents();
+
+            $('#searchFilter').on('keyup', () => {
+                searchResidents();
+            })
+        });
+
+        function searchResidents() {
+            $.ajax({
+                url: "/Resident/SearchResidents?query=" + $('#searchFilter').val(),
+                type: 'Get',
+                success: function (data) {
+                    $('#gridResidents').html('').html(data);
+                },
+                error: function () {
+                    alert('Error');
+                }
+            })
         }
-    </tbody>
-</table>
+
+    </script>
+}
