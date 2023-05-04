@@ -3,8 +3,12 @@ using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
+using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Infrastructure;
+using System.Net;
+using System.Web.WebPages.Html;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -31,10 +35,13 @@ namespace SARSTWebApplication.Controllers
 
         // GET: /Resident/Register
         // Submit Registration Request
-        public IActionResult Register()
+        public IActionResult Create()
         {
-            var model = new Resident();
-            return View("Register", model);
+            ViewBag.residentSex = getSex();
+            ViewBag.residentGender = getGender();
+            ViewBag.residentPronouns = getPronouns();
+
+            return View(new Resident());
         }
 
         // [Route("resident/Details/{id}")]
@@ -54,73 +61,23 @@ namespace SARSTWebApplication.Controllers
         // POST: ResidentController/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(Resident model)
+        public string CreateResident(Resident model)
         {
-            try
-            {
-                Resident existingResident = _dbContext.Residents.Find(model.residentId);
-
-                if (existingResident == null)
-                {
-                    return AddRequest(model); ;
-                }
-                else
-                {
-                    TempData["Message"] = "ID already Exist";
-                    return View();
-                }
-
-            }
-            catch
-            {
-                return View();
-            }
+            int numRes = _dbContext.Database.SqlQuery<Resident>("Select * from [dbo].[Residents] order by residentId desc").ToList().Count() + 1;
+            model.residentId = "SAResidentID" + String.Format("{0:000000000}", numRes);
+            _dbContext.Residents.Add(model);
+            _dbContext.SaveChanges();
+            return "Success";
         }
-
-        // AddUser
-        // Writes the ResidentProfile to the database table and loads the Success view
-        public IActionResult AddRequest(Resident newRequest)
-        {
-
-            Resident newRow = newRequest;
-            try
-            {
-                _dbContext.Residents.Add(newRow);
-                _dbContext.SaveChanges();
-
-                var resident = _dbContext.Residents.FirstOrDefault(r => r.residentId == newRow.residentId);
-                if (resident != null)
-                {
-                    Console.WriteLine("The row was added successfully");
-
-                }
-                else { Console.WriteLine("The row was not added"); }
-
-                return Success();
-
-            }
-            catch (DbUpdateException ex)
-            { // Get the inner exception
-                var innerException = ex.InnerException; // Print out the message and stack trace
-                Console.WriteLine(innerException.Message);
-                Console.WriteLine(innerException.StackTrace); // Handle the exception or rethrow it }
-                return Success();
-
-            }
-        }
-
 
         // GET: ResidentStays/Edit/5
-        public async Task<IActionResult> Edit(string? id)
+        public IActionResult Edit(string id)
         {
-            if (id.IsNullOrEmpty())
-                return NotFound();
-
+            ViewBag.residentSex = getSex();
+            ViewBag.residentGender = getGender();
+            ViewBag.residentPronouns = getPronouns();
+            ViewBag.status = getDisciplinary();
             var resident = _dbContext.Residents.Find(id);
-
-            if (resident == null)
-                return NotFound();
-
             return View(resident);
         }
 
@@ -204,6 +161,46 @@ namespace SARSTWebApplication.Controllers
 
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [NonAction]
+        public List<SelectListItem> getSex()
+        {
+            return Enum.GetValues(typeof(ResidentSex)).Cast<ResidentSex>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+        }
+
+        [NonAction]
+        public List<SelectListItem> getGender()
+        {
+            return Enum.GetValues(typeof(ResidentGender)).Cast<ResidentGender>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+        }
+
+        [NonAction]
+        public List<SelectListItem> getPronouns()
+        {
+            return Enum.GetValues(typeof(ResidentPronouns)).Cast<ResidentPronouns>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
+        }
+
+        [NonAction]
+        public List<SelectListItem> getDisciplinary()
+        {
+            return Enum.GetValues(typeof(DisciplinaryTypes)).Cast<DisciplinaryTypes>().Select(v => new SelectListItem
+            {
+                Text = v.ToString(),
+                Value = ((int)v).ToString()
+            }).ToList();
         }
 
     }

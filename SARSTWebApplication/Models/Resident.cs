@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SARSTWebApplication.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SARSTWebApplication.Models
 {
@@ -10,11 +11,11 @@ namespace SARSTWebApplication.Models
         public string lastName { get; set; }
         [DataType(DataType.Date)]
         public DateTime? dateOfBirth { get; set; }
-        public string sex { get; set; }
-        public string gender { get; set; }
-        public string pronouns { get; set; }
+        public ResidentSex? sex { get; set; }
+        public ResidentGender? gender { get; set; }
+        public ResidentPronouns? pronouns { get; set; }
         public string distinguishingFeatures { get; set; }
-        public string status { get; set; }
+        public DisciplinaryTypes status { get; set; }
 
         public Resident()
         {
@@ -22,11 +23,11 @@ namespace SARSTWebApplication.Models
             firstName = string.Empty;
             lastName = string.Empty;
             dateOfBirth = null;
-            sex = string.Empty;
-            gender = string.Empty;
-            pronouns = string.Empty;
+            sex = null;
+            gender = null;
+            pronouns = null;
             distinguishingFeatures = string.Empty;
-            status = string.Empty;
+            status = DisciplinaryTypes.GoodStanding;
         }
     }
 }

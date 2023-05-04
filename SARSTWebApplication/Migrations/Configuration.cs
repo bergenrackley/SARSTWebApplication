@@ -20,10 +20,11 @@
                 new SarstUser() { userName = "Root_User", password = "password", changePassword = 1 });
 
             context.ServicesOffered.AddOrUpdate(x => x.serviceName,
-                new Service() { serviceName = "Laundry" },
-                new Service() { serviceName = "Food" },
-                new Service() { serviceName = "Shower" },
-                new Service() { serviceName = "Bed" },
+                new Service() { serviceName = "Snacks" },
+                new Service() { serviceName = "Dinners" },
+                new Service() { serviceName = "LaundryServices" },
+                new Service() { serviceName = "HygieneProducts" },
+                new Service() { serviceName = "MentalHealthServices" },
                 new Service() { serviceName = "Other" });
         }
     }

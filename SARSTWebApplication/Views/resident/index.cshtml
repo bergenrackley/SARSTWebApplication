@@ -2,7 +2,7 @@
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Residents</h2>
-    <a class="btn btn-primary" asp-action="Register">Add New</a>
+    <a class="btn btn-primary" asp-action="Create">Add New</a>
 </div>
 
 <table class="table">
@@ -22,7 +22,6 @@
                 <td>@resident.firstName, @resident.lastName</td>
                 <td>@resident.distinguishingFeatures</td>
                 <td>
-                    <a asp-controller="Resident" asp-action="Details" asp-route-id="@resident.residentId">Details</a> |
                     <a asp-controller="Resident" asp-action="Edit" asp-route-id="@resident.residentId">Edit</a> |
                     <a asp-controller="Resident" asp-action="Delete" asp-route-id="@resident.residentId">Delete</a>
                 </td>
