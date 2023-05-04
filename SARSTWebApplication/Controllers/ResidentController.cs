@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Azure.Communication.Email;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
@@ -203,5 +205,6 @@ namespace SARSTWebApplication.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

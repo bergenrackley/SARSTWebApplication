@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Communication.Email;
+using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
@@ -10,9 +12,12 @@ namespace SARSTWebApplication.Controllers
     public class AccountController : BaseController
     {
         private AppDbContext _dbContext;
+        private EmailClient emailClient;
         public AccountController(IConfiguration configuration)
         {
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
+            string connectionString = configuration.GetConnectionString("EmailConnection");
+            emailClient = new EmailClient(connectionString);
         }
 
         // GET: /Account/SARST
@@ -52,11 +57,13 @@ namespace SARSTWebApplication.Controllers
                 });
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
+                sendEmail(model.email, true, model.userName);
             }
             else if (submit == "Deny")
             {
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
+                sendEmail(model.email, false);
             }
             return RedirectToAction(actionName: "RegistrationRequests");
         }
@@ -114,6 +121,46 @@ namespace SARSTWebApplication.Controllers
         {
             HttpContext.Session.Clear();
             return RedirectToAction(actionName: "Index", controllerName: "public");
+        }
+
+        [HttpPost]
+        public async void sendEmail(string recipient, bool approved, string? userName = null)
+        {
+            string subject;
+            string htmlContent;
+            if (approved)
+            {
+                subject = "Your Registration Request for a SARST account has been approved";
+                htmlContent = $"<html><body><h1>SARST Registration Successful</h1><br/><h4>Your Registration Request for a SARST account has been approved. As a reminder, your username is {userName} </h4></body></html>";
+            } else
+            {
+                subject = "Your Registration Request for a SARST account has been denied";
+                htmlContent = "<html><body><h1>SARST Registration Denied</h1><br/><h4>Your Registration Request for a SARST account has been denied. Please contact your admin for more information.</h4></body></html>";
+            }
+            var sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
+
+            try
+            {
+                Console.WriteLine("Sending email...");
+                EmailSendOperation emailSendOperation = await emailClient.SendAsync(
+                    Azure.WaitUntil.Completed,
+                    sender,
+                    recipient,
+                    subject,
+                    htmlContent);
+                EmailSendResult statusMonitor = emailSendOperation.Value;
+
+                Console.WriteLine($"Email Sent. Status = {emailSendOperation.Value.Status}");
+
+                /// Get the OperationId so that it can be used for tracking the message for troubleshooting
+                string operationId = emailSendOperation.Id;
+                Console.WriteLine($"Email operation id = {operationId}");
+            }
+            catch (RequestFailedException ex)
+            {
+                /// OperationID is contained in the exception message and can be used for troubleshooting purposes
+                Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
+            }
         }
 
     }
