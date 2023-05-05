@@ -110,11 +110,14 @@ namespace SARSTWebApplication.Controllers
             DataTable reportData = new DataTable();
             reportData.Columns.Add(_columnOneName, typeof(DateTime));
             reportData.Columns.Add(_columnTwoName, typeof(int));
-            reportData.Columns.Add(_columnThreeName, typeof(string));
+            if (reportModel.residentID == null)
+                reportData.Columns.Add(_columnThreeName, typeof(string));
 
             //All Report
             allEncompassingTable.Columns.Add(_columnOneName, typeof(DateTime));
-            allEncompassingTable.Columns.Add(_columnThreeName, typeof(string));
+            if (reportModel.residentID == null)
+                allEncompassingTable.Columns.Add(_columnThreeName, typeof(string));
+
             allEncompassingTable.Columns.Add(_columnTwoName, typeof(int));
 
 
@@ -124,17 +127,18 @@ namespace SARSTWebApplication.Controllers
             foreach (KeyValuePair<DateTime, int> pair in stayCounts)
             {
                 DataRow row = reportData.NewRow();
-                row[_columnOneName] = pair.Key;
-                row[_columnTwoName] = pair.Value;
-                row[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
-                reportData.Rows.Add(row);
-
                 DataRow aRow = allEncompassingTable.NewRow();
-                aRow[_columnOneName] = pair.Key;
-                aRow[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
-                aRow[_columnTwoName] = pair.Value;
-                allEncompassingTable.Rows.Add(aRow);
+                aRow[_columnOneName] = row[_columnOneName] = pair.Key;
+                aRow[_columnTwoName] = row[_columnTwoName] = pair.Value;
 
+                if (reportModel.residentID == null)
+                {
+                    row[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
+                    aRow[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
+                }
+
+                reportData.Rows.Add(row);
+                allEncompassingTable.Rows.Add(aRow);
 
             }
 
@@ -240,6 +244,7 @@ namespace SARSTWebApplication.Controllers
                 residentsTable.Rows.Add(row);
             }
 
+
             return residentsTable;
         }
 
@@ -286,61 +291,6 @@ namespace SARSTWebApplication.Controllers
 
             return reportData;
         }
-
-
-
-        DataTable GenerateAll(ReportModel reportModel)
-        {
-            // Create a new DataTable to store the combined data
-            DataTable combinedTable = new DataTable();
-
-            // Add the date column to the combined table
-            combinedTable.Columns.Add("Date", typeof(DateTime));
-
-            // Loop through each input DataTable
-            foreach (KeyValuePair<string, DataTable> inputTable in reportModel.dataTables)
-            {
-                // Loop through each column in the input DataTable, ignoring the date column
-                for (int i = 1; i < inputTable.Value.Columns.Count; i++)
-                {
-                    // Add a new column to the combined table with the same name and type as the current column
-                    DataColumn newColumn = new DataColumn(inputTable.Value.Columns[i].ColumnName, inputTable.Value.Columns[i].DataType);
-                    combinedTable.Columns.Add(newColumn);
-                }
-
-                // Loop through each date in the report range, and add a new row to the combined table for each date
-                DateTime currentDate = reportModel.startDate;
-                while (currentDate <= reportModel.endDate)
-                {
-                    DataRow newRow = combinedTable.NewRow();
-
-                    // Set the date column value to the current date
-                    newRow["Date"] = currentDate;
-
-                    // Loop through each resident ID in the current date in the input DataTable
-                    foreach (DataRow inputRow in inputTable.Value.Rows)
-                    {
-                        DateTime inputDate = DateTime.Parse(inputRow[0]?.ToString()); // Assumes the first column is the date column
-                        if (inputDate.Date == currentDate.Date)
-                        {
-                            // Loop through each column in the input DataTable, ignoring the date column
-                            for (int i = 1; i < inputTable.Value.Columns.Count; i++)
-                            {
-                                // Set the value of the corresponding column in the combined table to the value in the input table
-                                newRow[i] = inputRow[i];
-                            }
-                        }
-                    }
-
-                    combinedTable.Rows.Add(newRow);
-                    currentDate = currentDate.AddDays(1);
-                }
-            }
-
-            return combinedTable;
-        }
-
-
 
 
         //--------------------Generate Report Call-----------------------//
