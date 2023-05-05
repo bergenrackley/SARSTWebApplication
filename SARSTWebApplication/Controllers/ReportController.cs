@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
 using System.Data;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.SqlClient;
 using System.Web.WebPages;
 
@@ -29,7 +30,7 @@ namespace SARSTWebApplication.Controllers
         }
 
 
-
+        DataTable allEncompassingTable = new DataTable();
         void GenerateReportData(ReportModel reportModel)
         {
 
@@ -60,10 +61,13 @@ namespace SARSTWebApplication.Controllers
 
             reportModel.setTitle("Stays over time"); //TODO fix this so it is set based on on table called. 
 
+
+
             reportModel.dataTables["stays"] = GenerateStaysOT(reportModel, stays);
             reportModel.dataTables["services"] = GenerateServicesOT(reportModel, serviceEvents);
             reportModel.dataTables["disciplinaryActions"] = GenerateDisciplineOT(reportModel, disciplinaryEvents);
             reportModel.dataTables["residents"] = GenerateResidents(reportModel, residents);
+            reportModel.dataTables["All"] = allEncompassingTable;
         }
 
 
@@ -76,6 +80,11 @@ namespace SARSTWebApplication.Controllers
         //--------------------Stays Over Time-----------------------//
         DataTable GenerateStaysOT(ReportModel reportModel, List<ResidentStay> stays)
         {
+            string _columnOneName = "Date";
+            string _columnTwoName = "Stays Count";
+            string _columnThreeName = "Resident Id";
+
+
             // Filter stays by resident ID if specified
             if (!reportModel.residentID.IsEmpty())
             {
@@ -97,20 +106,36 @@ namespace SARSTWebApplication.Controllers
                 currentDate = currentDate.AddDays(1);
             }
 
-            // Create a data table to hold the report data
+            //Stays Report
             DataTable reportData = new DataTable();
-            reportData.Columns.Add("Date", typeof(DateTime));
-            reportData.Columns.Add("StaysCount", typeof(int));
-            reportData.Columns.Add("ResidentIds", typeof(string));
+            reportData.Columns.Add(_columnOneName, typeof(DateTime));
+            reportData.Columns.Add(_columnTwoName, typeof(int));
+            reportData.Columns.Add(_columnThreeName, typeof(string));
+
+            //All Report
+            allEncompassingTable.Columns.Add(_columnOneName, typeof(DateTime));
+            allEncompassingTable.Columns.Add(_columnThreeName, typeof(string));
+            allEncompassingTable.Columns.Add(_columnTwoName, typeof(int));
+
+
+            allEncompassingTable.PrimaryKey = new DataColumn[] { allEncompassingTable.Columns[_columnOneName] };
 
             // Add the report data to the data table
             foreach (KeyValuePair<DateTime, int> pair in stayCounts)
             {
                 DataRow row = reportData.NewRow();
-                row["Date"] = pair.Key;
-                row["StaysCount"] = pair.Value;
-                row["ResidentIds"] = string.Join(", ", stayResidents[pair.Key]);
+                row[_columnOneName] = pair.Key;
+                row[_columnTwoName] = pair.Value;
+                row[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
                 reportData.Rows.Add(row);
+
+                DataRow aRow = allEncompassingTable.NewRow();
+                aRow[_columnOneName] = pair.Key;
+                aRow[_columnThreeName] = string.Join(", ", stayResidents[pair.Key]);
+                aRow[_columnTwoName] = pair.Value;
+                allEncompassingTable.Rows.Add(aRow);
+
+
             }
 
             return reportData;
@@ -118,9 +143,13 @@ namespace SARSTWebApplication.Controllers
 
 
 
+
         //--------------------Services Over Time-----------------------//
         DataTable GenerateServicesOT(ReportModel reportModel, List<ServiceEvent> serviceEvents)
         {
+
+            string _columnOneName = "Date";
+            string _columnTwoName = "Services Count";
 
             // Filter serviceEvents by resident ID if specified
             if (!reportModel.residentID.IsEmpty())
@@ -139,26 +168,18 @@ namespace SARSTWebApplication.Controllers
             }
 
             // Create a data table to hold the report data
-            DataTable reportData = new DataTable();
-            reportData.Columns.Add("Date", typeof(DateTime));
-            reportData.Columns.Add("ServiceCount", typeof(int));
+            DataTable reportData = getDateCounts(_columnOneName, _columnTwoName, serviceCounts);
 
-            // Add the report data to the data table
-            foreach (KeyValuePair<DateTime, int> pair in serviceCounts)
-            {
-                DataRow row = reportData.NewRow();
-                row["Date"] = pair.Key;
-                row["ServiceCount"] = pair.Value;
-                reportData.Rows.Add(row);
-            }
 
             return reportData;
         }
 
-
         //--------------------Disciplinary Actions Over Time-----------------------//
         DataTable GenerateDisciplineOT(ReportModel reportModel, List<DisciplinaryEvent> disciplinaryEvents)
         {
+            string _columnOneName = "Date";
+            string _columnTwoName = "Discipline Count";
+
 
             // Filter serviceEvents by resident ID if specified
             if (!reportModel.residentID.IsEmpty())
@@ -167,28 +188,17 @@ namespace SARSTWebApplication.Controllers
             }
 
             // Calculate the count of services provided each day between the start and end dates
-            Dictionary<DateTime, int> stayCounts = new Dictionary<DateTime, int>();
+            Dictionary<DateTime, int> disciplineCounts = new Dictionary<DateTime, int>();
             DateTime currentDate = reportModel.startDate;
             while (currentDate <= reportModel.endDate)
             {
                 int count = disciplinaryEvents.Count(se => se.dateProvided.Date == currentDate.Date);
-                stayCounts[currentDate] = count;
+                disciplineCounts[currentDate] = count;
                 currentDate = currentDate.AddDays(1);
             }
 
             // Create a data table to hold the report data
-            DataTable reportData = new DataTable();
-            reportData.Columns.Add("Date", typeof(DateTime));
-            reportData.Columns.Add("DisciplineCount", typeof(int));
-
-            // Add the report data to the data table
-            foreach (KeyValuePair<DateTime, int> pair in stayCounts)
-            {
-                DataRow row = reportData.NewRow();
-                row["Date"] = pair.Key;
-                row["DisciplineCount"] = pair.Value;
-                reportData.Rows.Add(row);
-            }
+            DataTable reportData = getDateCounts(_columnOneName, _columnTwoName, disciplineCounts);
 
             return reportData;
         }
@@ -214,7 +224,14 @@ namespace SARSTWebApplication.Controllers
                 row["Resident Id"] = resident.residentId;
                 row["First Name"] = resident.firstName;
                 row["Last Name"] = resident.lastName;
-                row["Date of Birth"] = resident.dateOfBirth;
+                if (resident.dateOfBirth == null)
+                {
+                    row["Date of Birth"] = DBNull.Value;
+                }
+                else
+                {
+                    row["Date of Birth"] = resident.dateOfBirth;
+                }
                 row["Sex"] = resident.sex?.ToString();
                 row["Gender"] = resident.gender?.ToString();
                 row["Pronouns"] = resident.pronouns?.ToString();
@@ -225,6 +242,105 @@ namespace SARSTWebApplication.Controllers
 
             return residentsTable;
         }
+
+
+        //Used for over time functions to get counts
+        //Used for over time functions to get counts
+        DataTable getDateCounts(string _columnOneName, string _columnTwoName, Dictionary<DateTime, int> dateCounts)
+        {
+            DataTable reportData = new DataTable();
+            reportData.Columns.Add(_columnOneName, typeof(DateTime));
+            reportData.Columns.Add(_columnTwoName, typeof(int));
+            reportData.PrimaryKey = new DataColumn[] { reportData.Columns[_columnOneName] };
+
+            allEncompassingTable.Columns.Add(_columnTwoName, typeof(int));
+
+            // Add the report data to the data table
+            foreach (KeyValuePair<DateTime, int> pair in dateCounts)
+            {
+                DataRow row = reportData.NewRow();
+                row[_columnOneName] = pair.Key;
+                row[_columnTwoName] = pair.Value;
+                reportData.Rows.Add(row);
+
+            }
+
+            // Loop through each row in the allEncompassingTable
+            foreach (DataRow allRow in allEncompassingTable.Rows)
+            {
+                // Retrieve the primary key value from the allEncompassingTable
+                DateTime date = (DateTime)allRow[_columnOneName];
+
+                // Find the corresponding row in the reportData table based on the primary key value
+                DataRow reportRow = reportData.Rows.Find(date);
+
+                // Check if the reportRow exists
+                if (reportRow != null)
+                {
+                    // Retrieve the value from the reportRow and assign it to the corresponding column in the allEncompassingTable
+                    int serviceCount = (int)reportRow[_columnTwoName];
+                    allRow[_columnTwoName] = serviceCount;
+                }
+            }
+
+
+            return reportData;
+        }
+
+
+
+        DataTable GenerateAll(ReportModel reportModel)
+        {
+            // Create a new DataTable to store the combined data
+            DataTable combinedTable = new DataTable();
+
+            // Add the date column to the combined table
+            combinedTable.Columns.Add("Date", typeof(DateTime));
+
+            // Loop through each input DataTable
+            foreach (KeyValuePair<string, DataTable> inputTable in reportModel.dataTables)
+            {
+                // Loop through each column in the input DataTable, ignoring the date column
+                for (int i = 1; i < inputTable.Value.Columns.Count; i++)
+                {
+                    // Add a new column to the combined table with the same name and type as the current column
+                    DataColumn newColumn = new DataColumn(inputTable.Value.Columns[i].ColumnName, inputTable.Value.Columns[i].DataType);
+                    combinedTable.Columns.Add(newColumn);
+                }
+
+                // Loop through each date in the report range, and add a new row to the combined table for each date
+                DateTime currentDate = reportModel.startDate;
+                while (currentDate <= reportModel.endDate)
+                {
+                    DataRow newRow = combinedTable.NewRow();
+
+                    // Set the date column value to the current date
+                    newRow["Date"] = currentDate;
+
+                    // Loop through each resident ID in the current date in the input DataTable
+                    foreach (DataRow inputRow in inputTable.Value.Rows)
+                    {
+                        DateTime inputDate = DateTime.Parse(inputRow[0]?.ToString()); // Assumes the first column is the date column
+                        if (inputDate.Date == currentDate.Date)
+                        {
+                            // Loop through each column in the input DataTable, ignoring the date column
+                            for (int i = 1; i < inputTable.Value.Columns.Count; i++)
+                            {
+                                // Set the value of the corresponding column in the combined table to the value in the input table
+                                newRow[i] = inputRow[i];
+                            }
+                        }
+                    }
+
+                    combinedTable.Rows.Add(newRow);
+                    currentDate = currentDate.AddDays(1);
+                }
+            }
+
+            return combinedTable;
+        }
+
+
 
 
         //--------------------Generate Report Call-----------------------//

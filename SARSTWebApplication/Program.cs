@@ -36,7 +36,7 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}");
+    pattern: "{controller=Public}/{action=Index}/{id?}");
 
 var env = builder.Environment;
 // Configure Rotativa
