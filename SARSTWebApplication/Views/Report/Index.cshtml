@@ -12,6 +12,11 @@
         <form asp-action="GenerateReport" id="reportForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="currentType" class="control-label"></label>
+                <input asp-for="currentType" class="form-control" />
+                <span asp-validation-for="currentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="startDate" class="control-label"></label>
                 <input asp-for="startDate" class="form-control" />
                 <span asp-validation-for="startDate" class="text-danger"></span>
@@ -22,10 +27,15 @@
                 <span asp-validation-for="endDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="residentID" class="control-label"></label>
+                <input asp-for="residentID" class="form-control" />
+                <span asp-validation-for="residentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Generate" id="submit" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div id="chart_div"></div>
+

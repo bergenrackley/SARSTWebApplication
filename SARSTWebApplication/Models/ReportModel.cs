@@ -13,6 +13,8 @@ namespace SARSTWebApplication.Models
         [DataType(DataType.Date)]
         [Display(Name = "Report End Date")]
         public DateTime? endDate { get; set; }
+
+        public string? residentID { get; set; }
         public Dictionary<string, DataTable> dataTables { get; set; } // Dict of different tables to use in reporting
         public string currentType { get; set; }
         public ReportModel()

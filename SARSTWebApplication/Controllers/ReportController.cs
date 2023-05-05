@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
 using System.Data;
@@ -59,15 +60,20 @@ namespace SARSTWebApplication.Controllers
         //--------------------------------------------------//
 
         //--------------------Stays Over Time-----------------------//
-        DataTable GenerateStaysOT(ReportModel reportModel, List<ResidentStay> serviceEvents)
+        DataTable GenerateStaysOT(ReportModel reportModel, List<ResidentStay> stays)
         {
+            // Filter stays by resident ID if specified
+            if (!reportModel.residentID.IsEmpty())
+            {
+                stays = stays.Where(s => s.residentId == reportModel.residentID).ToList();
+            }
 
-            // Calculate the count of services provided each day between the start and end dates
+            // Calculate the count of stays on each day between the start and end dates
             Dictionary<DateTime, int> stayCounts = new Dictionary<DateTime, int>();
             DateTime currentDate = reportModel.startDate ?? DateTime.MinValue;
             while (currentDate <= reportModel.endDate)
             {
-                int count = serviceEvents.Count(se => se.checkinDateTime.Date == currentDate.Date);
+                int count = stays.Count(s => s.checkinDateTime.Date == currentDate.Date);
                 stayCounts[currentDate] = count;
                 currentDate = currentDate.AddDays(1);
             }
@@ -89,9 +95,16 @@ namespace SARSTWebApplication.Controllers
             return reportData;
         }
 
+
         //--------------------Services Over Time-----------------------//
         DataTable GenerateServicesOT(ReportModel reportModel, List<ServiceEvent> serviceEvents)
         {
+
+            // Filter serviceEvents by resident ID if specified
+            if (!reportModel.residentID.IsEmpty())
+            {
+                serviceEvents = serviceEvents.Where(s => s.residentId == reportModel.residentID).ToList();
+            }
 
             // Calculate the count of services provided each day between the start and end dates
             Dictionary<DateTime, int> serviceCounts = new Dictionary<DateTime, int>();
@@ -122,15 +135,21 @@ namespace SARSTWebApplication.Controllers
 
 
         //--------------------Disciplinary Actions Over Time-----------------------//
-        DataTable GenerateDisciplineOT(ReportModel reportModel, List<DisciplinaryEvent> serviceEvents)
+        DataTable GenerateDisciplineOT(ReportModel reportModel, List<DisciplinaryEvent> disciplinaryEvents)
         {
+
+            // Filter serviceEvents by resident ID if specified
+            if (!reportModel.residentID.IsEmpty())
+            {
+                disciplinaryEvents = disciplinaryEvents.Where(s => s.residentId == reportModel.residentID).ToList();
+            }
 
             // Calculate the count of services provided each day between the start and end dates
             Dictionary<DateTime, int> stayCounts = new Dictionary<DateTime, int>();
             DateTime currentDate = reportModel.startDate ?? DateTime.MinValue;
             while (currentDate <= reportModel.endDate)
             {
-                int count = serviceEvents.Count(se => se.dateProvided.Date == currentDate.Date);
+                int count = disciplinaryEvents.Count(se => se.dateProvided.Date == currentDate.Date);
                 stayCounts[currentDate] = count;
                 currentDate = currentDate.AddDays(1);
             }
@@ -154,28 +173,41 @@ namespace SARSTWebApplication.Controllers
 
         [HttpGet]
         [HttpPost]
-        public IActionResult GenerateReport(ReportModel reportModel, string currentType)
+        public IActionResult GenerateReport(ReportModel reportModel, string? currentType)
         {
             ReportModel model = new ReportModel();
 
-
-            if (!_cache.TryGetValue("reportModel", out model))
+            if (!currentType.IsNullOrEmpty())
             {
-                GenerateReportData(reportModel);
-                // Generate the dataTables dictionary and add it to the cache
 
-                _cache.Set("reportModel", reportModel);
-                model = reportModel;
+                if (!_cache.TryGetValue("reportModel", out model))
+                    model = getCache(reportModel);
+
+                model.currentType = currentType;
+            }
+            else
+            {
+                reportModel.currentType = model.currentType;
+                model = getCache(reportModel);
+
             }
 
-            if (!currentType.IsEmpty())
-                model.currentType = currentType;
+
 
             byte[] csvData = model.dataTables[model.currentType].ToCSV();
             // Store the data table in a session variable with a key
             HttpContext.Session.Set("downloadData", csvData);
 
             return View(model);
+        }
+
+        public ReportModel getCache(ReportModel reportModel)
+        {
+            GenerateReportData(reportModel);
+            // Generate the dataTables dictionary and add it to the cache
+
+            _cache.Set("reportModel", reportModel);
+            return reportModel;
         }
 
         // In the Download action
