@@ -96,7 +96,7 @@
             <h4 class="mb-0">Register</h4>
         </div>
         <div class="card-body">
-            <form asp-action="Register">
+            <form asp-action="Register" id="registerForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="userName" class="control-label">User Name</label>
@@ -121,15 +121,14 @@
 
                 <div class="form-group">
                     <label asp-for="password" class="control-label">Password</label>
-                    <input asp-for="password" class="form-control" type="password"/>
+                    <input asp-for="password" id="password" class="form-control" type="password"/>
                     <span asp-validation-for="password" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label  class="control-label">Confirm Password</label>
-                    <input  class="form-control" type="password" />
+                    <input  class="form-control" id="confirmPassword" type="password" />
                     <span class="text-danger"></span>
-					@* TODO: Add JavaScript to ensure this field matches the Password field before they can hit Submit *@
                 </div>
 
                 <div class="form-group">
@@ -142,7 +141,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" id="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>
         </div>
@@ -159,3 +158,32 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    <script>
+        $(function () {
+            $('#submit').on('click', function (evt) {
+                evt.preventDefault();
+                if ($('#password').val() != $('#confirmPassword').val()) {
+                    alert("Passwords do not match");
+                    return;
+                }
+                var formdata = $('#registerForm').serialize();
+                $.ajax({
+                    url: "/Public/Register",
+                    type: 'Post',
+                    data: formdata,
+                    success: function (data) {
+                        if (data == "Success") {
+                            window.location.replace("/Public/Success");
+                        } else {
+                            alert(data);
+                        }
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                })
+            });
+        });
+    </script>
+}

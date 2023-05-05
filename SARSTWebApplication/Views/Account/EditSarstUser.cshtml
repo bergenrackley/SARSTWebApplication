@@ -58,7 +58,8 @@
                     type: 'Post',
                     data: formdata,
                     success: function (data) {
-                        alert(data);
+                        if (data == "Success") window.location.replace("/Account/SarstUsers");
+                        else alert(data);
                     },
                     error: function () {
                         alert('Error');

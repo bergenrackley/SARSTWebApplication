@@ -100,7 +100,7 @@
             <h4 class="mb-0">Login to your Account</h4>
         </div>
         <div class="card-body">
-            <form asp-action="LoginAttempt">
+            <form asp-action="LoginAttempt" id="loginForm">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="userName" class="control-label">User Name</label>
@@ -113,7 +113,7 @@
                     <span asp-validation-for="password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-primary" />
+                    <input type="submit" id="submit" value="Login" class="btn btn-primary" />
                 </div>
             </form>
             <div class="align-items-center">
@@ -131,8 +131,27 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+        <script>
+            $(function () {
+                $('#submit').on('click', function (evt) {
+                    evt.preventDefault();
+                    var formdata = $('#loginForm').serialize();
+                    $.ajax({
+                        url: "/Public/LoginAttempt",
+                        type: 'Post',
+                        data: formdata,
+                        success: function (data) {
+                            if (data == "ChangePassword" || data == "SARST") {
+                                window.location.replace("/Account/" + data);
+                            } else {
+                                alert(data);
+                            }
+                        },
+                        error: function () {
+                            alert('Error');
+                        }
+                    })
+                });
+            });
+        </script>
 }
-

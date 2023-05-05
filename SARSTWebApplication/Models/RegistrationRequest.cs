@@ -13,6 +13,8 @@ namespace SARSTWebApplication.Models
         [Display(Name = "Last Name")]
         public string lastName { get; set; }
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string email { get; set; }
         [Display(Name = "Password")]
         public string password { get; set; }

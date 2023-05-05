@@ -82,7 +82,7 @@ namespace SARSTWebApplication.Controllers
                 _dbContext.SaveChanges();
                 return "Success";
             }
-            else return "Error";
+            else return "Passwords do not match";
         }
 
         public IActionResult SarstUsers()
@@ -103,7 +103,8 @@ namespace SARSTWebApplication.Controllers
             user.password = newPassword;
             user.changePassword = 1;
             _dbContext.SaveChanges();
-            return newPassword;
+            sendPasswordEmail(user.email, newPassword);
+            return "Success";
         }
 
         [HttpDelete]
@@ -138,6 +139,37 @@ namespace SARSTWebApplication.Controllers
                 htmlContent = "<html><body><h1>SARST Registration Denied</h1><br/><h4>Your Registration Request for a SARST account has been denied. Please contact your admin for more information.</h4></body></html>";
             }
             var sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
+
+            try
+            {
+                Console.WriteLine("Sending email...");
+                EmailSendOperation emailSendOperation = await emailClient.SendAsync(
+                    Azure.WaitUntil.Completed,
+                    sender,
+                    recipient,
+                    subject,
+                    htmlContent);
+                EmailSendResult statusMonitor = emailSendOperation.Value;
+
+                Console.WriteLine($"Email Sent. Status = {emailSendOperation.Value.Status}");
+
+                /// Get the OperationId so that it can be used for tracking the message for troubleshooting
+                string operationId = emailSendOperation.Id;
+                Console.WriteLine($"Email operation id = {operationId}");
+            }
+            catch (RequestFailedException ex)
+            {
+                /// OperationID is contained in the exception message and can be used for troubleshooting purposes
+                Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        public async void sendPasswordEmail(string recipient, string password)
+        {
+            string subject = "Your SARST account password has been reset";
+            string htmlContent = $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{password}'.</h4></body></html>";
+            string sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
 
             try
             {

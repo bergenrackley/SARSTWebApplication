@@ -1,7 +1,9 @@
 ﻿using Azure;
 using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Protocol;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
@@ -37,7 +39,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegistrationRequest model) //When Ajax calls are figured out, will need to change to RedirectToActionResult return instead of IActionResult
+        public string Register(RegistrationRequest model) //When Ajax calls are figured out, will need to change to RedirectToActionResult return instead of IActionResult
         {
             // Create new instance of a RegistrationRequest with data from form
             //RegistrationRequest newRequest = new RegistrationRequest(userName, firstName, lastName, email, password, userRole);
@@ -51,25 +53,29 @@ namespace SARSTWebApplication.Controllers
             if (!ModelState.IsValid)
             {
                 // Return the registration page with validation errors
-                return Register();
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
             }
 
             if (existingUser != null)
             {
-                TempData["Message"] = "Sorry, that username is taken.";
-                return Register();
+                return "Sorry, that username is taken.";
             }
 
             if (existingRequest != null)
             {
-                TempData["Message"] = "Be patient. We are still reviewing your previous request.";
-                return Register();
+                return "Be patient. We are still reviewing your previous request.";
             }
             // If no duplicate, add to RegistrationRequests table
             _dbContext.RegistrationRequests.Add(model);
             _dbContext.SaveChanges();
             sendEmail(model.email);
-            return RedirectToAction(actionName: "Success");
+            return "Success";
         }
 
         public IActionResult Success()
@@ -83,7 +89,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginAttempt(SarstUser sarstUser)
+        public string LoginAttempt(SarstUser sarstUser)
         {
             SarstUser validUser = _dbContext.SarstUsers.Find(sarstUser.userName);
             if (validUser != null)
@@ -93,27 +99,11 @@ namespace SARSTWebApplication.Controllers
                     HttpContext.Session.SetString("userName", validUser.userName);
                     HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
 
-                    if (validUser.changePassword == 1) return RedirectToAction(actionName: "ChangePassword");
-                    else return RedirectToAction(actionName: "SARST", controllerName: "Account");
+                    if (validUser.changePassword == 1) return "ChangePassword";
+                    else return "SARST";
                 }
             }
-            return RedirectToAction(actionName: "Login");
-        }
-
-        public IActionResult SARST()
-        {
-            //These add the session values to the view
-            // Is a user logged in?
-            // currentUserRole will be 0,1, or 2 if a user is logged in
-            if (ViewBag.currentUserRole > -1)
-            {
-                return RedirectToAction(actionName: "SARST", controllerName: "Account");
-            }
-            else
-            {
-                return RedirectToAction(actionName: "Index");
-            }
-
+            return "Username and password do not match";
         }
 
         [HttpPost]
