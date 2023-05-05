@@ -1,9 +1,15 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Service>
 
+@{
+    ViewData["Title"] = "Manage Services Offered";
+}
+<h1 class="display-3">Manage Services Offered</h1>
+<p class="lead">Add new or temporary services. Edit existing services. Core services are not editable.</p>
+<hr/>
 <p>
-    <a asp-action="CreateService">Create New</a>
+    <a class="btn btn-primary" asp-action="CreateService">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -46,7 +52,7 @@
                 )
                 {
                     <td>
-                        @Html.ActionLink("Edit", "EditService", new { serviceName=item.serviceName })
+                        @Html.ActionLink("Edit", "EditService", new { serviceName=item.serviceName }, new{@class="btn btn-primary"})
                     </td>
                 }
                 else

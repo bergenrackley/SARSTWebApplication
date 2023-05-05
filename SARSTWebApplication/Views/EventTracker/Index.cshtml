@@ -1,8 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Residents";
 }
-<h3>Index</h3>
-<p>@Html.ActionLink("Log Service Event", "SelectResident", new { type="ServiceForm" })</p>
-<p>@Html.ActionLink("Log Disciplinary Event", "SelectResident", new { type="DisciplinaryForm" })</p>
+
+
+
+<h1 class="display-3">Record Events or Services</h1>
+<p class="lead">Select event type. Choose an active resident stay. Create the event record.</p>
+<hr/>
+<p>@Html.ActionLink("Log Service Event", "SelectResident", new { type="ServiceForm" }, new{@class="btn btn-primary btn-lg"})</p>
+<p>@Html.ActionLink("Log Disciplinary Event", "SelectResident", new { type="DisciplinaryForm" }, new{@class="btn btn-primary btn-lg"})</p>

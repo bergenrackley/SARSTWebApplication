@@ -1,18 +1,16 @@
 ﻿@model IEnumerable<SARSTWebApplication.Migrations.residentstays>
 
 
-<div class="jumbotron jumbotron-fluid border-secondary">
-    <div class="container">
-        <h1>What this page does:</h1>
-        <p class="lead">From this landing page, you can view, edit, or delete existing active resident stays, 
-            create new resident stays, and create new residents.</p>
-        <p class="lead">Click "Add New" to create a new resident stay. This will bring you to the a view where a resident
-            can be selected. You can also add a new resident from this view.</p>
-    </div>
-</div>
+@{
+    ViewData["Title"] = "Resident Stays";
+}
+
+<h1 class="display-3">Resident Stays</h1>
+<p class="lead">View and edit active stays. Start a new stay.</p>
+<hr/>
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Resident Stays</h2>
+    <div><p class="h2 text-muted">Search Active Stays</h2></div>
     <a class="btn btn-primary" asp-action="SelectResident">Add New</a>                             
 </div>
 

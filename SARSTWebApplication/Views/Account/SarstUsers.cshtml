@@ -1,57 +1,67 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.SarstUser>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.userName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.firstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.userRole)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.changePassword)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.userName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.firstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.lastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.userRole)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.changePassword)
-            </td>
-            <td>
-                @Html.ActionLink("Manage", "EditSarstUser", new { userName=item.userName })
-            </td>
-        </tr>
+@{
+    ViewData["Title"] = "Registered Users";
 }
-    </tbody>
-</table>
+
+<h1 class="display-3">Registered Users</h1>
+<p class="lead">View registered user details. Reset passwords. Delete user accounts.</p>
+<hr/>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.userName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.firstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.userRole)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.changePassword)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.firstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userRole)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.changePassword)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Manage", "EditSarstUser", new { userName=item.userName }, new { @class="btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>
+

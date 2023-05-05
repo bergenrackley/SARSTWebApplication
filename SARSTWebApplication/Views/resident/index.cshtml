@@ -1,7 +1,15 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
+@{
+    ViewData["Title"] = "Residents";
+}
+
+<h1 class="display-3">Salvation Army Residents</h1>
+<p class="lead">View and edit the list of residents. Search by name or features. Add new residents.</p>
+<hr/>
+
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Select a Resident</h2>
+    <div><p class="h3 text-muted">Select a Resident</p></div>
     <a class="btn btn-primary" asp-action="Create" asp-controller="Resident">Add New Resident</a>
 </div>
 
