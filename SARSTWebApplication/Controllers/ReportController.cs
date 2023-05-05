@@ -18,8 +18,13 @@ namespace SARSTWebApplication.Controllers
             _dbContext = new AppDbContext(configuration.GetConnectionString("DefaultConnection"));
             _cache = memoryCache;
         }
-        public IActionResult Index()
+        public IActionResult Index(string? residentID)
         {
+
+            if (residentID != null)
+                ViewBag.residentID = residentID;
+
+
             return View();
         }
 

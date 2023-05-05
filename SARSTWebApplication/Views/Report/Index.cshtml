@@ -4,7 +4,7 @@
     ViewData["Title"] = "Reports";
 }
 
-<h1 class="display-3">Report Model</h1>
+<h1 class="display-3">Reportin' Time</h1>
 <p class="lead">Select report type. Choose your date range. Get data.</p>
 <hr />
 <div class="row">
@@ -28,9 +28,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="residentID" class="control-label"></label>
-                <input asp-for="residentID" class="form-control" />
+                <input asp-for="residentID" class="form-control" value="@ViewBag.residentID" />
                 <span asp-validation-for="residentID" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Generate" id="submit" class="btn btn-primary" />
             </div>
