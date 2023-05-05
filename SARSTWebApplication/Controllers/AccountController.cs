@@ -1,11 +1,9 @@
-﻿using Azure.Communication.Email;
-using Azure;
+﻿using Azure;
+using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -92,7 +90,8 @@ namespace SARSTWebApplication.Controllers
             return View(_dbContext.SarstUsers.ToList());
         }
 
-        public IActionResult EditSarstUser(string userName) {
+        public IActionResult EditSarstUser(string userName)
+        {
             return View(_dbContext.SarstUsers.Find(userName));
         }
 
@@ -132,7 +131,8 @@ namespace SARSTWebApplication.Controllers
             {
                 subject = "Your Registration Request for a SARST account has been approved";
                 htmlContent = $"<html><body><h1>SARST Registration Successful</h1><br/><h4>Your Registration Request for a SARST account has been approved. As a reminder, your username is {userName} </h4></body></html>";
-            } else
+            }
+            else
             {
                 subject = "Your Registration Request for a SARST account has been denied";
                 htmlContent = "<html><body><h1>SARST Registration Denied</h1><br/><h4>Your Registration Request for a SARST account has been denied. Please contact your admin for more information.</h4></body></html>";

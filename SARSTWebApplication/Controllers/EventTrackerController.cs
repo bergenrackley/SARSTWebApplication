@@ -155,7 +155,7 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpDelete]
-        public string DeleteService (Service deletedService)
+        public string DeleteService(Service deletedService)
         {
             if (_dbContext.ServicesOffered.Find(deletedService.serviceName) != null)
             {

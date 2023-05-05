@@ -1,15 +1,9 @@
-﻿using Azure;
-using Azure.Communication.Email;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Abstractions;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
-using System.Net;
 using System.Web.WebPages.Html;
 
 namespace SARSTWebApplication.Controllers
@@ -69,7 +63,8 @@ namespace SARSTWebApplication.Controllers
             if (_dbContext.Residents.ToList().Count() == 0)
             {
                 numRes = 1;
-            } else
+            }
+            else
             {
                 numRes = Int32.Parse(_dbContext.Database.SqlQuery<Resident>("Select * from [dbo].[Residents] order by residentId desc").ToList().First().residentId.Split("0").Last()) + 1;
             }

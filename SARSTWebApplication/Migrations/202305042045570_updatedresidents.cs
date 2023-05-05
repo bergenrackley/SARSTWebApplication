@@ -1,8 +1,7 @@
 ﻿namespace SARSTWebApplication.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class updatedresidents : DbMigration
     {
         public override void Up()
@@ -13,7 +12,7 @@
             AlterColumn("dbo.Residents", "pronouns", c => c.Int());
             AlterColumn("dbo.Residents", "status", c => c.Int(nullable: false));
         }
-        
+
         public override void Down()
         {
             AlterColumn("dbo.Residents", "status", c => c.String());
