@@ -43,7 +43,6 @@
             </div>
             <div class="form-group">
                 <input type="button" value="Create" id="submit" class="btn btn-primary" />
-                <input style="display: none" type="submit" value="Create" id="hiddenSubmit" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -54,16 +53,16 @@
     <script>
         $(function () {
             $('#submit').on('click', function (evt) {
-                //evt.preventDefault();
+                evt.preventDefault();
                 var formdata = $('#disciplinaryForm').serialize();
                 console.error(formdata);
                 $.ajax({
-                    url: "/EventTracker/CheckDisciplinaryEvent",
+                    url: "/EventTracker/SubmitDisciplinaryForm",
                     type: 'Post',
                     data: formdata,
                     success: function (data) {
-                        if (data == "Valid") {
-                            $('#hiddenSubmit').click();
+                        if (data == "Success") {
+                            window.location.replace("/EventTracker/Index");
                         }
                         else alert(data);
                     },

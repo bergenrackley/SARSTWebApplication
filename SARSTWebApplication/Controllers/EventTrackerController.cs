@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.Protocol;
 using SARSTWebApplication.Data;
@@ -46,19 +47,23 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public string CheckServiceEvent(ServiceEvent serviceEvent)
+        public string SubmitServiceForm(ServiceEvent serviceEvent)
         { //when the user clicks create, calls this with ajax. 
-            if (ModelState.IsValid) return "Valid"; //checks validity of model data (required fields, etc) if valid, return true
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson(); //if invalid, get the parts of the model that are malformed and return them as json
-
-        }
-
-        [HttpPost]
-        public IActionResult SubmitServiceForm(ServiceEvent serviceEvent) //called by page itself
-        {
-            _dbContext.ServiceTracker.Add(serviceEvent); //add model
-            _dbContext.SaveChanges(); //save changes
-            return RedirectToAction("Index"); //redirect to Event index
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            } else
+            {
+                _dbContext.ServiceTracker.Add(serviceEvent); //add model
+                _dbContext.SaveChanges(); //save changes
+                return "Success";
+            }
         }
 
         public IActionResult DisciplinaryForm(string id) //id is resident id
@@ -71,18 +76,23 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public string CheckDisciplinaryEvent(DisciplinaryEvent disciplinaryEvent)  //when the user clicks create, calls this with ajax. 
+        public string SubmitDisciplinaryForm(DisciplinaryEvent disciplinaryEvent)  //when the user clicks create, calls this with ajax. 
         {
-            if (ModelState.IsValid) return "Valid"; //valid
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson(); //malformed as json
-        }
-
-        [HttpPost]
-        public RedirectToActionResult SubmitDisciplinaryForm(DisciplinaryEvent disciplinaryEvent) //called by page when valid
-        {
-            _dbContext.DisciplinaryTracker.Add(disciplinaryEvent);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            } else
+            {
+                _dbContext.DisciplinaryTracker.Add(disciplinaryEvent);
+                _dbContext.SaveChanges();
+                return "Success";
+            }
         }
 
         [NonAction]
@@ -125,13 +135,24 @@ namespace SARSTWebApplication.Controllers
         [HttpPost]
         public string CreateService(Service newService)
         {
-            if (ModelState.IsValid && _dbContext.ServicesOffered.Find(newService.serviceName) == null)
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            } else if (_dbContext.ServicesOffered.Find(newService.serviceName) != null)
+            {
+                return $"Service with name '{newService.serviceName}' already exists";
+            } else
             {
                 _dbContext.ServicesOffered.Add(newService);
                 _dbContext.SaveChanges();
                 return "Success";
             }
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
         }
 
         public IActionResult EditService(string serviceName)
@@ -142,7 +163,16 @@ namespace SARSTWebApplication.Controllers
         [HttpPost]
         public string EditService(Service changedService)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            } else
             {
                 Service ogService = _dbContext.ServicesOffered.Find(changedService.serviceName);
                 ogService.startDate = changedService.startDate;
@@ -151,7 +181,6 @@ namespace SARSTWebApplication.Controllers
                 _dbContext.SaveChanges();
                 return "Success";
             }
-            else return ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToJson();
         }
 
         [HttpDelete]
