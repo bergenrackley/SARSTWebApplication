@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Models;
@@ -69,15 +70,17 @@ namespace SARSTWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ResidentStay residentStay)
+        public string Create(ResidentStay residentStay)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return getErrors(ModelState);
+            } else
             {
                 _dbContext.ResidentStays.Add(residentStay);
                 _dbContext.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return "Success";
             }
-            return View(residentStay);
         }
 
         // GET: ResidentStays/Edit/5
@@ -99,9 +102,12 @@ namespace SARSTWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ResidentStay residentStay)
+        public string Edit(ResidentStay residentStay)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return getErrors(ModelState);
+            } else
             {
                 // Find the existing entity by its primary key
                 var existingResidentStay = _dbContext.ResidentStays.Find(residentStay.stayId);
@@ -116,9 +122,8 @@ namespace SARSTWebApplication.Controllers
                 // Save the changes
                 _dbContext.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return "Success";
             }
-            return View(residentStay);
         }
 
         // GET: ResidentStays/Delete/5
@@ -153,6 +158,18 @@ namespace SARSTWebApplication.Controllers
 
             await _dbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [NonAction]
+        public string getErrors(ModelStateDictionary modelState)
+        {
+            string errors = string.Empty;
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (ModelError error in allErrors)
+            {
+                errors += $"{error.ErrorMessage}\n";
+            }
+            return errors;
         }
     }
 

@@ -51,13 +51,7 @@ namespace SARSTWebApplication.Controllers
         { //when the user clicks create, calls this with ajax. 
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             } else
             {
                 _dbContext.ServiceTracker.Add(serviceEvent); //add model
@@ -80,13 +74,7 @@ namespace SARSTWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             } else
             {
                 _dbContext.DisciplinaryTracker.Add(disciplinaryEvent);
@@ -137,13 +125,7 @@ namespace SARSTWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             } else if (_dbContext.ServicesOffered.Find(newService.serviceName) != null)
             {
                 return $"Service with name '{newService.serviceName}' already exists";
@@ -165,13 +147,7 @@ namespace SARSTWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             } else
             {
                 Service ogService = _dbContext.ServicesOffered.Find(changedService.serviceName);
@@ -194,6 +170,18 @@ namespace SARSTWebApplication.Controllers
             }
             else return "Service does not exist";
 
+        }
+
+        [NonAction]
+        public string getErrors(ModelStateDictionary modelState)
+        {
+            string errors = string.Empty;
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (ModelError error in allErrors)
+            {
+                errors += $"{error.ErrorMessage}\n";
+            }
+            return errors;
         }
     }
 }

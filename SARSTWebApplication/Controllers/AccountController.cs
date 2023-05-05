@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
@@ -42,6 +43,7 @@ namespace SARSTWebApplication.Controllers
         public RedirectToActionResult editRequest(RegistrationRequest model, string submit)
         {
             RegistrationRequest request = _dbContext.RegistrationRequests.Find(model.userName);
+
             if (submit == "Approve")
             {
                 _dbContext.SarstUsers.Add(new SarstUser()
@@ -55,13 +57,13 @@ namespace SARSTWebApplication.Controllers
                 });
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
-                sendEmail(model.email, true, model.userName);
+                sendEmail(model.email, "Your Registration Request for a SARST account has been approved", $"<html><body><h1>SARST Registration Successful</h1><br/><h4>Your Registration Request for a SARST account has been approved. As a reminder, your username is {model.userName} </h4></body></html>");
             }
             else if (submit == "Deny")
             {
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();
-                sendEmail(model.email, false);
+                sendEmail(model.email, "Your Registration Request for a SARST account has been denied", "<html><body><h1>SARST Registration Denied</h1><br/><h4>Your Registration Request for a SARST account has been denied. Please contact your admin for more information.</h4></body></html>");
             }
             return RedirectToAction(actionName: "RegistrationRequests");
         }
@@ -80,6 +82,7 @@ namespace SARSTWebApplication.Controllers
                 currentUser.password = newPassword;
                 currentUser.changePassword = 0;
                 _dbContext.SaveChanges();
+                sendEmail(currentUser.email, "Your SARST account password has been changed", $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been changed. If you did not make this change, please contact your Root User.</h4></body></html>");
                 return "Success";
             }
             else return "Passwords do not match";
@@ -103,8 +106,8 @@ namespace SARSTWebApplication.Controllers
             user.password = newPassword;
             user.changePassword = 1;
             _dbContext.SaveChanges();
-            sendPasswordEmail(user.email, newPassword);
-            return "Success";
+            sendEmail(user.email, "Your SARST account password has been reset", $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{newPassword}'.</h4></body></html>");
+            return $"The password for user '{user.userName}' has been changed. It is now '{newPassword}'.";
         }
 
         [HttpDelete]
@@ -124,20 +127,8 @@ namespace SARSTWebApplication.Controllers
         }
 
         [HttpPost]
-        public async void sendEmail(string recipient, bool approved, string? userName = null)
+        public async void sendEmail(string recipient, string subject, string htmlContent)
         {
-            string subject;
-            string htmlContent;
-            if (approved)
-            {
-                subject = "Your Registration Request for a SARST account has been approved";
-                htmlContent = $"<html><body><h1>SARST Registration Successful</h1><br/><h4>Your Registration Request for a SARST account has been approved. As a reminder, your username is {userName} </h4></body></html>";
-            }
-            else
-            {
-                subject = "Your Registration Request for a SARST account has been denied";
-                htmlContent = "<html><body><h1>SARST Registration Denied</h1><br/><h4>Your Registration Request for a SARST account has been denied. Please contact your admin for more information.</h4></body></html>";
-            }
             var sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
 
             try
@@ -163,37 +154,5 @@ namespace SARSTWebApplication.Controllers
                 Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
             }
         }
-
-        [HttpPost]
-        public async void sendPasswordEmail(string recipient, string password)
-        {
-            string subject = "Your SARST account password has been reset";
-            string htmlContent = $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{password}'.</h4></body></html>";
-            string sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
-
-            try
-            {
-                Console.WriteLine("Sending email...");
-                EmailSendOperation emailSendOperation = await emailClient.SendAsync(
-                    Azure.WaitUntil.Completed,
-                    sender,
-                    recipient,
-                    subject,
-                    htmlContent);
-                EmailSendResult statusMonitor = emailSendOperation.Value;
-
-                Console.WriteLine($"Email Sent. Status = {emailSendOperation.Value.Status}");
-
-                /// Get the OperationId so that it can be used for tracking the message for troubleshooting
-                string operationId = emailSendOperation.Id;
-                Console.WriteLine($"Email operation id = {operationId}");
-            }
-            catch (RequestFailedException ex)
-            {
-                /// OperationID is contained in the exception message and can be used for troubleshooting purposes
-                Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
-            }
-        }
-
     }
 }

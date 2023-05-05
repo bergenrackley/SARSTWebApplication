@@ -53,13 +53,7 @@ namespace SARSTWebApplication.Controllers
             if (!ModelState.IsValid)
             {
                 // Return the registration page with validation errors
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             }
 
             if (existingUser != null)
@@ -145,6 +139,18 @@ namespace SARSTWebApplication.Controllers
                 Text = v.ToString(),
                 Value = ((int)v).ToString()
             }).ToList();
+        }
+
+        [NonAction]
+        public string getErrors(ModelStateDictionary modelState)
+        {
+            string errors = string.Empty;
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (ModelError error in allErrors)
+            {
+                errors += $"{error.ErrorMessage}\n";
+            }
+            return errors;
         }
     }
 }

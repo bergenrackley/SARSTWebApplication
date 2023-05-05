@@ -73,13 +73,7 @@ namespace SARSTWebApplication.Controllers
 
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             } else
             {
                 _dbContext.Residents.Add(model);
@@ -107,13 +101,7 @@ namespace SARSTWebApplication.Controllers
         {
             if (!ModelState.IsValid)
             {
-                string errors = string.Empty;
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (ModelError error in allErrors)
-                {
-                    errors += $"{error.ErrorMessage}\n";
-                }
-                return errors;
+                return getErrors(ModelState);
             }
             // Find the existing entity by its primary key
             var existingResident = _dbContext.Residents.Find(resident.residentId);
@@ -214,5 +202,16 @@ namespace SARSTWebApplication.Controllers
             }).ToList();
         }
 
+        [NonAction]
+        public string getErrors(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary modelState)
+        {
+            string errors = string.Empty;
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (ModelError error in allErrors)
+            {
+                errors += $"{error.ErrorMessage}\n";
+            }
+            return errors;
+        }
     }
 }
