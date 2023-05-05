@@ -9,10 +9,10 @@ namespace SARSTWebApplication.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Report Start Date")]
-        public DateTime? startDate { get; set; }
+        public DateTime startDate { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Report End Date")]
-        public DateTime? endDate { get; set; }
+        public DateTime endDate { get; set; }
 
         public string? residentID { get; set; }
         public Dictionary<string, DataTable> dataTables { get; set; } // Dict of different tables to use in reporting
@@ -20,8 +20,8 @@ namespace SARSTWebApplication.Models
         public ReportModel()
         {
             title = "Set Title";
-            startDate = null;
-            endDate = null;
+            startDate = DateTime.Parse("4/1/2023");
+            endDate = DateTime.Today;
             dataTables = new Dictionary<string, DataTable>();
             currentType = "stays"; //default report type
         }
