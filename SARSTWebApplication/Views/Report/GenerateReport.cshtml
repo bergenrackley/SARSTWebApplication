@@ -1,21 +1,85 @@
 ﻿@model SARSTWebApplication.Models.ReportModel
+@using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json
 @using System.Web.Helpers
+@using System.Data;
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
 </head>
 
+
+
 <h4>@Model.title</h4>
 
-<div id="chart_div">
+<div >
     <a class="btn_primary" asp-controller="Report" asp-action="Download"> Download </a>
     <div>
-        <canvas id="myChart"></canvas>
+        <form method="get" asp-controller="Report" asp-action="GenerateReport" asp-route-currentType=@Model.currentType>
+            <select name="currentType" onchange="this.form.submit()">
+                @foreach (var currentType in Model.dataTables)
+                {
+                    <option value="@currentType.Key">@currentType.Key</option>
+
+                    @if (Model.dataTables.ContainsKey(currentType.Key))
+                    {
+             
+                        <text>selected</text>
+                    }
+                }
+            </select>
+        </form>
     </div>
 
-    @{
+    @if (Model.dataTables.ContainsKey(Model.currentType))
+    {
+        var selectedTable = Model.dataTables[Model.currentType];
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    @foreach (DataColumn column in selectedTable.Columns)
+                    {
+                        <th>@column.ColumnName</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DataRow row in selectedTable.Rows)
+                {
+                    <tr>
+                        @foreach (var value in row.ItemArray)
+                        {
+                            <td>@value</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Chart Stuff TODO add chart -->
+    @*@{
         // Read the CSV data from the session variable
         byte[] csvData = ViewBag.csvData;
 
@@ -76,9 +140,9 @@
             // Assign the value 1 to the yValues array to indicate a disciplinary action occurred
             yValues[i - 1] = 1;
         }
-    }
+    }*@
 
-    <script>
+   @* <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -101,6 +165,6 @@
                 }
             }
         });
-    </script>
+    </script>*@
 
 </div>

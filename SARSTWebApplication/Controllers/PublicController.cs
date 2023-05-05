@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
-using System.Net;
 
 namespace SARSTWebApplication.Controllers
 {
