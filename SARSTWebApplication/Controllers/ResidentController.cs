@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
@@ -69,9 +70,22 @@ namespace SARSTWebApplication.Controllers
                 numRes = Int32.Parse(_dbContext.Database.SqlQuery<Resident>("Select * from [dbo].[Residents] order by residentId desc").ToList().First().residentId.Split("0").Last()) + 1;
             }
             model.residentId = "SAResidentID" + String.Format("{0:000000000}", numRes);
-            _dbContext.Residents.Add(model);
-            _dbContext.SaveChanges();
-            return "Success";
+
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            } else
+            {
+                _dbContext.Residents.Add(model);
+                _dbContext.SaveChanges();
+                return "Success";
+            }
         }
 
         // GET: ResidentStays/Edit/5
@@ -91,6 +105,16 @@ namespace SARSTWebApplication.Controllers
         [HttpPost]
         public string EditResident(Resident resident)
         {
+            if (!ModelState.IsValid)
+            {
+                string errors = string.Empty;
+                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (ModelError error in allErrors)
+                {
+                    errors += $"{error.ErrorMessage}\n";
+                }
+                return errors;
+            }
             // Find the existing entity by its primary key
             var existingResident = _dbContext.Residents.Find(resident.residentId);
 
