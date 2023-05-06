@@ -34,7 +34,6 @@ namespace SARSTWebApplication.Controllers
 
         public IActionResult Register()
         {
-            ViewBag.userTypes = getUserTypes();
             return View("Register");
         }
 
@@ -129,16 +128,6 @@ namespace SARSTWebApplication.Controllers
                 /// OperationID is contained in the exception message and can be used for troubleshooting purposes
                 Console.WriteLine($"Email send operation failed with error code: {ex.ErrorCode}, message: {ex.Message}");
             }
-        }
-
-        [NonAction]
-        public List<SelectListItem> getUserTypes()
-        {
-            return Enum.GetValues(typeof(UserTypes)).Cast<UserTypes>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList();
         }
 
         [NonAction]

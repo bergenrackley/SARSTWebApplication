@@ -1,4 +1,5 @@
-﻿@model SARSTWebApplication.Models.Resident
+﻿@using SARSTWebApplication.Enums;
+@model SARSTWebApplication.Models.Resident
 
 <h4>Resident</h4>
 <hr />
@@ -23,32 +24,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="sex" class="control-label"></label>
-                <select asp-for="sex" class="form-control" id="role-dropdown">
-                        @foreach (var userType in ViewBag.residentSex)
-                        {
-                            <option value="@userType.Value">@userType.Text</option>
-                        }
-                    </select>
+                <select asp-for="sex" asp-items="Html.GetEnumSelectList<ResidentSex>()" class="form-control"></select>
                 <span asp-validation-for="sex" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="gender" class="control-label"></label>
-                <select asp-for="gender" class="form-control" id="role-dropdown">
-                        @foreach (var userType in ViewBag.residentGender)
-                        {
-                            <option value="@userType.Value">@userType.Text</option>
-                        }
-                    </select>
+                <select asp-for="gender" asp-items="Html.GetEnumSelectList<ResidentGender>()" class="form-control"></select>
                 <span asp-validation-for="gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="pronouns" class="control-label"></label>
-                <select asp-for="pronouns" class="form-control" id="role-dropdown">
-                        @foreach (var userType in ViewBag.residentPronouns)
-                        {
-                            <option value="@userType.Value">@userType.Text</option>
-                        }
-                    </select>
+                <select asp-for="pronouns" asp-items="Html.GetEnumSelectList<ResidentPronouns>()" class="form-control"></select>
                 <span asp-validation-for="pronouns" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -4,6 +4,7 @@ namespace SARSTWebApplication.Enums
 {
     public enum ResidentPronouns
     {
+        [Display(Name = "N/A")]
         NA,
         [Display(Name = "He/Him/His")]
         hehimhis,

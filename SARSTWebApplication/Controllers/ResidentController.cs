@@ -34,10 +34,6 @@ namespace SARSTWebApplication.Controllers
         // Submit Registration Request
         public IActionResult Create()
         {
-            ViewBag.residentSex = getSex();
-            ViewBag.residentGender = getGender();
-            ViewBag.residentPronouns = getPronouns();
-
             return View(new Resident());
         }
 
@@ -85,10 +81,6 @@ namespace SARSTWebApplication.Controllers
         // GET: ResidentStays/Edit/5
         public IActionResult Edit(string id)
         {
-            ViewBag.residentSex = getSex();
-            ViewBag.residentGender = getGender();
-            ViewBag.residentPronouns = getPronouns();
-            ViewBag.status = getDisciplinary();
             var resident = _dbContext.Residents.Find(id);
             return View(resident);
         }
@@ -160,46 +152,6 @@ namespace SARSTWebApplication.Controllers
         { //this partial view gets called by ajax, creates teh table seen in selectresident. does the searching and refreshes the partialview on keyup event from seach box
             List<Resident> result = _dbContext.Database.SqlQuery<Resident>("Select * from dbo.residents where firstName + ' ' + lastName like @query or distinguishingFeatures like @query", new SqlParameter("@query", "%" + query + "%")).ToList();
             return PartialView("_GridResidents", result);
-        }
-
-        [NonAction]
-        public List<SelectListItem> getSex()
-        {
-            return Enum.GetValues(typeof(ResidentSex)).Cast<ResidentSex>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList();
-        }
-
-        [NonAction]
-        public List<SelectListItem> getGender()
-        {
-            return Enum.GetValues(typeof(ResidentGender)).Cast<ResidentGender>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList();
-        }
-
-        [NonAction]
-        public List<SelectListItem> getPronouns()
-        {
-            return Enum.GetValues(typeof(ResidentPronouns)).Cast<ResidentPronouns>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList();
-        }
-
-        [NonAction]
-        public List<SelectListItem> getDisciplinary()
-        {
-            return Enum.GetValues(typeof(DisciplinaryTypes)).Cast<DisciplinaryTypes>().Select(v => new SelectListItem
-            {
-                Text = v.ToString(),
-                Value = ((int)v).ToString()
-            }).ToList();
         }
 
         [NonAction]

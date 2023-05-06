@@ -4,6 +4,7 @@ namespace SARSTWebApplication.Enums
 {
     public enum ResidentGender
     {
+        [Display(Name = "N/A")]
         NA,
         M,
         F,

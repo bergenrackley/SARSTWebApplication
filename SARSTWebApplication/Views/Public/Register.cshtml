@@ -133,12 +133,7 @@
 
                 <div class="form-group">
                     <label asp-for="userRole" class="control-label">Requested User Role</label>
-                    <select asp-for="userRole" class="form-control" id="role-dropdown">
-                        @foreach (var userType in ViewBag.UserTypes)
-                        {
-                            <option value="@userType.Value">@userType.Text</option>
-                        }
-                    </select>
+                    <select asp-for="userRole" asp-items="Html.GetEnumSelectList<UserTypes>()" class="form-control"></select>
                 </div>
                 <div class="form-group">
                     <input type="submit" id="submit" value="Create" class="btn btn-primary" />
