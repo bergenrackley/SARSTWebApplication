@@ -3,6 +3,7 @@
 @using Newtonsoft.Json
 @using System.Web.Helpers
 @using System.Data;
+@using SARSTWebApplication.Enums;
 
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,23 +17,11 @@
 <div >
     <a class="btn_primary" asp-controller="Report" asp-action="Download"> Download </a>
     <div>
-    <form method="get" asp-controller="Report" asp-action="GenerateReport">
-            <select name="currentType" onchange="this.form.submit()">
-                @foreach (var currentType in Model.dataTables)
-                {
-                    if (currentType.Key == Model.currentType)
-                    {
-                        <option value="@currentType.Key" selected>@currentType.Key</option>
-                    }
-                    else
-                    {
-                        <option value="@currentType.Key">@currentType.Key</option>
-                    }
-                }
+        <form method="get" asp-controller="Report" asp-action="GenerateReport">
+            <select name="currentType" asp-for="currentType" asp-items="Html.GetEnumSelectList<ReportTypes>()" onchange="this.form.submit()">
             </select>
-
-    </form>
-</div>
+        </form>
+    </div>
 
 
 

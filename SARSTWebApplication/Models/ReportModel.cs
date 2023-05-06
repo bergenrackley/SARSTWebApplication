@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SARSTWebApplication.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 
 namespace SARSTWebApplication.Models
@@ -15,15 +16,15 @@ namespace SARSTWebApplication.Models
         public DateTime endDate { get; set; }
 
         public string? residentID { get; set; }
-        public Dictionary<string, DataTable> dataTables { get; set; } // Dict of different tables to use in reporting
-        public string currentType { get; set; }
+        public Dictionary<ReportTypes, DataTable> dataTables { get; set; } // Dict of different tables to use in reporting
+        public ReportTypes currentType { get; set; }
         public ReportModel()
         {
             title = "Set Title";
             startDate = DateTime.Parse("4/1/2023");
             endDate = DateTime.Today;
-            dataTables = new Dictionary<string, DataTable>();
-            currentType = "stays"; //default report type
+            dataTables = new Dictionary<ReportTypes, DataTable>();
+            currentType = ReportTypes.Stays; //default report type
         }
 
         public void setTitle(string title)

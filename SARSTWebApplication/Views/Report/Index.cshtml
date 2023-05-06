@@ -1,8 +1,12 @@
-﻿@model SARSTWebApplication.Models.ReportModel
+﻿@using SARSTWebApplication.Enums;
+@model SARSTWebApplication.Models.ReportModel
 
 @{
     ViewData["Title"] = "Reports";
 }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <h1 class="display-3">Reportin' Time</h1>
 <p class="lead">Select report type. Choose your date range. Get data.</p>
@@ -12,21 +16,19 @@
         <form asp-action="GenerateReport" id="reportForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="currentType" class="control-label"></label>
-                <input asp-for="currentType" class="form-control" />
-                <span asp-validation-for="currentType" class="text-danger"></span>
+                <select id="currentTypeSelecter" asp-for="currentType" asp-items="Html.GetEnumSelectList<ReportTypes>()" class="form-control"></select>
             </div>
-            <div class="form-group">
+            <div id="startDate" class="form-group">
                 <label asp-for="startDate" class="control-label"></label>
                 <input asp-for="startDate" class="form-control" />
                 <span asp-validation-for="startDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="endDate" class="form-group">
                 <label asp-for="endDate" class="control-label"></label>
                 <input asp-for="endDate" class="form-control" />
                 <span asp-validation-for="endDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="residents" class="form-group">
                 <label asp-for="residentID" class="control-label"></label>
                 <input asp-for="residentID" class="form-control" value="@ViewBag.residentID" />
                 <span asp-validation-for="residentID" class="text-danger"></span>
@@ -38,5 +40,40 @@
         </form>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        // Get the select element and the start and end date divs
+        var currentTypeSelect = $("#currentTypeSelecter");
+        var startDateDiv = $("#startDate");
+        var endDateDiv = $("#endDate");
+        var residents = $("#residents");
+
+        // Hide the start and end date divs by default
+        startDateDiv.show();
+        endDateDiv.show();
+        residents.show();
+
+        // Attach a change event listener to the select element
+        currentTypeSelect.change(function () {
+            // Get the selected value
+            var selectedValue = $(this).val();
+
+            console.log(selectedValue);
+
+            // Check if the selected value is the one that should hide the start and end date divs
+            if (selectedValue == 3) {
+                startDateDiv.hide();
+                endDateDiv.hide();
+                residents.hide();
+            } else {
+                startDateDiv.show();
+                endDateDiv.show();
+                residents.show();
+            }
+        });
+    });
+</script>
+
 
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.IdentityModel.Tokens;
 using SARSTWebApplication.Data;
+using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
 using System.Data;
 using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
@@ -63,11 +63,11 @@ namespace SARSTWebApplication.Controllers
 
 
 
-            reportModel.dataTables["stays"] = GenerateStaysOT(reportModel, stays);
-            reportModel.dataTables["services"] = GenerateServicesOT(reportModel, serviceEvents);
-            reportModel.dataTables["disciplinaryActions"] = GenerateDisciplineOT(reportModel, disciplinaryEvents);
-            reportModel.dataTables["residents"] = GenerateResidents(reportModel, residents);
-            reportModel.dataTables["All"] = allEncompassingTable;
+            reportModel.dataTables[ReportTypes.Stays] = GenerateStaysOT(reportModel, stays);
+            reportModel.dataTables[ReportTypes.Services] = GenerateServicesOT(reportModel, serviceEvents);
+            reportModel.dataTables[ReportTypes.DActions] = GenerateDisciplineOT(reportModel, disciplinaryEvents);
+            reportModel.dataTables[ReportTypes.Residents] = GenerateResidents(reportModel, residents);
+            reportModel.dataTables[ReportTypes.All] = allEncompassingTable;
         }
 
 
@@ -296,17 +296,17 @@ namespace SARSTWebApplication.Controllers
         //--------------------Generate Report Call-----------------------//
         [HttpGet]
         [HttpPost]
-        public IActionResult GenerateReport(ReportModel reportModel, string? currentType)
+        public IActionResult GenerateReport(ReportModel reportModel, ReportTypes? currentType)
         {
             ReportModel model = new ReportModel();
 
-            if (!currentType.IsNullOrEmpty())
+            if (currentType != null)
             {
 
                 if (!_cache.TryGetValue("reportModel", out model))
                     model = getCache(reportModel);
 
-                model.currentType = currentType;
+                model.currentType = currentType ?? ReportTypes.Stays;
             }
             else
             {
