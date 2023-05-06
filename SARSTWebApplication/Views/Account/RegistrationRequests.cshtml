@@ -1,59 +1,43 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.RegistrationRequest>
 
-@{
-    ViewData["Title"] = "RegistrationRequests";
-}
-
-<h1 class="display-3">Registration Requests</h1>
-<p class="lead">Approve or deny pending registration requests.</p>
-<hr/>
 <div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.userName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.firstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.lastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.userRole)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.userName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.firstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.lastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.userRole)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "EditRequest", new {id=item.userName}, new{@class = "btn btn-primary"})
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h3>Registration Requests</h3>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>User Role</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.userName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.firstName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.userRole)</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Actions">
+                                    @Html.ActionLink("Edit", "EditRequest", new { id=item.userName }, new { @class = "btn btn-secondary" })
+                                    @Html.ActionLink("Delete", "DeleteRequest", new { id=item.userName }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you want to delete this request?');" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 

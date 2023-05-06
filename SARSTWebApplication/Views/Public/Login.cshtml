@@ -1,134 +1,46 @@
 ﻿@model SARSTWebApplication.Models.SarstUser
+@{
+    ViewData["Title"] = "Login";
+}
 
 
-<style>
-    .btn {
-        margin-top: 1rem
-    }
-
-    /* Apply styles to the form fields and labels */
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .control-label {
-        font-weight: bold;
-    }
-
-    /* Adjust the width of the form fields */
-    .form-control {
-        width: 100%;
-    }
-
-    .ctn {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .card {
-        width: 50vw;
-        min-width: 300px;
-        background-color: var(--secondary-color);
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-header {
-        background-color: var(--primary-color);
-        color: #fff;
-        border-radius: 10px 10px 0 0;
-    }
-
-
-    .footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        text-align: center;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        padding: 0 1rem;
-    }
-
-        form fieldset {
-            width: 90vw;
-            margin: auto;
-        }
-
-        form legend {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        form div {
-            display: flex;
-            flex-direction: column; /* Add this line to make the error messages appear below the text fields */
-            margin-bottom: 1rem;
-        }
-
-    .form-group {
-        width: 40vw;
-        display: flex;
-        margin: auto;
-        flex-direction: column; /* Add this line to make the error messages appear below the text fields */
-        padding: 8px;
-    }
-
-    .control-label {
-        font-weight: bold;
-        min-width: 120px;
-    }
-
-    form input[type="submit"]:hover {
-        background-color: #444;
-        cursor: pointer;
-    }
-
-</style>
-
-<div class="ctn">
-    <div class="card shadow-lg">
-        <div class="card-header">
-            <h4 class="mb-0">Login to your Account</h4>
-        </div>
-        <div class="card-body">
-            <form asp-action="LoginAttempt" id="loginForm">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="userName" class="control-label">User Name</label>
-                    <input asp-for="userName" class="form-control" />
-                    <span asp-validation-for="userName" class="text-danger"></span>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Login to your Account</h4>
                 </div>
-                <div class="form-group">
-                    <label asp-for="password" class="control-label">Password</label>
-                    <input asp-for="password" class="form-control" type="password" />
-                    <span asp-validation-for="password" class="text-danger"></span>
+                <div class="card-body">
+                    <form asp-action="LoginAttempt" id="loginForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="userName" class="control-label">User Name</label>
+                            <input asp-for="userName" class="form-control" />
+                            <span asp-validation-for="userName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="password" class="control-label">Password</label>
+                            <input asp-for="password" class="form-control" type="password" />
+                            <span asp-validation-for="password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" id="submit" value="Login" class="btn btn-primary" />
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <a asp-action="ForgotPassword" class="btn btn-link">Forgot Password?</a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" id="submit" value="Login" class="btn btn-primary" />
-                </div>
-            </form>
-            <div class="align-items-center">
-               @* <a asp-action="">Forgot Password?</a> *@
-            </div>
-            <div class="card-footer">
-                <div class="d-flex justify-content-between">
+                <div class="card-footer">
                     <span>Don't have an account?</span>
-                    <a class="btn btn-outline-primary" asp-area="" asp-controller="Public" asp-action="Register">Register</a>
+                    <a asp-action="Register" class="btn btn-primary">Register</a>
                 </div>
             </div>
         </div>
     </div>
-    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
+
 
 @section Scripts {
         <script>

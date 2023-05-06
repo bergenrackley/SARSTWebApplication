@@ -2,15 +2,90 @@
     ViewData["Title"] = "Account";
 }
 
-<h1>Salvation Army Resident Service Tracker</h1>
-<p>This is the landing page for our app. Don't worry about styling at this point.</p>
-<p>Login Button - When the user clicks the login button, they will be taken to Account/Login view.</p>
-<p>Register Button - When the user clicks the register button, they will be taken to Account/Register view.</p>
-<p></p>
-<a class="btn btn-primary" role="button" asp-controller="Public" asp-action="Login">Login</a>
-<p>New Users must submit a Registration Request before accessing the Application</p>
-<a class="btn btn-primary" role="button" asp-controller="Public" asp-action="Register">Register</a>
+<style>
+    .ctn {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-<p></p>
-<p>After the user logs in, they will be taken to a landing page with functionality for their userRole.</p>
-<p>A session value for userRole has been added to the loginAttempt method in the AccountController.</p>
+.display-1 {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.lead {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.btn-lg {
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  margin-top: 1.5rem;
+  margin-right: 1.5rem;
+  border-radius: 10rem;
+  min-width: 20rem;
+}
+
+.btn-outline-light {
+  color: #fff;
+  border-color: #fff;
+}
+
+.btn-outline-light:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+(max-width: 768px) {
+  .display-1 {
+    font-size: 2.5rem;
+  }
+  
+  .lead {
+    font-size: 1.5rem;
+  }
+  
+  .btn-lg {
+    font-size: 1.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-right: 0;
+    min-width: 12rem;
+  }
+}
+
+</style>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - SARST</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="ctn">
+        <div class="row">
+            <div class="col-md-6 col-lg-7">
+                <h1 class="display-1">Salvation Army Resident Service Tracker</h1>
+                <p class="lead">Track and manage the services offered to your residents with ease.</p>
+                    <div class="col-md-6">
+                        <a class="btn btn-lg btn-primary" role="button" asp-controller="Public" asp-action="Login">Login</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="btn btn-lg btn-secondary" role="button" asp-controller="Public" asp-action="Register">Register</a>
+                    </div>          
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -23,30 +23,263 @@ body {
 
 /* Update the color scheme */
 :root {
-    --primary-color: #616161;
-    --secondary-color: #f5f5f5;
-    --btn-main-color: #007bff;
-    --btn-inverted-color: #fff;
+    --background-color: #999; /*Salvation main site background */
+    --backrgound-dark: #ccc;
+    --secondBackground-color: #fff; /*Salvation main site background */
+    --secondary-color: #34465f; /*Secondary Color on their site*/
+    --tertiary-color: #2a313f; /*Darker version of secondary Color on their site*/
+    --btn-main-color: #ed1c2b; /* Main Salvation Color*/
 }
-
 
 /* Button Design*/
 .btn-primary {
-    background-color: var(--btn-main-color);
-    border-color: var(--btn-inverted-color);
+    background-color: var(--btn-main-color) !important;
+    border-color: var(--btn-inverted-color) !important;
 }
 
     .btn-primary:hover {
-        background-color: #444;
-        border-color: #444;
+        background-color: var(--tertiary-color) !important;
+        border-color: #000 !important;
+        border-width: 2px;
     }
+.btn btn-secondary {
+    background-color: var(--btn-main-color) !important;
+}
 
 .btn-outline-primary {
-    color: var(--btn-main-color);
-    border-color: var(--btn-inverted-color);
+    color: var(--btn-main-color) !important;
+    border-color: var(--btn-inverted-color) !important;
 }
 
     .btn-outline-primary:hover {
-        background-color: var(--btn-inverted-color);
-        color: var(--btn-main-color);
+        background-color: var(--btn-inverted-color) !important;
+        color: var(--btn-main-color) !important;
     }
+
+input, select, textarea {
+    box-sizing: border-box;
+    font-family: Helvetica,Arial,sans-serif
+}
+
+ol, ul {
+    list-style: none
+}
+
+blockquote, q {
+    quotes: none
+}
+
+ins {
+    text-decoration: none
+}
+
+del {
+    text-decoration: line-through
+}
+.table {
+    font-size: 14px;
+}
+
+    .table th {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+.btn-group {
+    white-space: nowrap;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+@media screen and (max-width: 767px) {
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        overflow-x: scroll;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        -webkit-overflow-scrolling: touch;
+    }
+
+        .table-responsive > .table > thead > tr > th,
+        .table-responsive > .table > tbody > tr > th,
+        .table-responsive > .table > tfoot > tr > th,
+        .table-responsive > .table > thead > tr > td,
+        .table-responsive > .table > tbody > tr > td,
+        .table-responsive > .table > tfoot > tr > td {
+            white-space: nowrap;
+        }
+
+        .table-responsive > .table-bordered {
+            border: 0;
+        }
+
+            .table-responsive > .table-bordered > thead > tr > th:first-child,
+            .table-responsive > .table-bordered > tbody > tr > th:first-child,
+            .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+            .table-responsive > .table-bordered > thead > tr > td:first-child,
+            .table-responsive > .table-bordered > tbody > tr > td:first-child,
+            .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+                border-left: 0;
+            }
+
+            .table-responsive > .table-bordered > thead > tr > th:last-child,
+            .table-responsive > .table-bordered > tbody > tr > th:last-child,
+            .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+            .table-responsive > .table-bordered > thead > tr > td:last-child,
+            .table-responsive > .table-bordered > tbody > tr > td:last-child,
+            .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+                border-right: 0;
+            }
+
+            .table-responsive > .table-bordered > tbody > tr:last-child > th,
+            .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+            .table-responsive > .table-bordered > tbody > tr:last-child > td,
+            .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+                border-bottom: 0;
+            }
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    width: 350px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+    .search-bar:focus {
+        outline: none;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+a {
+    cursor: pointer;
+    text-decoration: none
+}
+
+.btn {
+    margin-top: 1rem
+}
+
+/* Apply styles to the form fields and labels */
+.form-group {
+    margin-bottom: 1rem;
+}
+    .form-group label {
+        font-weight: bold;
+    }
+
+.control-label {
+    font-weight: bold;
+}
+
+.ctn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 50vw;
+    min-width: 300px;
+    background-color: var(--secondary-background);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: var(--background-color);
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--background-color);
+    padding: 1rem;
+}
+
+    .card-footer span {
+        color: white;
+    }
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: var(--background-color) !important;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 0 1rem;
+}
+
+    form fieldset {
+        width: 90vw;
+        margin: auto;
+    }
+
+    form legend {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    form div {
+        display: flex;
+        flex-direction: column; /* Add this line to make the error messages appear below the text fields */
+        margin-bottom: 1rem;
+    }
+
+.form-control {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.form-group {
+    width: 40vw;
+    display: flex;
+    margin: auto;
+    flex-direction: column; /* Add this line to make the error messages appear below the text fields */
+    padding: 8px;
+}
+    .form-group label {
+        font-weight: bold;
+    }
+
+/* Adjust the width of the form fields */
+.control-label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+form input[type="submit"]:hover {
+    background-color: #444;
+    cursor: pointer;
+}

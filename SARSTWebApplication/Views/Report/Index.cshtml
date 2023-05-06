@@ -5,31 +5,32 @@
     ViewData["Title"] = "Reports";
 }
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div style="display: flex; justify-content: space-between; align-items: center;"><p class="h2 text-muted">Reportin' Time</p></div>
 
-
-<h1 class="display-3">Reportin' Time</h1>
-<p class="lead">Select report type. Choose your date range. Get data.</p>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="GenerateReport" id="reportForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
+                <label asp-for="currentType" class="control-label">Report Type:</label>
                 <select id="currentTypeSelecter" asp-for="currentType" asp-items="Html.GetEnumSelectList<ReportTypes>()" class="form-control"></select>
             </div>
-            <div id="startDate" class="form-group">
-                <label asp-for="startDate" class="control-label"></label>
+
+            <div class="form-group">
+                <label asp-for="startDate" class="control-label">Start Date:</label>
                 <input asp-for="startDate" class="form-control" />
                 <span asp-validation-for="startDate" class="text-danger"></span>
             </div>
-            <div id="endDate" class="form-group">
-                <label asp-for="endDate" class="control-label"></label>
+
+            <div class="form-group">
+                <label asp-for="endDate" class="control-label">End Date:</label>
                 <input asp-for="endDate" class="form-control" />
                 <span asp-validation-for="endDate" class="text-danger"></span>
             </div>
-            <div id="residents" class="form-group">
-                <label asp-for="residentID" class="control-label"></label>
+
+            <div class="form-group">
+                <label asp-for="residentID" class="control-label">Resident ID:</label>
                 <input asp-for="residentID" class="form-control" value="@ViewBag.residentID" />
                 <span asp-validation-for="residentID" class="text-danger"></span>
             </div>

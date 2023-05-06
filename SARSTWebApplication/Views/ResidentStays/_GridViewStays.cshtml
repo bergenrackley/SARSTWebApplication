@@ -1,36 +1,44 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.ResidentStayWProfile>
 
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Resident ID</th>
-            <th>Resident Name</th>
-            <th>Distinguishing Features</th>
-            <th>Stay ID</th>
-            <th>Checked In</th>
-            <th>Checked Out</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var stay in Model)
-        {
-            <tr>
-                <td>@stay.residentId</td>
-                <td>@stay.firstName @stay.lastName</td>
-                <td>@stay.distinguishingFeatures</td>
-                <td>@stay.stayId</td>
-                <td>@stay.checkinDateTime</td>
-                <td>@stay.checkoutDateTime</td>
-                <td>
-                    <a asp-controller="ResidentStays" asp-action="Details" asp-route-id="@stay.stayId">Details</a> |
-                    <a asp-controller="ResidentStays" asp-action="Edit" asp-route-id="@stay.stayId">Edit</a> |
-                    <a asp-controller="ResidentStays" asp-action="Delete" asp-route-id="@stay.stayId">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="table-responsive">
+<div class="card" style="width: 100%;">
+    <div class="card-header">
+        <h3>Resident Stay List</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Resident ID</th>
+                    <th>Resident Name</th>
+                    <th>Distinguishing Features</th>
+                    <th>Stay ID</th>
+                    <th>Checked In</th>
+                    <th>Checked Out</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stay in Model)
+                {
+                    <tr>
+                        <td>@stay.residentId</td>
+                        <td>@stay.firstName @stay.lastName</td>
+                        <td>@stay.distinguishingFeatures</td>
+                        <td>@stay.stayId</td>
+                        <td>@stay.checkinDateTime</td>
+                        <td>@stay.checkoutDateTime</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <a asp-controller="ResidentStays" asp-action="Details" asp-route-id="@stay.stayId" class="btn btn-secondary">Details</a>
+                                <a asp-controller="ResidentStays" asp-action="Edit" asp-route-id="@stay.stayId" class="btn btn-secondary">Edit</a>
+                                <a asp-controller="ResidentStays" asp-action="Delete" asp-route-id="@stay.stayId" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this stay?');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>

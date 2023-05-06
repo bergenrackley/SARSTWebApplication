@@ -4,42 +4,37 @@
     ViewData["Title"] = "Residents";
 }
 
-<h1 class="display-3">Salvation Army Residents</h1>
-<p class="lead">View and edit the list of residents. Search by name or features. Add new residents.</p>
-<hr/>
-
 <div style="display: flex; justify-content: space-between; align-items: center;">
-    <div><p class="h3 text-muted">Select a Resident</p></div>
+    <div><p class="h2 text-muted">Select a Resident</p></div>
     <a class="btn btn-primary" asp-action="Create" asp-controller="Resident">Add New Resident</a>
 </div>
 
-<input style="width: 350px" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+<div class="search-container">
+    <input class="search-bar" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+</div>
 <div id="gridResidents"></div>
-
 
 @section Scripts {
     <script>
-
-        $(() => {
+        $(document).ready(function () {
             searchResidents();
 
-            $('#searchFilter').on('keyup', () => {
+            $('#searchFilter').on('keyup', function () {
                 searchResidents();
-            })
+            });
         });
 
         function searchResidents() {
             $.ajax({
                 url: "/Resident/SearchResidents?query=" + $('#searchFilter').val(),
-                type: 'Get',
+                type: 'GET',
                 success: function (data) {
                     $('#gridResidents').html('').html(data);
                 },
                 error: function () {
                     alert('Error');
                 }
-            })
+            });
         }
-
     </script>
 }

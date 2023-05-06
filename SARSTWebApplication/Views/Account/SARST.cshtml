@@ -1,31 +1,44 @@
 ﻿@{
-	ViewData["Title"] = "SARST";
+    ViewData["Title"] = "SARST";
 }
 
-<h2>Welcome, @ViewBag.currentUserName!</h2>
-<p>The functionality for a @ViewBag.CurrentUserRoleName is displayed:</p>
+<div class="container my-5">
+    <h2>Welcome, @ViewBag.currentUserName!</h2>
+    <p>You are the @ViewBag.CurrentUserRoleName</p>
 
-@if (ViewBag.currentUserRole <= 1) // admin
-{
-    <a class="btn btn-primary" role="button" asp-controller="Resident" asp-action="Index">Manage Residents</a>
-    <a class="btn btn-primary" role="button" asp-controller="ResidentStays" asp-action="Index">Manage Resident Stays</a>
-}
-@if (ViewBag.currentUserRole <= 3) // service provider
-{
-    <a class="btn btn-primary" role="button" asp-controller="Report" asp-action="Index">Generate Reports</a>
-}
-@if (ViewBag.currentUserRole == 0) // root user
-{
-    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="RegistrationRequests">Manage Registration Requests</a>
-    <a class="btn btn-primary" role="button" asp-controller="Account" asp-action="SarstUsers">Manage SARST Users</a>
-    <a class="btn btn-primary" role="button" asp-controller="EventTracker" asp-action="ViewServices">Manage Services Offered</a>
-}
+    <div class="row justify-content-center">
+        @if (ViewBag.currentUserRole <= 1) // admin
+        {
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="Resident" asp-action="Index">Manage Residents</a>
+            </div>
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="ResidentStays" asp-action="Index">Manage Resident Stays</a>
+            </div>
+        }
+        @if (ViewBag.currentUserRole <= 3) // service provider
+        {
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="Report" asp-action="Index">Generate Reports</a>
+            </div>
+        }
+        @if (ViewBag.currentUserRole == 0) // root user
+        {
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="Account" asp-action="RegistrationRequests">Manage Registration Requests</a>
+            </div>
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="Account" asp-action="SarstUsers">Manage SARST Users</a>
+            </div>
+            <div class="col-md-4 my-2">
+                <a class="btn btn-primary w-100" role="button" asp-controller="EventTracker" asp-action="ViewServices">Manage Services Offered</a>
+            </div>
+        }
+    </div>
 
-<p></p>
-<p>"SARSTWebApplication" in the toolbar will take the user to this view if logged in.
-    If not logged in, they will be redirected to the Account/Index view.
-</p>
-<p></p>
-<p>We need to decide on the appropriate landing page for each of these links. Review Registration Requests is working properly.</p>
-
-<a class="btn btn-primary" role="button" asp-controller="Account" asp-action="LogOut">Log Out</a>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-4 my-2">
+            <a class="btn btn-primary w-100" role="button" asp-controller="Account" asp-action="LogOut">Log Out</a>
+        </div>
+    </div>
+</div>

@@ -4,10 +4,13 @@
     ViewData["Title"] = "Registered Users";
 }
 
-<h1 class="display-3">Registered Users</h1>
-<p class="lead">View registered user details. Reset passwords. Delete user accounts.</p>
-<hr/>
+<h1 class="h2 text-muted">Registered Users</h1>
 <div class="table-responsive">
+    <div class="card" style="width: 100%;">
+        <div class="card-header">
+            <h3>Registered Users</h3>
+        </div>
+        <div class="card-body">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -55,13 +58,18 @@
                         @Html.DisplayFor(modelItem => item.changePassword)
                     </td>
                     <td>
-                        @Html.ActionLink("Manage", "EditSarstUser", new { userName=item.userName }, new { @class="btn btn-primary" })
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            @Html.ActionLink("Edit", "EditSarstUser", new { userName=item.userName }, new { @class="btn btn-secondary" })
+                            </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
+    </div>
+       </div>
+    </div>
+</div>
 
 </div>
 

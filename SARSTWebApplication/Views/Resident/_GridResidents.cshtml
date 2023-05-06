@@ -1,74 +1,41 @@
 ﻿@model IEnumerable<SARSTWebApplication.Models.Resident>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.residentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.firstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dateOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.sex)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.pronouns)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.distinguishingFeatures)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.residentId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.dateOfBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.sex)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.pronouns)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.distinguishingFeatures)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.status)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.residentId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.residentId })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="table-responsive">
+<div class="card" style="width: 100%;">
+    <div class="card-header">
+        <h3>Resident List</h3>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Distinguishing Features</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+           
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.firstName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.lastName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.distinguishingFeatures)</td>
+                        <td>@Html.DisplayFor(modelItem => item.status)</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                @Html.ActionLink("Edit", "Edit", new { id=item.residentId }, new { @class = "btn btn-secondary" })
+                                @Html.ActionLink("Delete", "Delete", new { id=item.residentId }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you want to delete this resident?');" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+

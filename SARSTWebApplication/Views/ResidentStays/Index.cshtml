@@ -5,16 +5,15 @@
     ViewData["Title"] = "Resident Stays";
 }
 
-<h1 class="display-3">Resident Stays</h1>
-<p class="lead">View and edit active stays. Start a new stay.</p>
-<hr/>
-
 <div style="display: flex; justify-content: space-between; align-items: center;">
     <div><p class="h2 text-muted">Search Active Stays</h2></div>
     <a class="btn btn-primary" asp-action="SelectResident">Add New</a>                             
 </div>
 
-<input style="width: 350px" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+<div class="search-container">
+    <input class="search-bar" type="text" id="searchFilter" placeholder="Search by name or distinguishing features" />
+</div>
+
 <div id="gridResidentStays"></div>
 
 @section Scripts {
