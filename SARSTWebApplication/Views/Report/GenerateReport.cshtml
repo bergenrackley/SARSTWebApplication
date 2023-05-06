@@ -12,13 +12,13 @@
 
 
 
-<h4>@Model.title</h4>
+<h4 id="Title">@(Model.currentType) Over Time</h4>
 
 <div >
     <a class="btn_primary" asp-controller="Report" asp-action="Download"> Download </a>
     <div>
         <form method="get" asp-controller="Report" asp-action="GenerateReport">
-            <select name="currentType" asp-for="currentType" asp-items="Html.GetEnumSelectList<ReportTypes>()" onchange="this.form.submit()">
+            <select id="currentTypeSelecter" name="currentType" asp-for="currentType" asp-items="Html.GetEnumSelectList<ReportTypes>()" onchange="this.form.submit()">
             </select>
         </form>
     </div>
@@ -50,24 +50,6 @@
             </tbody>
         </table>
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <!-- Chart Stuff TODO add chart -->
     @*@{
