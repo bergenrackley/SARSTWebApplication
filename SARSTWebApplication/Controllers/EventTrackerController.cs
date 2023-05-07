@@ -7,6 +7,7 @@ using SARSTWebApplication.Enums;
 using SARSTWebApplication.Models;
 using System.Data;
 using System.Data.SqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SARSTWebApplication.Controllers
 {
@@ -42,7 +43,7 @@ namespace SARSTWebApplication.Controllers
             ViewBag.ServiceList = ServicesToList(_dbContext.Database.SqlQuery<Service>("Select * from dbo.servicesOffered where (endDate >= GETDATE() or endDate is NULL) and (startDate <= GETDATE() or startDate is NULL)").ToList()); //get all services offered from ServicesOffered table, formats serialied list into dropdown id/value pairs
             ViewBag.residentId = id; //set residentId
             ViewBag.currentUserName = HttpContext.Session.GetString("userName"); //get username from session data
-            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId; //get current stay for resident
+            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId=@query", new SqlParameter("@query", id)).ToList().First().stayId; //get current stay for resident
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace SARSTWebApplication.Controllers
             ViewBag.DisciplinaryTypes = getDisciplinaryTypes(); //gets and formats DisciplinaryTypes enum as dropdown id/value pair
             ViewBag.residentId = id;
             ViewBag.currentUserName = HttpContext.Session.GetString("userName");
-            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId='" + id + "'").ToList().First().stayId; //second verse, same as the first
+            ViewBag.stayId = _dbContext.Database.SqlQuery<ResidentStay>("Select * from dbo.residentStays where CheckOutDateTime is NULL and residentId=@query", new SqlParameter("@query", id)).ToList().First().stayId; //second verse, same as the first
             return View();
         }
 
