@@ -3,6 +3,7 @@ using Azure.Communication.Email;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Identity.Client;
 using NuGet.Protocol;
 using SARSTWebApplication.Data;
 using SARSTWebApplication.Enums;
@@ -65,9 +66,10 @@ namespace SARSTWebApplication.Controllers
                 return "Be patient. We are still reviewing your previous request.";
             }
             // If no duplicate, add to RegistrationRequests table
+            model.password = PasswordManager.HashPassword(model.password);
             _dbContext.RegistrationRequests.Add(model);
             _dbContext.SaveChanges();
-            sendEmail(model.email);
+            sendEmail(model.email, "Your Registration Request for a SARST account has been recieved", "<html><body><h1>SARST Registration Request Successful</h1><br/><h4>Your Registration Request for a SARST account has been recieved and is being processed.</h4></body></html>");
             return "Success";
         }
 
@@ -87,7 +89,8 @@ namespace SARSTWebApplication.Controllers
             SarstUser validUser = _dbContext.SarstUsers.Find(sarstUser.userName);
             if (validUser != null)
             {
-                if (validUser.password == sarstUser.password)
+                string attemptPass = PasswordManager.HashPassword(sarstUser.password);
+                if (validUser.password == attemptPass)
                 {
                     HttpContext.Session.SetString("userName", validUser.userName);
                     HttpContext.Session.SetInt32("userRole", (int)validUser.userRole);
@@ -99,11 +102,30 @@ namespace SARSTWebApplication.Controllers
             return "Username and password do not match";
         }
 
+        public IActionResult ForgotPassword() { 
+            return View(); 
+        }
+
         [HttpPost]
-        public async void sendEmail(string recipient)
+        public string ForgotPassword(SarstUser forgotUser)
         {
-            var subject = "Your Registration Request for a SARST account has been recieved";
-            var htmlContent = "<html><body><h1>SARST Registration Request Successful</h1><br/><h4>Your Registration Request for a SARST account has been recieved and is being processed.</h4></body></html>";
+            SarstUser sarstUser = _dbContext.SarstUsers.Find(forgotUser.userName);
+            if (sarstUser != null && sarstUser.email == forgotUser.email)
+            {
+                string newPassword = Guid.NewGuid().ToString().Replace("-", "");
+                newPassword = PasswordManager.HashPassword(newPassword);
+                sarstUser.password = newPassword;
+                sarstUser.changePassword = 1;
+                _dbContext.SaveChanges();
+                sendEmail(sarstUser.email, "Your SARST account password has been reset", $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{newPassword}'.</h4></body></html>");
+                return $"The password for user '{sarstUser.userName}' has been reset. Please check your email.";
+            }
+            else return "Username and Password do not match.";
+        }
+
+        [HttpPost]
+        public async void sendEmail(string recipient, string subject, string htmlContent)
+        {
             var sender = "DoNotReply@183f41b5-f499-409b-a97a-40bff5159504.azurecomm.net";
 
             try

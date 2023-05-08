@@ -15,6 +15,7 @@
     <WebStackScaffolding_DbContextTypeFullName>SARSTWebApplication.Data.SARSTWebApplicationContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
+    <NameOfLastUsedPublishProfile>C:\Users\Bergen Rackley\source\repos\bergenrackley\SARSTWebApplication2\SARSTWebApplication\Properties\PublishProfiles\sarst - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

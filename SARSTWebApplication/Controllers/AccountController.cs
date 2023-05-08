@@ -79,6 +79,7 @@ namespace SARSTWebApplication.Controllers
             if (newPassword == confirmPassword && HttpContext.Session.GetString("userName") != null)
             {
                 SarstUser currentUser = _dbContext.SarstUsers.Find(HttpContext.Session.GetString("userName"));
+                newPassword = PasswordManager.HashPassword(newPassword);
                 currentUser.password = newPassword;
                 currentUser.changePassword = 0;
                 _dbContext.SaveChanges();
@@ -102,8 +103,9 @@ namespace SARSTWebApplication.Controllers
         public string ResetUserPassword(string userName)
         {
             string newPassword = Guid.NewGuid().ToString().Replace("-", "");
+            string hashPassword = PasswordManager.HashPassword(newPassword);
             SarstUser user = _dbContext.SarstUsers.Find(userName);
-            user.password = newPassword;
+            user.password = hashPassword;
             user.changePassword = 1;
             _dbContext.SaveChanges();
             sendEmail(user.email, "Your SARST account password has been reset", $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{newPassword}'.</h4></body></html>");
