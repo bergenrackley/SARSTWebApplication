@@ -48,12 +48,12 @@ namespace SARSTWebApplication.Controllers
             {
                 _dbContext.SarstUsers.Add(new SarstUser()
                 {
-                    userName = model.userName,
-                    firstName = model.firstName,
-                    lastName = model.lastName,
-                    password = model.password,
-                    userRole = model.userRole,
-                    email = model.email
+                    userName = request.userName,
+                    firstName = request.firstName,
+                    lastName = request.lastName,
+                    password = request.password,
+                    userRole = request.userRole,
+                    email = request.email
                 });
                 _dbContext.RegistrationRequests.Remove(request);
                 _dbContext.SaveChanges();

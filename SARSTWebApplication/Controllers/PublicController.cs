@@ -113,8 +113,8 @@ namespace SARSTWebApplication.Controllers
             if (sarstUser != null && sarstUser.email == forgotUser.email)
             {
                 string newPassword = Guid.NewGuid().ToString().Replace("-", "");
-                newPassword = PasswordManager.HashPassword(newPassword);
-                sarstUser.password = newPassword;
+                string hashPassword = PasswordManager.HashPassword(newPassword);
+                sarstUser.password = hashPassword;
                 sarstUser.changePassword = 1;
                 _dbContext.SaveChanges();
                 sendEmail(sarstUser.email, "Your SARST account password has been reset", $"<html><body><h1>SARST Password Reset</h1><br/><h4>Your SARST Account password has been reset. It is now '{newPassword}'.</h4></body></html>");
