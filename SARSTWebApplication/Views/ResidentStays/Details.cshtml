@@ -1,5 +1,9 @@
 ﻿@model SARSTWebApplication.Models.ResidentStay
 
+@{
+    ViewData["Title"] = "Stay Details";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,8 +86,8 @@
     </div>
     <div>
         <a asp-action="Edit" asp-route-id="@Model?.stayId" class="btn btn-outline-primary">Edit</a>
-        <a asp-action="ServiceForm" asp-controller="EventTracker" asp-route-id="@Model.stayId" class="btn btn-outline-primary">Log Service Event</a>
-        <a asp-action="DisciplinaryForm" asp-controller="EventTracker" asp-route-id="@Model.stayId" class="btn btn-outline-primary">Log Disciplinary Event</a>
+        <a asp-action="ServiceForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Log Service Event</a>
+        <a asp-action="DisciplinaryForm" asp-controller="EventTracker" asp-route-id="@Model.residentId" class="btn btn-outline-primary">Log Disciplinary Event</a>
         <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
  
        
